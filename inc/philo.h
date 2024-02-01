@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 21:07:39 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/01 21:10:02 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/01 21:27:02 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,5 +16,8 @@
 # include <stdio.h>
 # include <pthread.h>
 # include <stdlib.h>
+
+int	ft_atoi(const char *str);
+int	ft_check_args(int ac, char **av);
 
 #endif
