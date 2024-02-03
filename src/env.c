@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 10:21:44 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/03 11:51:05 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/03 18:55:55 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,6 @@ int	ft_init_env(t_env *env, char **av)
 	env->philos = ft_create_philos(env->nb);
 	if (!env->philos)
 		return (-1);
+	env->time_start = 0;
 	return (0);
 }

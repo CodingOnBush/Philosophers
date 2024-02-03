@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 21:07:39 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/03 12:17:06 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/03 19:02:13 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_env
 	int				forks;
 	int				end;
 	struct s_philo	*philos;
+	long			time_start;
 }					t_env;
 
 int					ft_atoi(const char *str);
@@ -58,5 +59,6 @@ t_philo				*ft_get_philo(t_env env, int id);
 void	ft_start_eating(t_env env, t_philo *philo);
 void	ft_start_sleeping(t_env env, t_philo *philo);
 void	ft_start_thinking(t_env env, t_philo *philo);
+void	ft_grab_forks(t_philo *philo);
 
 #endif
