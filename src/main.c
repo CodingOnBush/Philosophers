@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 21:07:45 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/03 10:24:55 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/03 11:51:14 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	main(int ac, char **av)
 		
 	// }
 	// printf("Letsgooooo\n");
+	
 	ft_free_philos(env.philos, env.nb);
 	return (0);
 }

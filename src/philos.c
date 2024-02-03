@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 08:22:09 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/03 10:20:17 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/03 12:17:59 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ t_philo	*ft_free_philos(t_philo *philos, int i)
 	while (i > 0)
 	{
 		tmp = philos->right;
+		pthread_mutex_destroy(&philos->mutex);
 		free(philos);
 		philos = tmp;
 		i--;
@@ -32,7 +33,11 @@ static void	ft_init_philo(t_philo *philos, int id)
 	philos->status = 't';
 	philos->last_meal = 0;
 	philos->eat_count = 0;
-	philos->dead = 0;
+	philos->dead_time = 1000;
+	philos->alive = 1;
+	philos->fork_right = 1;
+	philos->fork_left = 0;
+	pthread_mutex_init(&philos->mutex, NULL);
 }
 
 t_philo	*ft_create_philos(int nb)
@@ -64,14 +69,14 @@ t_philo	*ft_create_philos(int nb)
 	return (first);
 }
 
-void	ft_print_philo(t_env *env)
+void	ft_print_philos(t_env env)
 {
 	t_philo	*tmp;
 	int		i;
 
 	i = 0;
-	tmp = env->philos;
-	while (i < env->nb)
+	tmp = env.philos;
+	while (i < env.nb)
 	{
 		printf("--[(%p){%d}(%p){%d}(%p)]--", tmp->left, tmp->id + 1, tmp, tmp->id + 1, tmp->right);
 		tmp = tmp->right;

@@ -6,7 +6,7 @@
 #    By: momrane <momrane@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/01 21:07:48 by momrane           #+#    #+#              #
-#    Updated: 2024/02/03 10:24:28 by momrane          ###   ########.fr        #
+#    Updated: 2024/02/03 12:17:14 by momrane          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,11 +27,11 @@ GREEN 		= \033[0;92m
 CYAN 		= \033[0;96m
 
 #Sources
-SRC_FILES 	= main ft_atoi ft_check_args philos utils env
+SRC_FILES 	= main ft_atoi ft_check_args philos utils env actions
 SRC 		= $(addprefix $(SRC_DIR)/, $(addsuffix .c, $(SRC_FILES)))
 OBJ			= $(addprefix $(BIN_DIR)/, $(addsuffix .o, $(SRC_FILES)))
 
-ARGS		= 5 800 200 200 200
+ARGS		= 2 800 200 200 200
 
 #Rules
 all: $(NAME)
