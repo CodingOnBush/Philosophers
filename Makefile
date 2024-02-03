@@ -6,7 +6,7 @@
 #    By: momrane <momrane@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/01 21:07:48 by momrane           #+#    #+#              #
-#    Updated: 2024/02/03 09:59:33 by momrane          ###   ########.fr        #
+#    Updated: 2024/02/03 10:24:28 by momrane          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,15 +27,20 @@ GREEN 		= \033[0;92m
 CYAN 		= \033[0;96m
 
 #Sources
-SRC_FILES 	= main ft_atoi ft_check_args philos utils
+SRC_FILES 	= main ft_atoi ft_check_args philos utils env
 SRC 		= $(addprefix $(SRC_DIR)/, $(addsuffix .c, $(SRC_FILES)))
 OBJ			= $(addprefix $(BIN_DIR)/, $(addsuffix .o, $(SRC_FILES)))
+
+ARGS		= 5 800 200 200 200
 
 #Rules
 all: $(NAME)
 
 r: 
-	./$(NAME) 5 32 3120 20 100
+	./$(NAME) $(ARGS)
+
+v:
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(NAME) $(ARGS)
 
 $(NAME): $(OBJ)
 	@$(CC) $(HEADER) $(OBJ) -o $(NAME)

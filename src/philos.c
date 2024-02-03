@@ -6,23 +6,21 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 08:22:09 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/03 09:58:29 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/03 10:20:17 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-static t_philo	*ft_free_philos(t_philo *philos, int i)
+t_philo	*ft_free_philos(t_philo *philos, int i)
 {
 	t_philo	*tmp;
-	t_philo	*tmp2;
 
-	tmp2 = philos;
-	while (i >= 0)
+	while (i > 0)
 	{
-		tmp = tmp2->left;
-		free(tmp2);
-		tmp2 = tmp;
+		tmp = philos->right;
+		free(philos);
+		philos = tmp;
 		i--;
 	}
 	return (NULL);
@@ -52,7 +50,7 @@ t_philo	*ft_create_philos(int nb)
 		if (!philos)
 			return (ft_free_philos(philos, i));
 		ft_init_philo(philos, i);
-		printf("Philo %d created\n", i + 1);
+		// printf("Philo %d created\n", i + 1);
 		if (i == 0)
 			first = philos;
 		philos->left = prev;

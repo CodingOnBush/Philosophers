@@ -1,31 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/01 21:07:45 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/03 10:24:55 by momrane          ###   ########.fr       */
+/*   Created: 2024/02/03 10:21:44 by momrane           #+#    #+#             */
+/*   Updated: 2024/02/03 10:24:44 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-int	main(int ac, char **av)
+int	ft_init_env(t_env *env, char **av)
 {
-	t_env	env;
-
-	if (ft_check_args(ac, av) < 0)
-		return (0);
-	if (ft_init_env(&env, av) < 0)
-		return (0);
-	
-	// while (!env.end)
-	// {
-		
-	// }
-	// printf("Letsgooooo\n");
-	ft_free_philos(env.philos, env.nb);
+	env->end = 0;
+	env->nb = ft_atoi(av[1]);
+	env->die = ft_atoi(av[2]);
+	env->eat = ft_atoi(av[3]);
+	env->sleep = ft_atoi(av[4]);
+	env->forks = env->nb;
+	env->philos = ft_create_philos(env->nb);
+	if (!env->philos)
+		return (-1);
 	return (0);
 }
