@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 21:07:45 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/03 09:24:03 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/03 09:59:57 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ int	main(int ac, char **av)
 	env.philos = ft_create_philos(env.nb);
 	if (!env.philos)
 		return (printf("Error\n"));
-	ft_print_philo(&env);
+	// ft_print_philo(&env);
+	
 	// while (!env.end)
 	// {
 		

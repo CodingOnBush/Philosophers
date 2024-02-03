@@ -6,7 +6,7 @@
 #    By: momrane <momrane@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/01 21:07:48 by momrane           #+#    #+#              #
-#    Updated: 2024/02/03 09:34:23 by momrane          ###   ########.fr        #
+#    Updated: 2024/02/03 09:59:33 by momrane          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,7 @@ OBJ			= $(addprefix $(BIN_DIR)/, $(addsuffix .o, $(SRC_FILES)))
 all: $(NAME)
 
 r: 
-	./$(NAME) 4 32 3120 20 100
+	./$(NAME) 5 32 3120 20 100
 
 $(NAME): $(OBJ)
 	@$(CC) $(HEADER) $(OBJ) -o $(NAME)
