@@ -6,7 +6,7 @@
 /*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 08:22:09 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/05 17:15:30 by allblue          ###   ########.fr       */
+/*   Updated: 2024/02/05 18:24:31 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static void	ft_init_philo(t_philo *philos, int id)
 	philos->last_meal = 0;
 	philos->meal_count = 0;
 	philos->routine_start = 0;
+	philos->alive = 1;
 }
 
 t_philo	*ft_create_philos(int nb)
