@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 15:06:39 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/03 18:56:16 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/05 16:39:47 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_philo	*ft_get_philo(t_env env, int id)
 	i = 0;
 	if (env.philos == NULL)
 		return (NULL);
-	while (i < env.nb)
+	while (i < env.nb_philos)
 	{
 		if (env.philos->id == id)
 			return (env.philos);
@@ -40,24 +40,16 @@ t_philo	*ft_get_philo(t_env env, int id)
 	return (NULL);
 }
 
-long	ft_get_time(t_env env)
+int	ft_isphilo_dead(t_env env, t_philo *philo)
 {
-	struct timeval	time;
-	long			t;
+	long	time;
 
-	gettimeofday(&time, NULL);
-	t = (time.tv_sec * 1000) + (time.tv_usec / 1000);
-	return (t - env.time_start);
-}
-
-void	ft_print_log(t_env env, t_philo *philo)
-{
-	if (philo == NULL)
-		return ;
-	if (philo->status == 'e')
-		printf("%ld %d is eating\n", ft_get_time(env), philo->id + 1);
-	else if (philo->status == 's')
-		printf("%ld %d is sleeping\n", ft_get_time(env), philo->id + 1);
-	else
-		printf("%ld %d is thinking\n", ft_get_time(env), philo->id + 1);
+	time = ft_get_current_time(env);
+	if (time - philo->last_meal > philo->dead_time)
+	{
+		env.end_flag = 1;
+		printf("%ld %d died\n", time, philo->id + 1);
+		return (1);
+	}
+	return (0);
 }
