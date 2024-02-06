@@ -17,24 +17,42 @@ int	ft_wait(long time)
 	return(0);
 }
 
-u_int64_t	get_time(void)
+long	ft_what_time_is_it(void)
 {
-	struct timeval	tv;
-	
-	if (gettimeofday(&tv, NULL))
+	struct timeval	time;
+	long			out;
+
+	if (gettimeofday(&time, NULL) < 0)
 		return (-1);
-	return ((tv.tv_sec * (u_int64_t)1000) + (tv.tv_usec / 1000));
+	out = (time.tv_sec * 1000) + (time.tv_usec / 1000);
+	return (out);
+	/*
+		NULL in gettimeofday because we don't need to specify a time zone.
+		tv_sec : nb of seconds since 1st January 1970
+		tv_usec : nb of microseconds since the last second
+		(time.tv_sec * 1000) : convert seconds to milliseconds
+		(time.tv_usec / 1000) : microseconds to milliseconds
+	*/
 }
 
-int	ft_usleep(useconds_t time)
+int	ft_usleep(int time)
 {
-	u_int64_t	start;
-	start = get_time();
-	while ((get_time() - start) < time)
+	long	start;
+	long	diff;
+
+	start = ft_what_time_is_it();
+	if (start < 0)
+		return (-1);
+	diff = 0;
+	while (diff < time)
+	{
+		diff = ft_what_time_is_it() - start;
+		if (diff < 0)
+			return (-1);
 		usleep(time / 10);
+	}
 	return(0);
 }
-
 
 long	ft_get_current_time(long start_time)
 {

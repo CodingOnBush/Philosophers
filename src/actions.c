@@ -6,7 +6,7 @@
 /*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 12:01:46 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/05 19:42:43 by allblue          ###   ########.fr       */
+/*   Updated: 2024/02/06 14:25:28 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	ft_start_eating(t_philo *philo)
 	if (ft_isphilo_dead(philo))
 	{
 		philo->alive = 0;
-		philo->env->end_flag = 1;
+		philo->env->loop = 1;
 		printf("%ld | %d is DEAD\n", ft_get_current_time(philo->start_time), philo->id);
 		return ;
 	}

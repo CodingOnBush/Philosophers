@@ -6,14 +6,14 @@
 #    By: allblue <allblue@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/01 21:07:48 by momrane           #+#    #+#              #
-#    Updated: 2024/02/05 19:41:08 by allblue          ###   ########.fr        #
+#    Updated: 2024/02/06 14:52:23 by allblue          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #Variables
 NAME 		= philo
 CC			= cc
-CFLAGS		= -Wall -Wextra -Werror -g
+CFLAGS		= -Wall -Wextra -Werror -g -pthread
 HEADER		= -I $(INC_DIR)
 
 #Directories
@@ -27,7 +27,7 @@ GREEN 		= \033[0;92m
 CYAN 		= \033[0;96m
 
 #Sources
-SRC_FILES 	= actions check init main philos time utils
+SRC_FILES 	= init main philos time free routine
 SRC 		= $(addprefix $(SRC_DIR)/, $(addsuffix .c, $(SRC_FILES)))
 OBJ			= $(addprefix $(BIN_DIR)/, $(addsuffix .o, $(SRC_FILES)))
 

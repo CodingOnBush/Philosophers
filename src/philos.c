@@ -6,7 +6,7 @@
 /*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 08:22:09 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/05 18:24:31 by allblue          ###   ########.fr       */
+/*   Updated: 2024/02/06 14:49:41 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,29 @@
 static void	ft_init_philo(t_philo *philos, int id)
 {
 	philos->id = id;
-	philos->status = 't';
-	philos->last_meal = 0;
-	philos->meal_count = 0;
-	philos->routine_start = 0;
 	philos->alive = 1;
+	philos->meal_count = 0;
+	philos->last_meal = -1;
+	philos->routine_start = 0;
+	philos->right = NULL;
+	philos->left = NULL;
 }
+
+static t_philo	*ft_free_philos(t_philo *philos, int i)
+{
+	t_philo	*tmp;
+
+	while (i > 0)
+	{
+		tmp = philos->right;
+		pthread_mutex_destroy(&philos->fork_mutex);
+		free(philos);
+		philos = tmp;
+		i--;
+	}
+	return (NULL);
+}
+
 
 t_philo	*ft_create_philos(int nb)
 {
@@ -50,33 +67,19 @@ t_philo	*ft_create_philos(int nb)
 	return (first);
 }
 
-void	ft_print_philos(t_env env)
-{
-	t_philo	*tmp;
-	int		i;
+// void	ft_print_philos(t_env env)
+// {
+// 	t_philo	*tmp;
+// 	int		i;
 
-	i = 0;
-	tmp = env.philos;
-	while (i < env.nb_philos)
-	{
-		printf("--[(%p){%d}(%p){%d}(%p)]--", tmp->left, tmp->id + 1, tmp, tmp->id + 1, tmp->right);
-		tmp = tmp->right;
-		i++;
-	}
-	printf("\n");
-}
+// 	i = 0;
+// 	tmp = env.philos;
+// 	while (i < env.nb_philos)
+// 	{
+// 		printf("--[(%p){%d}(%p){%d}(%p)]--", tmp->left, tmp->id + 1, tmp, tmp->id + 1, tmp->right);
+// 		tmp = tmp->right;
+// 		i++;
+// 	}
+// 	printf("\n");
+// }
 
-t_philo	*ft_free_philos(t_philo *philos, int i)
-{
-	t_philo	*tmp;
-
-	while (i > 0)
-	{
-		tmp = philos->right;
-		pthread_mutex_destroy(&philos->fork_mutex);
-		free(philos);
-		philos = tmp;
-		i--;
-	}
-	return (NULL);
-}
