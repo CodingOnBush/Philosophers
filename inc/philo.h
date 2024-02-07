@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 21:07:39 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/06 14:58:59 by allblue          ###   ########.fr       */
+/*   Updated: 2024/02/07 08:33:26 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,13 @@
 
 typedef struct s_save
 {
-	struct s_philo	*philos;
 	struct s_philo	*current_philo;
 	struct s_env	*env;
 }					t_save;
 
 typedef struct s_philo
 {
-	pthread_t		thread;
+	pthread_t		*thread;
 	int				id;
 	int				alive;
 	int				meal_count;
@@ -40,7 +39,7 @@ typedef struct s_philo
 
 typedef struct s_env
 {
-	int				loop;
+	int				someone_died;
 	int				nb_philos;
 	int				time_to_die;
 	int				time_to_eat;
@@ -49,8 +48,9 @@ typedef struct s_env
 	int				total_meals;
 	int				meal_count;
 	long			start_time;
+	pthread_mutex_t	msg_mutex;
+	pthread_mutex_t	flag_mutex;
 	struct s_philo	*philos;
-	struct s_philo	*selected_philo;
 }					t_env;
 
 int					ft_init_everything(t_env *env, int ac, char **av);
@@ -58,7 +58,8 @@ int					ft_init_everything(t_env *env, int ac, char **av);
 t_philo				*ft_create_philos(int nb);
 
 long				ft_what_time_is_it(void);
-int					ft_usleep(int time);
+int					ft_wait(long ms);
+long				ft_get_current_time(long start_time);
 
 void				ft_free_everything(t_env *env);
 
