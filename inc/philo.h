@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 21:07:39 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/07 13:42:56 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/07 14:31:56 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_philo
 
 typedef struct s_env
 {
+	pthread_t		boss;
 	int				someone_died;
 	int				nb_philos;
 	int				time_to_die;
@@ -54,6 +55,7 @@ typedef struct s_env
 }					t_env;
 
 void				*ft_philo_routine(void *arg);
+void				*ft_boss_routine(void *arg);
 
 int					ft_init_everything(t_env *env, int ac, char **av);
 
@@ -66,5 +68,7 @@ long				ft_get_current_time(long start_time);
 void				ft_free_everything(t_env *env, t_philo *philos);
 
 void				ft_print_msg(t_env *env, int philo_id, char *msg);
+
+int					ft_still_alive(t_philo *philo);
 
 #endif

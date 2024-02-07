@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 21:07:45 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/07 13:57:58 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/07 14:51:31 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ void	ft_print_philos(t_philo *philos)
 
 int	main(int ac, char **av)
 {
-	t_env 	env;
 	t_philo	*philos;
+	t_env 	env;
 
 	if (ft_init_everything(&env, ac, av) < 0)
 	{
@@ -69,21 +69,23 @@ int	main(int ac, char **av)
 		printf("[Error : Philos creation failed]\n");
 		return (-1);
 	}
+	pthread_create(&env.boss, NULL, ft_boss_routine, philos);
 	printf("Starting simulation\n");
-	while (1)
-	{
-		if (env.someone_died == 1)
-		{
-			printf("Someone died\n");
-			break ;
-		}
-		if (env.total_meals == env.meal_goal)
-		{
-			printf("All meals eaten\n");
-			break ;
-		}
-		ft_wait(1000);
-	}
+	pthread_join(env.boss, NULL);
+	// while (1)
+	// {
+	// 	if (env.someone_died == 1)
+	// 	{
+	// 		printf("Someone died\n");
+	// 		break ;
+	// 	}
+	// 	if (env.total_meals == env.meal_goal)
+	// 	{
+	// 		printf("All meals have been eaten\n");
+	// 		break ;
+	// 	}
+	// 	ft_wait(100);
+	// }
 	printf("Simulation ended\n");
 	ft_free_everything(&env, philos);
 	return (0);

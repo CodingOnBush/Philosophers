@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 07:49:03 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/07 08:21:27 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/07 14:32:49 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,21 +40,22 @@ long	ft_what_time_is_it(void)
 		return (-1);
 	out = (time.tv_sec * 1000) + (time.tv_usec / 1000);
 	return (out);
-	/*
-		NULL in gettimeofday because we don't need to specify a time zone.
-		tv_sec : nb of seconds since 1st January 1970
-		tv_usec : nb of microseconds since the last second
-		(time.tv_sec * 1000) : convert seconds to milliseconds
-		(time.tv_usec / 1000) : microseconds to milliseconds
-	*/
 }
+
+/*
+	NULL in gettimeofday because we don't need to specify a time zone.
+	tv_sec : nb of seconds since 1st January 1970
+	tv_usec : nb of microseconds since the last second
+	(time.tv_sec * 1000) : convert seconds to milliseconds
+	(time.tv_usec / 1000) : microseconds to milliseconds
+*/
 
 long	ft_get_current_time(long start_time)
 {
-	struct timeval	time;
 	long			now;
 
-	gettimeofday(&time, NULL);
-	now = (time.tv_sec * 1000) + (time.tv_usec / 1000);
+	now = ft_what_time_is_it();
+	if (now < 0)
+		return (-1);
 	return (now - start_time);
 }

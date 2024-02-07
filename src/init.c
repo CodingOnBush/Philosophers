@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 07:48:41 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/07 13:21:01 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/07 14:34:54 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,5 @@ int	ft_init_everything(t_env *env, int ac, char **av)
 		return (-1);
 	if (ft_init_vars(env) < 0)
 		return (-1);
-	// printf("Starting routines\n");
-	// if (ft_start_routines(env) < 0)
-	// 	return (-1);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 08:22:09 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/07 13:58:02 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/07 14:46:25 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static void	ft_init_philo(t_env *env, t_philo *philo, int id)
 {
-	pthread_create(&(philo->thread), NULL, ft_philo_routine, (void *)philo);
 	philo->id = id;
 	philo->alive = 1;
 	philo->meal_count = 0;
@@ -24,6 +23,7 @@ static void	ft_init_philo(t_env *env, t_philo *philo, int id)
 	philo->right = NULL;
 	philo->left = NULL;
 	philo->env = env;
+	pthread_create(&(philo->thread), NULL, ft_philo_routine, (void *)philo);
 }
 
 static t_philo	*ft_free_philos(t_philo *philos, int i)
