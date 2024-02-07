@@ -6,23 +6,24 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 08:22:09 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/07 08:39:49 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/07 13:58:02 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-static void	ft_init_philo(t_philo *philos, int id)
+static void	ft_init_philo(t_env *env, t_philo *philo, int id)
 {
-	philos->thread = malloc(sizeof(pthread_t));
-	philos->id = id;
-	philos->alive = 1;
-	philos->meal_count = 0;
-	philos->last_meal = -1;
-	philos->routine_start = 0;
-	philos->right = NULL;
-	philos->left = NULL;
-	pthread_mutex_init(&philos->fork_mutex, NULL);
+	pthread_create(&(philo->thread), NULL, ft_philo_routine, (void *)philo);
+	philo->id = id;
+	philo->alive = 1;
+	philo->meal_count = 0;
+	philo->last_meal = -1;
+	philo->routine_start = 0;
+	pthread_mutex_init(&philo->fork_mutex, NULL);
+	philo->right = NULL;
+	philo->left = NULL;
+	philo->env = env;
 }
 
 static t_philo	*ft_free_philos(t_philo *philos, int i)
@@ -41,7 +42,7 @@ static t_philo	*ft_free_philos(t_philo *philos, int i)
 }
 
 
-t_philo	*ft_create_philos(int nb)
+t_philo	*ft_create_philos(t_env *env)
 {
 	t_philo	*philos;
 	t_philo	*prev;
@@ -50,12 +51,12 @@ t_philo	*ft_create_philos(int nb)
 
 	i = 0;
 	prev = NULL;
-	while (i < nb)
+	while (i < env->nb_philos)
 	{
 		philos = malloc(sizeof(t_philo));
 		if (!philos)
 			return (ft_free_philos(philos, i));
-		ft_init_philo(philos, i);
+		ft_init_philo(env, philos, i);
 		if (i == 0)
 			first = philos;
 		philos->left = prev;

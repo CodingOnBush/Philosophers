@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 07:48:41 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/07 08:36:11 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/07 13:21:01 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,16 +74,13 @@ static int	ft_get_args(t_env *env, int ac, char **av)
 
 static int	ft_init_vars(t_env *env)
 {
+	pthread_mutex_init(&env->msg_mutex, NULL);
 	env->someone_died = 0;
 	env->total_meals = 0;
 	env->meal_count = 0;
 	env->start_time = ft_what_time_is_it();
 	if (env->start_time < 0)
 		return (-1);
-	env->philos = ft_create_philos(env->nb_philos);
-	if (!env->philos)
-		return (-1);
-	pthread_mutex_init(&env->msg_mutex, NULL);
 	return (0);
 }
 
@@ -93,8 +90,8 @@ int	ft_init_everything(t_env *env, int ac, char **av)
 		return (-1);
 	if (ft_init_vars(env) < 0)
 		return (-1);
-	printf("Starting routines\n");
-	if (ft_start_routines(env) < 0)
-		return (-1);
+	// printf("Starting routines\n");
+	// if (ft_start_routines(env) < 0)
+	// 	return (-1);
 	return (0);
 }

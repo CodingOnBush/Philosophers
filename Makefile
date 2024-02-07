@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: allblue <allblue@student.42.fr>            +#+  +:+       +#+         #
+#    By: momrane <momrane@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/01 21:07:48 by momrane           #+#    #+#              #
-#    Updated: 2024/02/06 14:52:23 by allblue          ###   ########.fr        #
+#    Updated: 2024/02/07 13:55:08 by momrane          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ GREEN 		= \033[0;92m
 CYAN 		= \033[0;96m
 
 #Sources
-SRC_FILES 	= init main philos time free routine
+SRC_FILES 	= init main philos time free routine msg
 SRC 		= $(addprefix $(SRC_DIR)/, $(addsuffix .c, $(SRC_FILES)))
 OBJ			= $(addprefix $(BIN_DIR)/, $(addsuffix .o, $(SRC_FILES)))
 

@@ -6,72 +6,40 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 07:48:52 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/07 08:33:59 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/07 13:57:46 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-void	*ft_philo_routine(void *arg)
+static void	ft_eat(t_philo *philo)
 {
-	t_save	*save;
-
-	save = (t_save *)arg;
-	// pthread_mutex_lock(&save->env->msg_mutex);
-	printf("I'm in the routine with id: %d\n", save->current_philo->id);
-	// pthread_mutex_unlock(&save->env->msg_mutex);
-	// t_env	*env;
-
-	// env = (t_env *)arg;
-	// printf("I'm in the routine with id: %d\n", env->selected_philo->id);
-	// env->someone_died = 0;
-	ft_wait(4000);
-	// pthread_mutex_lock(&save->env->msg_mutex);
-	printf("I'm done with id: %d\n", save->current_philo->id);
-	// pthread_mutex_unlock(&save->env->msg_mutex);
-	save->env->someone_died = 1;
-	return (NULL);
+	pthread_mutex_lock(&philo->fork_mutex);
+	ft_print_msg(philo->env, philo->id, "has taken a fork");
+	ft_print_msg(philo->env, philo->id, "is eating");
+	ft_wait(philo->env->time_to_eat);
+	philo->last_meal = ft_get_current_time(philo->env->start_time);
+	philo->meal_count++;
+	pthread_mutex_unlock(&philo->fork_mutex);
 }
 
-int	ft_start_routines(t_env *env)
+void	*ft_philo_routine(void *arg)
 {
-	t_philo	*philos;
-	t_save	*save;
-	// t_save	save;
-	int		i;
+	t_philo	*philo;
 
-	i = 0;
-	philos = env->philos;
-	if (env->nb_philos % 2 != 0)
+	philo = (t_philo *)arg;
+	if (philo->id % 2 == 0)
+		ft_wait(2000);
+	while (1)
 	{
-		while (i < env->nb_philos)
-		{
-			if (philos->last_meal == -1)
-				philos->last_meal = env->start_time;
-			save = malloc(sizeof(t_save));
-			if (!save)
-				return (-1);
-			printf("save created\n");
-			save->current_philo = philos;
-			save->env = env;
-			// save.current_philo = philos;
-			// save.env = env;
-			pthread_create(philos->thread, NULL, ft_philo_routine, save);
-			pthread_join(*philos->thread, NULL);
-			philos = philos->right->right;
-			// if (philos->routine_start == 0)
-			// {
-			// 	env->selected_philo = philos;
-			// 	printf("Starting routine with id: %d\n", env->selected_philo->id);
-			// 	if (pthread_create(&(philos->thread), NULL, ft_philo_routine, env) != 0)
-			// 		return (-1);
-			// 	philos->routine_start = 1;
-			// 	philos = philos->right->right;
-			// }
-			// else
-			// 	philos = philos->right;
-			i++;
-		}
+		ft_eat(philo);
+		if (philo->meal_count == philo->env->meal_goal)
+			break ;
+		ft_print_msg(philo->env, philo->id, "is sleeping");
+		ft_wait(philo->env->time_to_sleep);
+		ft_print_msg(philo->env, philo->id, "is thinking");
 	}
-	return (0);
+	if (philo->meal_count == philo->env->meal_goal)
+		ft_print_msg(philo->env, philo->id, "has eaten ENOUGH");
+	return (NULL);
 }
