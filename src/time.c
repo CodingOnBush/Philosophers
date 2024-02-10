@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   time.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 07:49:03 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/07 14:32:49 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/10 10:19:29 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ long	ft_what_time_is_it(void)
 }
 
 /*
-	NULL in gettimeofday because we don't need to specify a time zone.
+	NULL in gettimeofday because we don't need/want to specify a time zone.
 	tv_sec : nb of seconds since 1st January 1970
 	tv_usec : nb of microseconds since the last second
 	(time.tv_sec * 1000) : convert seconds to milliseconds

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 07:48:52 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/07 14:53:31 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/10 11:45:33 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ void	*ft_boss_routine(void *arg)
 	{
 		if (ft_still_alive(philo) == 0)
 		{
-			philo->env->someone_died = 1;
 			ft_print_msg(philo->env, philo->id, "died");
 			break ;
 		}
@@ -67,7 +66,6 @@ void	*ft_boss_routine(void *arg)
 			break ;
 		}
 		philo = philo->right;
-		ft_wait(10);
 	}
 	return (NULL);
 }

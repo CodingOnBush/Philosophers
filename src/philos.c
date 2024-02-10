@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philos.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 08:22:09 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/07 14:46:25 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/10 11:50:22 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ t_philo	*ft_create_philos(t_env *env)
 	{
 		philos = malloc(sizeof(t_philo));
 		if (!philos)
-			return (ft_free_philos(philos, i));
+			return (NULL);
 		ft_init_philo(env, philos, i);
 		if (i == 0)
 			first = philos;

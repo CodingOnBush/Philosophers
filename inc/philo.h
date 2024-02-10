@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 21:07:39 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/07 14:31:56 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/10 11:57:36 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,27 @@
 # include <sys/time.h>
 # include <unistd.h>
 
-typedef struct s_save
+typedef struct s_data
 {
-	struct s_philo	*current_philo;
-	struct s_env	*env;
-}					t_save;
+	int				nb_philos;
+	int				time_to_die;
+	int				time_to_eat;
+	int				time_to_sleep;
+	int				meal_goal;
+	int				global_meals_count;
+	long			start_time;
+	pthread_mutex_t	*forks;
+	pthread_mutex_t	log_mutex;
+}					t_data;
+
+typedef struct s_philo2
+{
+	int				id;
+	pthread_t		thread;
+	int				meal_count;
+	int				last_meal;
+	struct s_data	*data;
+}					t_philo2;
 
 typedef struct s_philo
 {
@@ -41,7 +57,6 @@ typedef struct s_philo
 typedef struct s_env
 {
 	pthread_t		boss;
-	int				someone_died;
 	int				nb_philos;
 	int				time_to_die;
 	int				time_to_eat;
