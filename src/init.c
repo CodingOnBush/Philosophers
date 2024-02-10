@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 07:48:41 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/07 14:34:54 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/10 13:27:47 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ static int	ft_get_args(t_env *env, int ac, char **av)
 static int	ft_init_vars(t_env *env)
 {
 	pthread_mutex_init(&env->msg_mutex, NULL);
-	env->someone_died = 0;
 	env->total_meals = 0;
 	env->meal_count = 0;
 	env->start_time = ft_what_time_is_it();

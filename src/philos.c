@@ -6,7 +6,7 @@
 /*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 08:22:09 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/10 11:50:22 by allblue          ###   ########.fr       */
+/*   Updated: 2024/02/10 15:52:55 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,21 +26,46 @@ static void	ft_init_philo(t_env *env, t_philo *philo, int id)
 	pthread_create(&(philo->thread), NULL, ft_philo_routine, (void *)philo);
 }
 
-static t_philo	*ft_free_philos(t_philo *philos, int i)
+// static t_philo	*ft_free_philos(t_philo *philos, int i)
+// {
+// 	t_philo	*tmp;
+
+// 	while (i > 0)
+// 	{
+// 		tmp = philos->right;
+// 		pthread_mutex_destroy(&philos->fork_mutex);
+// 		free(philos);
+// 		philos = tmp;
+// 		i--;
+// 	}
+// 	return (NULL);
+// }
+
+t_philo2	*ft_create_philos2(t_data *data)
 {
-	t_philo	*tmp;
+	t_philo2	*philos;
+	int			iter;
 
-	while (i > 0)
+	philos = malloc(sizeof(t_philo2) * data->nb_philos);
+	if (!philos)
+		return (NULL);
+	iter = 0;
+	while (iter < data->nb_philos)
 	{
-		tmp = philos->right;
-		pthread_mutex_destroy(&philos->fork_mutex);
-		free(philos);
-		philos = tmp;
-		i--;
+		philos[iter].id = iter;
+		philos[iter].data = data;
+		philos[iter].meal_count = 0;
+		philos[iter].last_meal = data->start_time;
+		philos[iter].is_dead = 0;
+		philos[iter].thread = malloc(sizeof(pthread_t));
+		if (!philos[iter].thread)
+			return (NULL);
+		philos[iter].right = &philos[(iter + 1) % data->nb_philos];
+		philos[iter].left = &philos[(iter - 1 + data->nb_philos) % data->nb_philos];
+		iter++;
 	}
-	return (NULL);
+	return (philos);
 }
-
 
 t_philo	*ft_create_philos(t_env *env)
 {

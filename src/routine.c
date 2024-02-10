@@ -6,7 +6,7 @@
 /*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 07:48:52 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/10 11:45:33 by allblue          ###   ########.fr       */
+/*   Updated: 2024/02/10 14:48:33 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,37 @@ void	*ft_philo_routine(void *arg)
 	if (philo->meal_count == philo->env->meal_goal)
 		ft_print_msg(philo->env, philo->id, "has eaten ENOUGH");
 	pthread_exit(&philo->thread);
+	return (NULL);
+}
+
+void	*ft_philo_routine2(void *arg)
+{
+	t_philo2	*philo;
+	// long		diff;
+
+	philo = (t_philo2 *)arg;
+	// if (philo->id % 2 == 0)
+	// 	ft_wait(philo->data->time_to_eat);
+	// while (1)
+	// {
+	// 	ft_eat(philo);
+	// 	if (philo->meal_count == philo->data->meal_goal)
+	// 	{
+	// 		ft_print_msg(philo->data, philo->id, "has eaten ENOUGH");	
+	// 		break ;
+	// 	}
+	// 	diff = ft_get_current_time(philo->data->start_time) - philo->last_meal;
+	// 	if (diff > philo->data->time_to_die)
+	// 	{
+	// 		philo->is_dead = 1;
+	// 		ft_print_msg(philo->data, philo->id, "died");
+	// 		break ;
+	// 	}
+	// 	ft_print_msg(philo->data, philo->id, "is sleeping");
+	// 	ft_wait(philo->data->time_to_sleep);
+	// 	ft_print_msg(philo->data, philo->id, "is thinking");
+	// }
+	(void)philo;
 	return (NULL);
 }
 

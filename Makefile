@@ -3,17 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: momrane <momrane@student.42.fr>            +#+  +:+       +#+         #
+#    By: allblue <allblue@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/01 21:07:48 by momrane           #+#    #+#              #
-#    Updated: 2024/02/07 14:12:52 by momrane          ###   ########.fr        #
+#    Updated: 2024/02/10 15:21:07 by allblue          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #Variables
 NAME 		= philo
 CC			= cc
-CFLAGS		= -Wall -Wextra -Werror -g -pthread
+CFLAGS		= -Wall -Wextra -Werror -pthread -g#remove -g before submit
 HEADER		= -I $(INC_DIR)
 
 #Directories
@@ -27,7 +27,7 @@ GREEN 		= \033[0;92m
 CYAN 		= \033[0;96m
 
 #Sources
-SRC_FILES 	= init main philos time free routine msg utils
+SRC_FILES 	= init main philos time free routine msg utils init2
 SRC 		= $(addprefix $(SRC_DIR)/, $(addsuffix .c, $(SRC_FILES)))
 OBJ			= $(addprefix $(BIN_DIR)/, $(addsuffix .o, $(SRC_FILES)))
 
