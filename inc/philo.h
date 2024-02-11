@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 21:07:39 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/10 16:24:14 by allblue          ###   ########.fr       */
+/*   Updated: 2024/02/11 13:25:32 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ typedef struct s_data
 typedef struct s_philo2
 {
 	int				id;
-	pthread_t		thread;
+	pthread_t		*thread;
 	int				meal_count;
 	int				last_meal;
 	int				is_dead;
@@ -74,14 +74,10 @@ typedef struct s_env
 	pthread_mutex_t	flag_mutex;
 }					t_env;
 
-void				*ft_philo_routine(void *arg);
 void				*ft_philo_routine2(void *arg);
-void				*ft_boss_routine(void *arg);
 
-int					ft_init_everything(t_env *env, int ac, char **av);
 int					ft_init_everything2(t_data *data, t_philo2 *philos, int ac, char **av);
 
-t_philo				*ft_create_philos(t_env *env);
 t_philo2			*ft_create_philos2(t_data *data);
 
 long				ft_what_time_is_it(void);
@@ -90,8 +86,6 @@ long				ft_get_current_time(long start_time);
 
 void				ft_free_everything(t_env *env, t_philo *philos);
 void				ft_free_everything2(t_data *data, t_philo2 *philos);
-
-int					ft_init_data(t_data *data, int ac, char **av);
 
 void				ft_print_msg(t_data *data, int philo_id, char *msg);
 
