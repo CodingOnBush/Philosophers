@@ -3,127 +3,85 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 21:07:45 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/11 14:07:44 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/12 15:17:08 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-// void	ft_print_env(t_env env)
-// {
-// 	printf("typedef struct s_env\n");
-// 	// printf("someone_died: %d\n", env.someone_died);
-// 	printf("nb_philos: %d\n", env.nb_philos);
-// 	printf("time_to_die: %d\n", env.time_to_die);
-// 	printf("time_to_eat: %d\n", env.time_to_eat);
-// 	printf("time_to_sleep: %d\n", env.time_to_sleep);
-// 	printf("meal_goal: %d\n", env.meal_goal);
-// 	printf("total_meals: %d\n", env.total_meals);
-// 	printf("meal_count: %d\n", env.meal_count);
-// 	printf("start_time: %ld\n", env.start_time);
-// 	printf("msg_mutex: %p\n", &env.msg_mutex);
-// 	printf("flag_mutex: %p\n", &env.flag_mutex);
-// }
+#include <unistd.h>
+#include <stdio.h>
+#include <pthread.h>
 
-// void	ft_print_philos(t_philo *philos)
-// {
-// 	int	i;
-// 	t_philo	*all;
-
-// 	i = 0;
-// 	all = philos;
-// 	while (i < all->env->nb_philos)
-// 	{
-// 		printf("typedef struct s_philo\n");
-// 		printf("thread: %lu\n", all->thread);
-// 		printf("id: %d\n", all->id);
-// 		printf("alive: %d\n", all->alive);
-// 		printf("meal_count: %d\n", all->meal_count);
-// 		printf("last_meal: %d\n", all->last_meal);
-// 		printf("routine_start: %d\n", all->routine_start);
-// 		printf("fork_mutex: %p\n", &all->fork_mutex);
-// 		printf("right: %p\n", all->right);
-// 		printf("left: %p\n", all->left);
-// 		ft_print_env(*all->env);
-// 		all = all->right;
-// 		i++;
-// 	}
-// }
-
-int	main(int ac, char **av)
+typedef struct s_data2
 {
-	t_philo2	*philos;
-	t_data 		data;
-	// int			loop;
+	pthread_mutex_t	*mutex;
+	char			*message;
+}					t_data2;
 
-	philos = NULL;
-	if (ft_init_everything2(&data, philos, ac, av) < 0)
-		return (-1);
-	// loop = 0;
-	// while (loop < 10)
-	// {
-	// 	if (data.global_meals_count == data.global_meals_goal)
-	// 	{
-	// 		printf("All philos have eaten enough\n");
-	// 		break ;
-	// 	}
-	// 	else if (data.someone_died != -1)
-	// 	{
-	// 		printf("Philosopher %d died\n", data.someone_died);
-	// 		break ;
-	// 	}
-	// 	printf("looping\n");
-	// 	ft_wait(10);
-	// 	loop++;
-	// }
-	ft_free_everything2(&data, philos);
+void	*func(void *arg)
+{
+	t_data2	*data;
+
+	data = (t_data2 *)arg;
+	printf("[%s] lancé ✅\n", data->message);
+	sleep(3);
+	pthread_mutex_lock(data->mutex);
+	printf("[%s] le mutex a été lock et on va patienter 5 secondes\n", data->message);
+	sleep(5);// 5 seconds
+	pthread_mutex_unlock(data->mutex);
+	printf("[%s] le mutex a été unlock\n", data->message);
+	return (NULL);
+}
+
+int	main(void)
+{
+	pthread_t		thread_id1;
+	pthread_t		thread_id2;
+	t_data2			data1;
+	t_data2			data2;
+	pthread_mutex_t	mutex;
+
+	data1.message = "Thread 1";
+	data2.message = "Thread 2";
+	data1.mutex = &mutex;
+	data2.mutex = &mutex;
+	pthread_mutex_init(&mutex, NULL);
+	pthread_create(&thread_id1, NULL, func, (void *)&data1);
+	pthread_create(&thread_id2, NULL, func, (void *)&data2);
+	sleep(11);// 11 seconds
 	return (0);
 }
 
-// printf("nb_philos: %d\n", data.nb_philos);
-// printf("time_to_die: %d\n", data.time_to_die);
-// printf("time_to_eat: %d\n", data.time_to_eat);
-// printf("time_to_sleep: %d\n", data.time_to_sleep);
-// printf("meal_goal: %d\n", data.meal_goal);
-// printf("meal_goal in philo: %d\n", philos->data->meal_goal);
-// printf("global_meals_count: %d\n", data.global_meals_count);
-// printf("start_time: %ld\n", data.start_time);
-
-
 // int	main(int ac, char **av)
 // {
-// 	t_philo	*philos;
-// 	t_env 	env;
+// 	t_philo2	*philos;
+// 	t_data 		data;
+// 	// int			loop;
 
-// 	if (ft_init_everything(&env, ac, av) < 0)
-// 	{
-// 		printf("[Error : Initialization failed]\n");
+// 	philos = NULL;
+// 	if (ft_init_everything2(&data, philos, ac, av) < 0)
 // 		return (-1);
-// 	}
-// 	philos = ft_create_philos(&env);
-// 	if (!philos)
-// 	{
-// 		printf("[Error : Philos creation failed]\n");
-// 		return (-1);
-// 	}
-// 	while (1)
-// 	{
-// 		if (ft_still_alive(philos) == 0)
-// 		{
-// 			ft_print_msg(&env, philos->id, "died");
-// 			break ;
-// 		}
-// 		if (philos->meal_count == env.meal_goal)
-// 		{
-// 			printf("All philos have eaten enough\n");
-// 			break ;
-// 		}
-// 		philos = philos->right;
-// 	}
-// 	printf("Simulation ended\n");
-// 	ft_free_everything(&env, philos);
+// 	// loop = 0;
+// 	// while (loop < 10)
+// 	// {
+// 	// 	if (data.global_meals_count == data.global_meals_goal)
+// 	// 	{
+// 	// 		printf("All philos have eaten enough\n");
+// 	// 		break ;
+// 	// 	}
+// 	// 	else if (data.someone_died != -1)
+// 	// 	{
+// 	// 		printf("Philosopher %d died\n", data.someone_died);
+// 	// 		break ;
+// 	// 	}
+// 	// 	printf("looping\n");
+// 	// 	ft_wait(10);
+// 	// 	loop++;
+// 	// }
+// 	ft_free_everything2(&data, philos);
 // 	return (0);
 // }
