@@ -6,37 +6,43 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 21:07:45 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/12 16:28:11 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/12 17:34:07 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-void	*ft_run_loop(void *arg)
+static int	ft_start_threads(t_philo2 *philos)
 {
-	t_philo2	*philos;
-	int			i;
+	int	i;
 
-	philos = (t_philo2 *)arg;
 	i = 0;
 	while (i < philos->data->nb_philos)
 	{
-		pthread_create(&philos[i].thread, NULL, ft_philo_routine2, (void *)&philos[i]);
-		pthread_detach(philos[i].thread);
-		// pthread_join(philos[i].thread, NULL);
+		if (pthread_create(&philos[i].thread, NULL, ft_philo_routine2, (void *)&philos[i]) < 0)
+			return (-1);
+		if (pthread_detach(philos[i].thread) < 0)
+			return (-1);
 		i++;
 	}
-	ft_wait(3000);
-	philos->data->someone_died = 15;
-	ft_wait(3000);
-	// i = 0;
-	// while (i < philos->data->nb_philos)
-	// {
-	// 	pthread_cancel(philos[i].thread);
-	// 	i++;
-	// }
-	free(philos->data->forks);
-	free(philos);
+	return (0);
+}
+
+void	*ft_run_loop(void *arg)
+{
+	t_philo2	*philos;
+	t_data		*data;
+
+	philos = (t_philo2 *)arg;
+	data = philos->data;
+	if (ft_start_threads(philos) < 0)
+		pthread_exit(NULL);
+	while (data->someone_died == -1)
+	{
+		ft_check_philos(philos);
+		ft_wait(3000);
+	}
+	
 	pthread_exit(NULL);
 	return (NULL);
 }
@@ -57,7 +63,7 @@ int	main(int ac, char **av)
 		return (-1);
 	pthread_create(&main_thread, NULL, ft_run_loop, (void *)philos);
 	pthread_join(main_thread, NULL);
-	// free(philos);
-	// free(data.forks);
+	free(philos);
+	free(data.forks);
 	return (0);
 }

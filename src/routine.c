@@ -6,28 +6,61 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 07:48:52 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/12 16:26:38 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/12 17:34:01 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
+static void	ft_think(t_philo2 *philo)
+{
+	ft_print_msg(philo, "is thinking");
+}
+
+static void	ft_eat(t_philo2 *philo)
+{
+	ft_print_msg(philo, "is eating");
+	ft_wait(philo->data->time_to_eat);
+	philo->last_meal = ft_get_current_time(philo->data->start_time);
+	philo->meal_count++;
+}
+
+static void	ft_sleep(t_philo2 *philo)
+{
+	ft_print_msg(philo, "is sleeping");
+	ft_wait(philo->data->time_to_sleep);
+}
+
 void	*ft_philo_routine2(void *arg)
 {
 	t_philo2	*philos;
+	t_data		*data;
 
 	philos = (t_philo2 *)arg;
-	pthread_mutex_lock(&philos->data->log_mutex);
-	printf("I am in thread %d\n", philos->id);
-	pthread_mutex_unlock(&philos->data->log_mutex);
-	while (philos->data->someone_died == -1)
+	data = philos->data;
+	ft_print_msg(philos, "start routine");
+	if (philos->id % 2 != 0)
+		ft_wait(data->time_to_eat * 10);
+	while (1)
 	{
-		ft_wait(2000);
+		if (data->someone_died != -1 || philos->meal_count == data->meal_goal)
+			break ;
+		pthread_mutex_lock(&data->forks[philos->id]);
+		pthread_mutex_lock(&data->forks[(philos->id + 1) % data->nb_philos]);
+		ft_print_msg(philos, "has taken a fork");
+
+		ft_eat(philos);
+
+		pthread_mutex_unlock(&data->forks[philos->id]);
+		pthread_mutex_unlock(&data->forks[(philos->id + 1) % data->nb_philos]);
+
+		ft_sleep(philos);
+
+		ft_think(philos);
+		
+		ft_wait(10);
 	}
-	philos->is_dead = 1;
-	pthread_mutex_lock(&philos->data->log_mutex);
-	printf("Philosopher %d is dead\n", philos->id);
-	pthread_mutex_unlock(&philos->data->log_mutex);
+	ft_print_msg(philos, "end routine");
 	pthread_exit(NULL);
 	return (NULL);
 }
