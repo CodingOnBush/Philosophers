@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 07:48:41 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/11 13:48:26 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/12 16:13:37 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,47 +104,25 @@ static int	ft_init_data(t_data *data, int ac, char **av)
 	return (0);
 }
 
-static int	ft_error_minus_one(t_data *data, t_philo2 *philos, char *msg)
+static int	ft_error(t_data *data, t_philo2 *philos, char *msg)
 {
 	ft_free_everything2(data, philos);
 	printf("[Error : %s]\n", msg);
 	return (-1);
 }
 
-static int	ft_run_threads(t_philo2 *philos)
-{
-	int	i;
-
-	i = 0;
-	while (i < philos->data->nb_philos)
-	{
-		pthread_create(philos[i].thread, NULL, ft_philo_routine2, (void *)&philos[i]);
-		i++;
-	}
-	return (0);
-}
-
-static void	ft_start_joining(t_philo2 *philos, t_data *data)
-{
-	int	i;
-
-	i = 0;
-	while (i < data->nb_philos)
-	{
-		pthread_join(*philos[i].thread, NULL);
-		i++;
-	}
-}
-
-int	ft_init_everything2(t_data *data, t_philo2 *philos, int ac, char **av)
+int	ft_init_everything2(t_data *data, int ac, char **av)
 {
 	if (ft_init_data(data, ac, av) < 0)
-		return (ft_error_minus_one(data, NULL, "Initialization failed"));
-	philos = ft_create_philos2(data);
-	if (!philos)
-		return (ft_error_minus_one(data, NULL, "Philos creation failed"));
-	if (ft_run_threads(philos) < 0)
-		return (ft_error_minus_one(data, philos, "Threads creation failed"));
-	ft_start_joining(philos, data);
+		return (ft_error(data, NULL, "Initialization failed"));
+	printf("data->nb_philos %d\n", data->nb_philos);
+	printf("data->time_to_die %d\n", data->time_to_die);
+	printf("data->time_to_eat %d\n", data->time_to_eat);
+	printf("data->time_to_sleep %d\n", data->time_to_sleep);
+	printf("data->meal_goal %d\n", data->meal_goal);
+	printf("data->global_meals_count %d\n", data->global_meals_count);
+	printf("data->global_meals_goal %d\n", data->global_meals_goal);
+	printf("data->start_time %ld\n", data->start_time);
+	printf("data->someone_died %d\n", data->someone_died);
 	return (0);
 }

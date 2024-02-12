@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 21:07:39 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/11 13:25:32 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/12 16:13:35 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,11 @@ typedef struct s_data
 typedef struct s_philo2
 {
 	int				id;
-	pthread_t		*thread;
+	pthread_t		thread;//*thread;
 	int				meal_count;
 	int				last_meal;
 	int				is_dead;
 	struct s_data	*data;
-	struct s_philo2	*right;
-	struct s_philo2	*left;
 }					t_philo2;
 
 typedef struct s_philo
@@ -76,7 +74,7 @@ typedef struct s_env
 
 void				*ft_philo_routine2(void *arg);
 
-int					ft_init_everything2(t_data *data, t_philo2 *philos, int ac, char **av);
+int					ft_init_everything2(t_data *data, int ac, char **av);
 
 t_philo2			*ft_create_philos2(t_data *data);
 
