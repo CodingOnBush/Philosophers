@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 07:48:52 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/12 17:34:01 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/13 10:39:58 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-static void	ft_think(t_philo2 *philo)
+static void	ft_think(t_philo *philo)
 {
 	ft_print_msg(philo, "is thinking");
 }
 
-static void	ft_eat(t_philo2 *philo)
+static void	ft_eat(t_philo *philo)
 {
 	ft_print_msg(philo, "is eating");
 	ft_wait(philo->data->time_to_eat);
@@ -25,18 +25,18 @@ static void	ft_eat(t_philo2 *philo)
 	philo->meal_count++;
 }
 
-static void	ft_sleep(t_philo2 *philo)
+static void	ft_sleep(t_philo *philo)
 {
 	ft_print_msg(philo, "is sleeping");
 	ft_wait(philo->data->time_to_sleep);
 }
 
-void	*ft_philo_routine2(void *arg)
+void	*ft_philo_routine(void *arg)
 {
-	t_philo2	*philos;
+	t_philo	*philos;
 	t_data		*data;
 
-	philos = (t_philo2 *)arg;
+	philos = (t_philo *)arg;
 	data = philos->data;
 	ft_print_msg(philos, "start routine");
 	if (philos->id % 2 != 0)

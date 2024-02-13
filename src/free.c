@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 07:48:34 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/12 15:44:55 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/13 10:39:15 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-void	ft_free_everything2(t_data *data, t_philo2 *philos)
+void	ft_free_everything(t_data *data, t_philo *philos)
 {
 	free(data->forks);
 	free(philos);

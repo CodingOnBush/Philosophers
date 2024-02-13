@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 07:48:41 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/12 16:13:37 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/13 10:40:05 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,14 +104,14 @@ static int	ft_init_data(t_data *data, int ac, char **av)
 	return (0);
 }
 
-static int	ft_error(t_data *data, t_philo2 *philos, char *msg)
+static int	ft_error(t_data *data, t_philo *philos, char *msg)
 {
-	ft_free_everything2(data, philos);
+	ft_free_everything(data, philos);
 	printf("[Error : %s]\n", msg);
 	return (-1);
 }
 
-int	ft_init_everything2(t_data *data, int ac, char **av)
+int	ft_init_everything(t_data *data, int ac, char **av)
 {
 	if (ft_init_data(data, ac, av) < 0)
 		return (ft_error(data, NULL, "Initialization failed"));

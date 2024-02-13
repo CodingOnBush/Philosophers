@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   philos.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 08:22:09 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/12 16:56:34 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/13 10:40:11 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-t_philo2	*ft_create_philos2(t_data *data)
+t_philo	*ft_create_philos(t_data *data)
 {
-	t_philo2	*philos;
+	t_philo	*philos;
 	int			iter;
 
-	philos = malloc(sizeof(t_philo2) * data->nb_philos);
+	philos = malloc(sizeof(t_philo) * data->nb_philos);
 	if (!philos)
 		return (NULL);
 	iter = 0;
@@ -28,7 +28,6 @@ t_philo2	*ft_create_philos2(t_data *data)
 		philos[iter].data = data;
 		philos[iter].meal_count = 0;
 		philos[iter].last_meal = data->start_time;
-		philos[iter].thread = iter;
 		iter++;
 	}
 	return (philos);

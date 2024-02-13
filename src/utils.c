@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 07:49:12 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/12 17:38:59 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/13 10:38:23 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-int	ft_still_alive(t_philo2 *philo)
+int	ft_still_alive(t_philo *philo)
 {
 	long	diff;
 	long	current_time;
@@ -24,7 +24,7 @@ int	ft_still_alive(t_philo2 *philo)
 	return (1);// return 1 to indicate that the philo is still alive
 }
 
-void	ft_check_philos(t_philo2 *philo)
+void	ft_check_philos(t_philo *philo)
 {
 	int	i;
 

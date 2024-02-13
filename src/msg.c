@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   msg.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 07:48:24 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/12 16:54:11 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/13 10:38:23 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-void	ft_print_msg(t_philo2 *philo, char *msg)
+void	ft_print_msg(t_philo *philo, char *msg)
 {
 	long	time;
 
