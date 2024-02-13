@@ -6,7 +6,7 @@
 /*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 21:07:45 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/13 11:02:03 by allblue          ###   ########.fr       */
+/*   Updated: 2024/02/13 16:02:56 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,16 +60,37 @@ int	main(int ac, char **av)
 {
 	t_data		data;
 	t_philo		*philos;
-	pthread_t	main_thread;
+	int			i;
+	// pthread_t	main_thread;
 
 	if (ft_init_everything(&data, ac, av) < 0)
 		return (-1);
 	philos = ft_create_philos(&data);
 	if (!philos)
 		return (-1);
-	pthread_create(&main_thread, NULL, ft_run_loop, (void *)philos);
-	pthread_join(main_thread, NULL);
+	if (ft_start_threads(philos) < 0)
+		return (-1);
+
+	sleep(2);
+
+	data.someone_died = 42;
+	sleep(2);
+	// while (i < data.nb_philos)
+	// {
+	// 	printf("cancel thread %d\n", i);
+	// 	pthread_cancel(philos[i].thread);
+	// 	pthread_mutex_destroy(&data.forks[i]);
+	// 	i++;
+	// }
+	i = 0;
+	while (i < data.nb_philos)
+	{
+		philos[i].routine_flag = 0;
+		i++;
+	}
 	
+	// pthread_create(&main_thread, NULL, ft_run_loop, (void *)philos);
+	// pthread_join(main_thread, NULL);
 	free(philos);
 	free(data.forks);
 	return (0);

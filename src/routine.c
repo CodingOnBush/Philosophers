@@ -6,7 +6,7 @@
 /*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 07:48:52 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/13 10:39:58 by allblue          ###   ########.fr       */
+/*   Updated: 2024/02/13 16:03:09 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,34 +33,33 @@ static void	ft_sleep(t_philo *philo)
 
 void	*ft_philo_routine(void *arg)
 {
-	t_philo	*philos;
+	t_philo	*philo;
 	t_data		*data;
 
-	philos = (t_philo *)arg;
-	data = philos->data;
-	ft_print_msg(philos, "start routine");
-	if (philos->id % 2 != 0)
+	philo = (t_philo *)arg;
+	data = philo->data;
+	ft_print_msg(philo, "start routine");
+	if (philo->id % 2 != 0)
 		ft_wait(data->time_to_eat * 10);
-	while (1)
-	{
-		if (data->someone_died != -1 || philos->meal_count == data->meal_goal)
-			break ;
-		pthread_mutex_lock(&data->forks[philos->id]);
-		pthread_mutex_lock(&data->forks[(philos->id + 1) % data->nb_philos]);
-		ft_print_msg(philos, "has taken a fork");
+	philo->routine_flag = 1;
+	while (philo->routine_flag == 1)
+	{	
+		pthread_mutex_lock(&data->forks[philo->id]);
+		pthread_mutex_lock(&data->forks[(philo->id + 1) % data->nb_philos]);
+		ft_print_msg(philo, "has taken a fork");
 
-		ft_eat(philos);
+		ft_eat(philo);
 
-		pthread_mutex_unlock(&data->forks[philos->id]);
-		pthread_mutex_unlock(&data->forks[(philos->id + 1) % data->nb_philos]);
+		pthread_mutex_unlock(&data->forks[philo->id]);
+		pthread_mutex_unlock(&data->forks[(philo->id + 1) % data->nb_philos]);
 
-		ft_sleep(philos);
+		ft_sleep(philo);
 
-		ft_think(philos);
+		ft_think(philo);
 		
 		ft_wait(10);
 	}
-	ft_print_msg(philos, "end routine");
+	ft_print_msg(philo, "end routine");
 	pthread_exit(NULL);
 	return (NULL);
 }

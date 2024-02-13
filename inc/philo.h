@@ -6,7 +6,7 @@
 /*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 21:07:39 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/13 10:41:00 by allblue          ###   ########.fr       */
+/*   Updated: 2024/02/13 15:54:38 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct s_philo
 	pthread_t		thread;
 	int				meal_count;
 	int				last_meal;
+	int				routine_flag;
 	struct s_data	*data;
 }					t_philo;
 
