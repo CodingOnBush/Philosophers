@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 07:49:12 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/14 08:11:02 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/14 08:23:34 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,11 @@ void	ft_check_philos(t_philo *philos)
 	data = philos->data;
 	while (i < data->nb_philos)
 	{
-		// check if between the last meal and the current time the time is greater than the time to die
 		philo = &philos[i];
 		if (ft_still_alive(philo) == 0)
 		{
-			// pthread_mutex_lock(&(data->log_mutex));
 			ft_print_msg(philo, "died");
 			data->someone_died = philo->id;
-			// pthread_mutex_unlock(&(data->log_mutex));
 			return ;
 		}
 		

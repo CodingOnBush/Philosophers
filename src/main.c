@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 21:07:45 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/14 08:07:03 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/14 08:26:41 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,22 @@ int	main(int ac, char **av)
 		free(data.forks);
 		return (-1);
 	}
-	if (ft_start_threads(philos) > 0)
+	ft_start_threads(philos);
+	int i = 0;
+	while (i < data.nb_philos)
 	{
-		while (data.routine_count != data.nb_philos)
-		{
-			ft_check_philos(philos);
-			ft_wait(10);
-		}
-		ft_wait(100);
+		pthread_cancel(philos[i].thread);
+		i++;
 	}
+	// if (ft_start_threads(philos) > 0)
+	// {
+	// 	while (data.routine_count != data.nb_philos)
+	// 	{
+	// 		ft_check_philos(philos);
+	// 		ft_wait(10);
+	// 	}
+	// 	ft_wait(100);
+	// }
 	free(philos);
 	free(data.forks);
 	return (0);
