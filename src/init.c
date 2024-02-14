@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 07:48:41 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/13 10:40:05 by allblue          ###   ########.fr       */
+/*   Updated: 2024/02/14 07:18:06 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,10 @@ static int	ft_init_vars(t_data *data)
 	int	i;
 
 	i = 0;
-	data->global_meals_count = 0;
+	data->meals_count = 0;
 	data->someone_died = -1;
-	data->global_meals_goal = data->nb_philos * data->meal_goal;
+	data->routine_count = 0;
+	data->meals_goal = data->nb_philos * data->meal_goal;
 	data->start_time = ft_what_time_is_it();
 	if (data->start_time < 0)
 		return (-1);
@@ -95,7 +96,7 @@ static int	ft_init_vars(t_data *data)
 	return (0);
 }
 
-static int	ft_init_data(t_data *data, int ac, char **av)
+int	ft_init_data(t_data *data, int ac, char **av)
 {
 	if (ft_get_args(data, ac, av) < 0)
 		return (-1);
@@ -104,25 +105,3 @@ static int	ft_init_data(t_data *data, int ac, char **av)
 	return (0);
 }
 
-static int	ft_error(t_data *data, t_philo *philos, char *msg)
-{
-	ft_free_everything(data, philos);
-	printf("[Error : %s]\n", msg);
-	return (-1);
-}
-
-int	ft_init_everything(t_data *data, int ac, char **av)
-{
-	if (ft_init_data(data, ac, av) < 0)
-		return (ft_error(data, NULL, "Initialization failed"));
-	printf("data->nb_philos %d\n", data->nb_philos);
-	printf("data->time_to_die %d\n", data->time_to_die);
-	printf("data->time_to_eat %d\n", data->time_to_eat);
-	printf("data->time_to_sleep %d\n", data->time_to_sleep);
-	printf("data->meal_goal %d\n", data->meal_goal);
-	printf("data->global_meals_count %d\n", data->global_meals_count);
-	printf("data->global_meals_goal %d\n", data->global_meals_goal);
-	printf("data->start_time %ld\n", data->start_time);
-	printf("data->someone_died %d\n", data->someone_died);
-	return (0);
-}

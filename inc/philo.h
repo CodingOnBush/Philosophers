@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 21:07:39 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/13 15:54:38 by allblue          ###   ########.fr       */
+/*   Updated: 2024/02/14 07:32:06 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,21 +25,21 @@ typedef struct s_data
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				meal_goal;
-	int				global_meals_count;
-	int				global_meals_goal;
+	int				meals_count;
+	int				meals_goal;
 	long			start_time;
 	int				someone_died;
+	int				routine_count;
 	pthread_mutex_t	*forks;
-	pthread_mutex_t	log_mutex;
+	pthread_mutex_t	log_mutex;	
 }					t_data;
 
 typedef struct s_philo
 {
-	int				id;
 	pthread_t		thread;
+	int				id;
 	int				meal_count;
-	int				last_meal;
-	int				routine_flag;
+	long			last_meal;
 	struct s_data	*data;
 }					t_philo;
 
@@ -47,9 +47,9 @@ void				ft_check_philos(t_philo *philo);
 
 void				*ft_philo_routine(void *arg);
 
-int					ft_init_everything(t_data *data, int ac, char **av);
+int					ft_init_data(t_data *data, int ac, char **av);
 
-t_philo			*ft_create_philos(t_data *data);
+t_philo				*ft_create_philos(t_data *data);
 
 long				ft_what_time_is_it(void);
 int					ft_wait(long ms);

@@ -3,63 +3,46 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 07:48:52 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/13 16:03:09 by allblue          ###   ########.fr       */
+/*   Updated: 2024/02/14 08:18:51 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-static void	ft_think(t_philo *philo)
-{
-	ft_print_msg(philo, "is thinking");
-}
-
-static void	ft_eat(t_philo *philo)
-{
-	ft_print_msg(philo, "is eating");
-	ft_wait(philo->data->time_to_eat);
-	philo->last_meal = ft_get_current_time(philo->data->start_time);
-	philo->meal_count++;
-}
-
-static void	ft_sleep(t_philo *philo)
-{
-	ft_print_msg(philo, "is sleeping");
-	ft_wait(philo->data->time_to_sleep);
-}
-
 void	*ft_philo_routine(void *arg)
 {
 	t_philo	*philo;
-	t_data		*data;
+	t_data	*data;
 
 	philo = (t_philo *)arg;
 	data = philo->data;
-	ft_print_msg(philo, "start routine");
-	if (philo->id % 2 != 0)
-		ft_wait(data->time_to_eat * 10);
-	philo->routine_flag = 1;
-	while (philo->routine_flag == 1)
-	{	
-		pthread_mutex_lock(&data->forks[philo->id]);
-		pthread_mutex_lock(&data->forks[(philo->id + 1) % data->nb_philos]);
+	// if (philo->id % 2)
+		// ft_wait(data->time_to_eat);
+	data->start_time = ft_what_time_is_it();
+	philo->last_meal = data->start_time;
+	while (data->someone_died == -1 || data->meals_count < data->meals_goal
+		|| philo->meal_count == data->meal_goal)
+	{
+		printf("someone_died: %d\n", data->someone_died);
+		pthread_mutex_lock(&(data->forks[philo->id]));
+		pthread_mutex_lock(&(data->forks[(philo->id + 1) % data->nb_philos]));
 		ft_print_msg(philo, "has taken a fork");
-
-		ft_eat(philo);
-
-		pthread_mutex_unlock(&data->forks[philo->id]);
-		pthread_mutex_unlock(&data->forks[(philo->id + 1) % data->nb_philos]);
-
-		ft_sleep(philo);
-
-		ft_think(philo);
-		
-		ft_wait(10);
+		ft_print_msg(philo, "is eating");
+		ft_wait(data->time_to_eat);
+		philo->last_meal = ft_what_time_is_it();
+		philo->meal_count++;
+		data->meals_count++;
+		pthread_mutex_unlock(&(data->forks[philo->id]));
+		pthread_mutex_unlock(&(data->forks[(philo->id + 1) % data->nb_philos]));
+		// ft_print_msg(philo, "has dropped a fork");
+		ft_print_msg(philo, "is sleeping");
+		ft_wait(data->time_to_sleep);
+		ft_print_msg(philo, "is thinking");
+		// ft_wait(10);
 	}
-	ft_print_msg(philo, "end routine");
-	pthread_exit(NULL);
+	data->routine_count++;
 	return (NULL);
 }
