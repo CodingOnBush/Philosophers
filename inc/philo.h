@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 21:07:39 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/14 07:32:06 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/19 10:53:40 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct s_data
 	long			start_time;
 	int				someone_died;
 	int				routine_count;
+	int				routine_flag;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	log_mutex;	
 }					t_data;

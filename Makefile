@@ -6,14 +6,14 @@
 #    By: allblue <allblue@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/01 21:07:48 by momrane           #+#    #+#              #
-#    Updated: 2024/02/13 10:40:56 by allblue          ###   ########.fr        #
+#    Updated: 2024/02/19 10:41:42 by allblue          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #Variables
 NAME 		= philo
 CC			= cc
-CFLAGS		= -Wall -Wextra -Werror -pthread -g#remove -g before submit
+CFLAGS		= -Wall -Wextra -Werror -g#remove -g before submit and -pthread
 HEADER		= -I $(INC_DIR)
 
 #Directories

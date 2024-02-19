@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 21:07:45 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/14 08:26:41 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/19 11:19:46 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-static int	ft_start_threads(t_philo *philos)
+static void	ft_run_routines(t_philo *philos)
 {
 	pthread_t	thread;
 	void		*arg;
@@ -23,14 +23,31 @@ static int	ft_start_threads(t_philo *philos)
 	{
 		thread = philos[i].thread;
 		arg = (void *)&philos[i];
-		if (pthread_create(&thread, NULL, ft_philo_routine, arg) < 0)
-			return (-1);
-		if (pthread_detach(thread) < 0)
-			return (-1);
+		pthread_create(&thread, NULL, ft_philo_routine, arg);
+		pthread_detach(thread);
 		i++;
 	}
-	return (1);
 }
+
+// static int	ft_check(t_philo *philos)
+// {
+// 	t_data	*data;
+// 	int		i;
+
+// 	i = 0;
+// 	data = philos->data;
+// 	while (i < data->nb_philos)
+// 	{
+// 		if (ft_still_alive(&philos[i]) == 0)
+// 		{
+// 			ft_print_msg(&philos[i], "died");
+// 			data->someone_died = philos[i].id;
+// 			return (0);
+// 		}
+// 		i++;
+// 	}
+// 	return (1);
+// }
 
 int	main(int ac, char **av)
 {
@@ -45,22 +62,13 @@ int	main(int ac, char **av)
 		free(data.forks);
 		return (-1);
 	}
-	ft_start_threads(philos);
-	int i = 0;
-	while (i < data.nb_philos)
+	ft_run_routines(philos);
+	while (1)
 	{
-		pthread_cancel(philos[i].thread);
-		i++;
+		ft_check_philos(philos);
+		ft_wait(10);
 	}
-	// if (ft_start_threads(philos) > 0)
-	// {
-	// 	while (data.routine_count != data.nb_philos)
-	// 	{
-	// 		ft_check_philos(philos);
-	// 		ft_wait(10);
-	// 	}
-	// 	ft_wait(100);
-	// }
+	ft_wait(100);
 	free(philos);
 	free(data.forks);
 	return (0);

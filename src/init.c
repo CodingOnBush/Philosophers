@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 07:48:41 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/14 07:18:06 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/19 10:53:55 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,10 @@ static int	ft_get_param(char *s)
 static int	ft_get_args(t_data *data, int ac, char **av)
 {
 	if (ac < 5 || ac > 6)
+	{
+		printf("Error: ./philo number_of_philosophers time_to_die time_to_eat time_to_sleep [number_of_times_each_philosopher_must_eat]\n");
 		return (-1);
+	}
 	data->nb_philos = ft_get_param(av[1]);
 	if (data->nb_philos < 0 || data->nb_philos > 200)
 		return (-1);
@@ -80,6 +83,7 @@ static int	ft_init_vars(t_data *data)
 	data->meals_count = 0;
 	data->someone_died = -1;
 	data->routine_count = 0;
+	data->routine_flag = 1;
 	data->meals_goal = data->nb_philos * data->meal_goal;
 	data->start_time = ft_what_time_is_it();
 	if (data->start_time < 0)
@@ -104,4 +108,3 @@ int	ft_init_data(t_data *data, int ac, char **av)
 		return (-1);
 	return (0);
 }
-
