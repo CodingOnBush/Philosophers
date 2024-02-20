@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 21:07:39 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/19 10:53:40 by allblue          ###   ########.fr       */
+/*   Updated: 2024/02/20 13:21:15 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@ typedef struct s_data
 	int				meals_count;
 	int				meals_goal;
 	long			start_time;
-	int				someone_died;
-	int				routine_count;
 	int				routine_flag;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	log_mutex;	

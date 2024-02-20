@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 07:49:12 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/14 08:23:34 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/20 13:21:11 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ void	ft_check_philos(t_philo *philos)
 		if (ft_still_alive(philo) == 0)
 		{
 			ft_print_msg(philo, "died");
-			data->someone_died = philo->id;
 			return ;
 		}
 		
