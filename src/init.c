@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 07:48:41 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/20 13:21:06 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/20 21:08:13 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,9 @@ static int	ft_init_vars(t_data *data)
 
 	i = 0;
 	data->meals_count = 0;
-	data->routine_flag = 1;
 	data->meals_goal = data->nb_philos * data->meal_goal;
 	data->start_time = ft_what_time_is_it();
+	data->someone_died = -1;
 	if (data->start_time < 0)
 		return (-1);
 	pthread_mutex_init(&data->log_mutex, NULL);

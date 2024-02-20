@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 21:07:39 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/20 13:21:15 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/20 21:12:58 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ typedef struct s_data
 	int				meals_count;
 	int				meals_goal;
 	long			start_time;
-	int				routine_flag;
+	int				someone_died;
 	pthread_mutex_t	*forks;
-	pthread_mutex_t	log_mutex;	
+	pthread_mutex_t	log_mutex;
 }					t_data;
 
 typedef struct s_philo
