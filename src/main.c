@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 21:07:45 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/21 14:42:28 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/21 18:13:29 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,6 @@ static void	ft_start_routines(t_philo *philos)
 	{
 		pthread_create(&philos[i].thread, NULL, ft_philo_routine,
 			(void *)&philos[i]);
-		pthread_create(&philos[i].thread_checker, NULL, ft_checker_routine,
-			(void *)&philos[i]);
-		pthread_detach(philos[i].thread_checker);
 		i++;
 	}
 	i = 0;
@@ -57,13 +54,19 @@ int	main(int ac, char **av)
 	if (ft_init_data(&data, ac, av) < 0)
 		return (-1);
 	ft_init_philos(&data, philos);
-	ft_start_routines(philos);
-	printf("COUCOU\n");
+	if (data.nb_philos > 1)
+		ft_start_routines(philos);
+	else
+	{
+		ft_wait(data.time_to_die);
+		ft_print_msg(&philos[0], "is dead");
+	}
+	printf("exiting main\n");
 	ft_destroy_forks_mutex(&data);
-	if (data.someone_died < 0)
-		printf("[%ld] everyone ate enough\n", ft_get_current_time(data.start_time));
-	else	
+	if (data.someone_died > 0)
 		ft_print_msg(&philos[data.someone_died], "died");
+	if (data.meals_count == data.meals_goal && data.meals_goal > 0)
+		printf("[%ld] everyone ate enough\n", ft_get_current_time(data.start_time));
 	ft_wait(1000);
 	pthread_mutex_destroy(&data.log_mutex);
 	return (0);

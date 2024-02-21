@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 21:07:39 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/21 14:42:09 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/21 14:47:16 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct s_philo
 void				ft_check_philos(t_philo *philo);
 
 void				*ft_philo_routine(void *arg);
+void				*ft_checker_routine(void *arg);
 
 int					ft_init_data(t_data *data, int ac, char **av);
 void				ft_init_philos(t_data *data, t_philo *philos);
