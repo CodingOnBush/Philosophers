@@ -3,17 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: allblue <allblue@student.42.fr>            +#+  +:+       +#+         #
+#    By: momrane <momrane@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/01 21:07:48 by momrane           #+#    #+#              #
-#    Updated: 2024/02/19 10:41:42 by allblue          ###   ########.fr        #
+#    Updated: 2024/02/21 12:30:36 by momrane          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #Variables
 NAME 		= philo
 CC			= cc
-CFLAGS		= -Wall -Wextra -Werror -g#remove -g before submit and -pthread
+CFLAGS		= -g#-Wall -Wextra -Werror -g#remove -g before submit and -pthread
 HEADER		= -I $(INC_DIR)
 
 #Directories

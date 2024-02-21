@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 21:07:39 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/20 21:12:58 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/21 14:42:09 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,15 @@ typedef struct s_data
 	int				meals_goal;
 	long			start_time;
 	int				someone_died;
-	pthread_mutex_t	*forks;
+	int				loop_flag;
+	pthread_mutex_t	forks[200];
 	pthread_mutex_t	log_mutex;
 }					t_data;
 
 typedef struct s_philo
 {
 	pthread_t		thread;
+	pthread_t		thread_checker;
 	int				id;
 	int				meal_count;
 	long			last_meal;
@@ -47,6 +49,7 @@ void				ft_check_philos(t_philo *philo);
 void				*ft_philo_routine(void *arg);
 
 int					ft_init_data(t_data *data, int ac, char **av);
+void				ft_init_philos(t_data *data, t_philo *philos);
 
 t_philo				*ft_create_philos(t_data *data);
 

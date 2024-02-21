@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 07:48:41 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/20 21:08:13 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/21 14:39:46 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,17 +79,18 @@ static int	ft_init_vars(t_data *data)
 {
 	int	i;
 
-	i = 0;
 	data->meals_count = 0;
 	data->meals_goal = data->nb_philos * data->meal_goal;
 	data->start_time = ft_what_time_is_it();
 	data->someone_died = -1;
+	data->loop_flag = 1;
 	if (data->start_time < 0)
 		return (-1);
 	pthread_mutex_init(&data->log_mutex, NULL);
-	data->forks = malloc(sizeof(pthread_mutex_t) * data->nb_philos);
-	if (!data->forks)
-		return (-1);
+	// data->forks = malloc(sizeof(pthread_mutex_t) * data->nb_philos);
+	// if (!data->forks)
+	// 	return (-1);
+	i = 0;
 	while (i < data->nb_philos)
 	{
 		pthread_mutex_init(&data->forks[i], NULL);
@@ -105,4 +106,20 @@ int	ft_init_data(t_data *data, int ac, char **av)
 	if (ft_init_vars(data) < 0)
 		return (-1);
 	return (0);
+}
+
+void	ft_init_philos(t_data *data, t_philo *philos)
+{
+	int	iter;
+
+	iter = 0;
+	while (iter < data->nb_philos)
+	{
+		philos[iter].thread = iter;
+		philos[iter].id = iter;
+		philos[iter].meal_count = 0;
+		philos[iter].last_meal = ft_get_current_time(data->start_time);
+		philos[iter].data = data;
+		iter++;
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 08:22:09 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/20 13:36:14 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/21 12:22:35 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ t_philo	*ft_create_philos(t_data *data)
 	iter = 0;
 	while (iter < data->nb_philos)
 	{
+		philos[iter].thread = iter;
 		philos[iter].id = iter;
 		philos[iter].meal_count = 0;
 		philos[iter].last_meal = ft_get_current_time(data->start_time);

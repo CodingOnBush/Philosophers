@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   time.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 07:49:03 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/10 10:19:29 by allblue          ###   ########.fr       */
+/*   Updated: 2024/02/21 14:06:06 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	ft_wait(long ms)
 		diff = ft_what_time_is_it() - start;
 		if (diff < 0)
 			return (-1);
-		usleep(ms / 10);
+		ft_wait(ms / 10);
 	}
 	return(0);
 }
