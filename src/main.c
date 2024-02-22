@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 21:07:45 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/22 18:03:20 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/22 19:06:39 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,19 +48,11 @@ int	main(int ac, char **av)
 
 	if (!ft_init_data_and_philos(&data, philos, ac, av))
 		return (-1);
-	if (data.nb_philos == 1)
-	{
-		ft_wait(data.time_to_die);
-		ft_print_msg(&philos[0], "DIED🚨🚨🚨🚨🚨🚨🚨🚨");
-	}
-	else
-	{
-		if (!ft_start_routines(philos, &data))
-			return (-1);
-		ft_check_philos_dead(philos);
-		if (!ft_join_threads(philos, &data))
-			return (-1);
-	}
+	if (!ft_start_routines(philos, &data))
+		return (-1);
+	ft_check_philos_dead(philos);
+	if (!ft_join_threads(philos, &data))
+		return (-1);
 	ft_destroy_all_mutex(&data);
 	return (0);
 }
