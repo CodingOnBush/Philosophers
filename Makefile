@@ -6,7 +6,7 @@
 #    By: momrane <momrane@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/01 21:07:48 by momrane           #+#    #+#              #
-#    Updated: 2024/02/21 12:30:36 by momrane          ###   ########.fr        #
+#    Updated: 2024/02/21 21:16:04 by momrane          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ GREEN 		= \033[0;92m
 CYAN 		= \033[0;96m
 
 #Sources
-SRC_FILES 	= free init main msg philos routine time utils
+SRC_FILES 	= destroy init_utils init main msg routine threads time utils
 SRC 		= $(addprefix $(SRC_DIR)/, $(addsuffix .c, $(SRC_FILES)))
 OBJ			= $(addprefix $(BIN_DIR)/, $(addsuffix .o, $(SRC_FILES)))
 

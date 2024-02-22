@@ -1,19 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   destroy.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/07 07:48:34 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/13 10:39:15 by allblue          ###   ########.fr       */
+/*   Created: 2024/02/21 21:07:02 by momrane           #+#    #+#             */
+/*   Updated: 2024/02/22 13:20:19 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-void	ft_free_everything(t_data *data, t_philo *philos)
+void	ft_destroy_all_mutex(t_data *data)
 {
-	free(data->forks);
-	free(philos);
+	int	i;
+
+	i = 0;
+	while (i < data->nb_philos)
+	{
+		pthread_mutex_destroy(&data->forks[i]);
+		i++;
+	}
+	pthread_mutex_destroy(&data->pencil);
+	pthread_mutex_destroy(&data->change_someone_died);
 }

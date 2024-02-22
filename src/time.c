@@ -6,29 +6,35 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 07:49:03 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/21 14:06:06 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/21 21:34:56 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-int	ft_wait(long ms)
+void	ft_wait(long ms)
 {
-	long	start;
-	long	diff;
+	// long	start;
+	// long	diff;
 
-	start = ft_what_time_is_it();
-	if (start < 0)
-		return (-1);
-	diff = 0;
-	while (diff < ms)
-	{
-		diff = ft_what_time_is_it() - start;
-		if (diff < 0)
-			return (-1);
-		ft_wait(ms / 10);
-	}
-	return(0);
+	// start = ft_what_time_is_it();
+	// if (start < 0)
+	// 	return ;
+	// diff = 0;
+	// while (diff < ms)
+	// {
+	// 	diff = ft_what_time_is_it() - start;
+	// 	if (diff < 0)
+	// 		return ;
+	// 	ft_wait(ms / 10);
+	// }
+	long int	start_time;
+
+	start_time = 0;
+	start_time = ft_what_time_is_it();
+	while ((ft_what_time_is_it() - start_time) < ms)
+		usleep(ms / 100);
+	// usleep(ms * 1000);
 }
 
 long	ft_what_time_is_it(void)

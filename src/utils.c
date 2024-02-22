@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 07:49:12 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/20 13:21:11 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/22 13:38:27 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,23 @@
 // 		return (0);// return 0 to indicate that the philo is dead
 // 	return (1);// return 1 to indicate that the philo is still alive
 // }
+
+int	ft_is_philo_alive(t_philo *philo)
+{
+	long	current_time;
+
+	current_time = ft_what_time_is_it();
+	if (current_time - philo->last_meal >= philo->data->time_to_die)
+	{
+		pthread_mutex_lock(&philo->data->change_someone_died);
+		if (philo->data->someone_died != -1)
+			return (0);
+		ft_print_msg(philo, "died");
+		philo->data->someone_died = philo->id;
+		return (0);
+	}
+	return (1);
+}
 
 int	ft_still_alive(t_philo *philo)
 {
@@ -51,8 +68,34 @@ void	ft_check_philos(t_philo *philos)
 		{
 			ft_print_msg(philo, "died");
 			return ;
-		}
-		
+		}		
 		i++;
 	}
+}
+
+int	ft_philo_is_full(t_philo *philo)
+{
+	if (philo->data->meal_goal == -1)
+		return (0);
+	if (philo->meal_count >= philo->data->meal_goal)
+		return (1);
+	return (0);
+}
+
+int	ft_all_philos_are_full(t_philo *philos)
+{
+	t_philo	*philo;
+	t_data	*data;
+	int		i;
+
+	i = 0;
+	data = philos->data;
+	while (i < data->nb_philos)
+	{
+		philo = &philos[i];
+		if (ft_philo_is_full(philo) == 0)
+			return (0);
+		i++;
+	}
+	return (1);
 }

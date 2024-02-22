@@ -6,69 +6,32 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 21:07:45 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/21 18:13:29 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/22 13:40:44 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-static void	ft_start_routines(t_philo *philos)
-{
-	int	i;
-
-	i = 0;
-	while (i < philos->data->nb_philos)
-	{
-		pthread_create(&philos[i].thread, NULL, ft_philo_routine,
-			(void *)&philos[i]);
-		i++;
-	}
-	i = 0;
-	while (i < philos->data->nb_philos)
-	{
-		printf("joining thread %d\n", i);
-		pthread_join(philos[i].thread, NULL);
-		i++;
-	}
-}
-
-static void	ft_destroy_forks_mutex(t_data *data)
-{
-	int	i;
-
-	i = 0;
-	while (i < data->nb_philos)
-	{
-		pthread_mutex_unlock(&data->forks[i]);
-		pthread_mutex_destroy(&data->forks[i]);
-		i++;
-	}
-}
-
 int	main(int ac, char **av)
 {
 	t_philo	philos[200];
 	t_data	data;
-	int		iter;
 
-	if (ft_init_data(&data, ac, av) < 0)
+	if (!ft_init_data_and_philos(&data, philos, ac, av))
 		return (-1);
-	ft_init_philos(&data, philos);
-	if (data.nb_philos > 1)
-		ft_start_routines(philos);
-	else
+	if (data.nb_philos == 1)
 	{
 		ft_wait(data.time_to_die);
-		ft_print_msg(&philos[0], "is dead");
+		ft_print_msg(&philos[0], "died");
 	}
-	printf("exiting main\n");
-	ft_destroy_forks_mutex(&data);
-	if (data.someone_died > 0)
-		ft_print_msg(&philos[data.someone_died], "died");
-	if (data.meals_count == data.meals_goal && data.meals_goal > 0)
-		printf("[%ld] everyone ate enough\n", ft_get_current_time(data.start_time));
-	ft_wait(1000);
-	pthread_mutex_destroy(&data.log_mutex);
+	else
+	{
+		if (!ft_start_routines(philos, &data))
+			return (-1);
+		if (!ft_join_threads(philos, &data))
+			return (-1);
+	}
+	ft_destroy_all_mutex(&data);
 	return (0);
 }
 
