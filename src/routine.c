@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 07:48:52 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/22 14:17:51 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/22 18:10:30 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,7 @@ static void	ft_eat(t_philo *philo)
 	t_data	*data;
 
 	data = philo->data;
-	pthread_mutex_lock(&data->pencil);
-	printf("%ld %d is eating\n", ft_get_current_time(data->start_time), philo->id);
-	pthread_mutex_unlock(&data->pencil);
+	ft_print_msg(philo, "is eating");
 	ft_wait(data->time_to_eat);
 	philo->last_meal = ft_what_time_is_it();
 	philo->meal_count++;
@@ -54,9 +52,7 @@ static void	ft_sleep(t_philo *philo)
 	t_data	*data;
 
 	data = philo->data;
-	pthread_mutex_lock(&data->pencil);
-	printf("%ld %d is sleeping\n", ft_get_current_time(data->start_time), philo->id);
-	pthread_mutex_unlock(&data->pencil);
+	ft_print_msg(philo, "is sleeping");
 	ft_wait(data->time_to_sleep);
 }
 
@@ -65,9 +61,7 @@ static void	ft_think(t_philo *philo)
 	t_data	*data;
 
 	data = philo->data;
-	pthread_mutex_lock(&data->pencil);
-	printf("%ld %d is thinking\n", ft_get_current_time(data->start_time), philo->id);
-	pthread_mutex_unlock(&data->pencil);
+	ft_print_msg(philo, "is thinking");
 }
 
 void	*ft_routine(void *arg)
@@ -81,7 +75,7 @@ void	*ft_routine(void *arg)
 	// printf("%ld hi from thread %d\n", ft_get_current_time(data->start_time), philo->id);
 	// pthread_mutex_unlock(&data->pencil);
 	if (philo->id % 2)
-		ft_wait(data->time_to_die);
+		ft_wait(10);
 	while (data->someone_died == -1 && !ft_philo_is_full(philo))
 	{
 		ft_take_forks(philo);
@@ -93,7 +87,6 @@ void	*ft_routine(void *arg)
 			break ;
 		ft_sleep(philo);
 		ft_think(philo);
-		ft_wait(10);
 	}
 	// pthread_mutex_lock(&data->pencil);
 	// printf("%ld bye from thread %d\n", ft_get_current_time(data->start_time), philo->id);

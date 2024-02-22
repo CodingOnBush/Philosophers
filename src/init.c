@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 07:48:41 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/22 13:34:57 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/22 17:57:44 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ static int	ft_init_data(t_data *data, int ac, char **av)
 	if (!ft_init_vars(data))
 		return (0);
 	if (pthread_mutex_init(&data->pencil, NULL))
-		return (0);
-	if (pthread_mutex_init(&data->change_someone_died, NULL))
 		return (0);
 	i = 0;
 	while (i < data->nb_philos)

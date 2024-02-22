@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 21:07:45 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/22 14:23:21 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/22 18:03:20 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,26 @@ static void	ft_check_philos_dead(t_philo *philos)
 
 	nb_philos = philos[0].data->nb_philos;
 	i = 0;
-	while (ft_is_philo_alive(&philos[i]))
+	while (1)
 	{
+		if (!ft_is_philo_alive(&philos[i]))
+		{
+			ft_print_msg(&philos[i], "DIED🚨🚨🚨🚨🚨🚨🚨🚨");
+			philos->data->someone_died = i;
+			break;
+		}
+		if (ft_all_philos_are_full(philos))
+		{
+			ft_print_msg(&philos[i], "All philosophers are full");
+			break ;
+		}
 		if (i == nb_philos - 1)
 			i = 0;
 		else
 			i++;
 	}
-	ft_print_msg(&philos[i], "DIED🚨🚨🚨🚨🚨🚨🚨🚨");
-	philos->data->someone_died = i;
+	pthread_mutex_unlock(&philos->data->pencil);
+	ft_unlock_and_destroy_forks(philos->data);
 }
 
 int	main(int ac, char **av)

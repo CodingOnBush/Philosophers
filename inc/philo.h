@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 21:07:39 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/22 13:15:24 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/22 18:07:15 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,10 @@ typedef struct s_data
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				meal_goal;
-	long			start_time;
+	long long int	start_time;
 	int				someone_died;
 	pthread_mutex_t	forks[200];
 	pthread_mutex_t	pencil;
-	pthread_mutex_t	change_someone_died;
 }					t_data;
 
 typedef struct s_philo
@@ -37,7 +36,7 @@ typedef struct s_philo
 	pthread_t		thread;
 	int				id;
 	int				meal_count;
-	long			last_meal;
+	long long int	last_meal;
 	struct s_data	*data;
 }					t_philo;
 
@@ -68,10 +67,9 @@ void				ft_wait(long ms);
 long				ft_get_current_time(long start_time);
 
 // utils.c
-void				ft_check_philos(t_philo *philo);
-int					ft_still_alive(t_philo *philo);
+int					ft_is_philo_alive(t_philo *philo);
 int					ft_philo_is_full(t_philo *philo);
 int					ft_all_philos_are_full(t_philo *philos);
-int					ft_is_philo_alive(t_philo *philo);
+int					ft_unlock_and_destroy_forks(t_data *data);
 
 #endif
