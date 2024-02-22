@@ -6,11 +6,29 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 21:07:45 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/22 13:40:44 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/22 14:23:21 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
+
+static void	ft_check_philos_dead(t_philo *philos)
+{
+	int	i;
+	int	nb_philos;
+
+	nb_philos = philos[0].data->nb_philos;
+	i = 0;
+	while (ft_is_philo_alive(&philos[i]))
+	{
+		if (i == nb_philos - 1)
+			i = 0;
+		else
+			i++;
+	}
+	ft_print_msg(&philos[i], "DIED🚨🚨🚨🚨🚨🚨🚨🚨");
+	philos->data->someone_died = i;
+}
 
 int	main(int ac, char **av)
 {
@@ -22,12 +40,13 @@ int	main(int ac, char **av)
 	if (data.nb_philos == 1)
 	{
 		ft_wait(data.time_to_die);
-		ft_print_msg(&philos[0], "died");
+		ft_print_msg(&philos[0], "DIED🚨🚨🚨🚨🚨🚨🚨🚨");
 	}
 	else
 	{
 		if (!ft_start_routines(philos, &data))
 			return (-1);
+		ft_check_philos_dead(philos);
 		if (!ft_join_threads(philos, &data))
 			return (-1);
 	}
