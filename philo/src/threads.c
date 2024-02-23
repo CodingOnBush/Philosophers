@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 21:07:53 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/23 14:30:47 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/23 16:42:14 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,16 @@
 
 int	ft_start_routines(t_philo *philos, t_data *data)
 {
-	void	*arg;
 	int		i;
 
 	i = 0;
 	while (i < data->nb_philos)
 	{
-		arg = (void *)&philos[i];
-		if (pthread_create(&philos[i].thread, NULL, ft_routine, arg) != 0)
+		if (pthread_create(&philos[i].thread, NULL, ft_routine, (void *)&philos[i]) != 0)
+		{
+			printf("Error: can't create thread\n");
 			return (0);
+		}
 		i++;
 	}
 	return (1);

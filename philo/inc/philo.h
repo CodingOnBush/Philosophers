@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 21:07:39 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/23 14:39:38 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/23 16:58:09 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int					ft_init_data(t_data *data, int ac, char **av);
 t_philo				*ft_create_philos(t_data *data);
 
 // msg.c
-void				ft_print_msg(t_philo *philo, char *msg);
+void				ft_print_msg(t_philo philo, char *msg);
 
 // routine.c
 void				*ft_routine(void *arg);
@@ -68,8 +68,8 @@ void				ft_wait(long ms);
 long				ft_get_ms(long start_time);
 
 // utils.c
-int					ft_is_philo_alive(t_philo *philo);
-int					ft_philo_is_full(t_philo *philo);
+int					ft_is_philo_alive(t_philo philo);
+int					ft_philo_is_full(t_philo philo);
 int					ft_all_philos_are_full(t_philo *philos);
 void				ft_check_philos_dead(t_philo *philos);
 

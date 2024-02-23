@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 21:07:45 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/23 14:27:22 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/23 17:08:30 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,35 @@
 int	main(int ac, char **av)
 {
 	t_philo	*philos;
-	t_data	data;
+	t_data	*data;
+	int		i;
 
-	if (!ft_init_data(&data, ac, av))
+	data = malloc(sizeof(t_data));
+	if (!data)
 		return (-1);
-	philos = ft_create_philos(&data);
+	if (!ft_init_data(data, ac, av))
+		return (-1);
+	philos = ft_create_philos(data);
 	if (!philos)
 		return (-1);
-	if (!ft_start_routines(philos, &data))
+	i = 0;
+	while (i < data->nb_philos)
+	{
+		philos[i].thread = i;
+		philos[i].id = i;
+		philos[i].meal_count = 0;
+		philos[i].last_meal = data->start_time;
+		philos[i].data = data;
+		i++;
+	}
+	if (!ft_start_routines(philos, data))
 		return (-1);
 	ft_check_philos_dead(philos);
-	if (!ft_join_threads(philos, &data))
+	if (!ft_join_threads(philos, data))
 		return (-1);
-	ft_destroy_all_mutex(&data);
-	free(philos);
-	free(data.forks);
+	// ft_destroy_all_mutex(&data);
+	// free(philos);
+	// free(data.forks);
 	return (0);
 }
 
