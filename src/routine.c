@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 07:48:52 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/22 19:22:24 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/23 07:51:54 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,6 @@ void	*ft_routine(void *arg)
 
 	philo = (t_philo *)arg;
 	data = philo->data;
-	// pthread_mutex_lock(&data->pencil);
-	// printf("%ld hi from thread %d\n", ft_get_current_time(data->start_time), philo->id);
-	// pthread_mutex_unlock(&data->pencil);
 	if (philo->id % 2)
 		ft_wait(10);
 	while (data->someone_died == -1 && !ft_philo_is_full(philo))
@@ -88,8 +85,5 @@ void	*ft_routine(void *arg)
 		ft_sleep(philo);
 		ft_think(philo);
 	}
-	// pthread_mutex_lock(&data->pencil);
-	// printf("%ld bye from thread %d\n", ft_get_current_time(data->start_time), philo->id);
-	// pthread_mutex_unlock(&data->pencil);
 	return (NULL);
 }

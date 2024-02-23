@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 21:07:45 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/22 19:06:39 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/23 07:52:46 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,31 @@
 
 static void	ft_check_philos_dead(t_philo *philos)
 {
-	int	i;
-	int	nb_philos;
+	t_data	*data;
+	int		nb_philos;
+	int		i;
 
-	nb_philos = philos[0].data->nb_philos;
+	data = philos->data;
+	nb_philos = data->nb_philos;
 	i = 0;
-	while (1)
+	while (data->someone_died == -1 && !ft_all_philos_are_full(philos))
 	{
 		if (!ft_is_philo_alive(&philos[i]))
 		{
-			ft_print_msg(&philos[i], "DIED🚨🚨🚨🚨🚨🚨🚨🚨");
-			philos->data->someone_died = i;
-			break;
-		}
-		if (ft_all_philos_are_full(philos))
-		{
-			ft_print_msg(&philos[i], "All philosophers are full");
+			ft_print_msg(&philos[i], "died");
+			data->someone_died = i;
 			break ;
 		}
 		if (i == nb_philos - 1)
 			i = 0;
 		else
 			i++;
+		usleep(1);
 	}
-	pthread_mutex_unlock(&philos->data->pencil);
-	ft_unlock_and_destroy_forks(philos->data);
+	if (ft_all_philos_are_full(philos))
+		ft_print_msg(&philos[i], "All philosophers are full");
+	pthread_mutex_unlock(&data->pencil);
+	ft_unlock_and_destroy_forks(data);
 }
 
 int	main(int ac, char **av)
