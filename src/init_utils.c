@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 20:04:09 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/22 12:39:06 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/23 07:58:20 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	ft_init_vars_with_args(t_data *data, int ac, char **av)
 {
 	if (ac < 5 || ac > 6)
 	{
-		printf("Error: ./philo number_of_philosophers time_to_die time_to_eat time_to_sleep [number_of_times_each_philosopher_must_eat]\n");
+		printf("❌: ./philo nb_philos die_time eat_time sleep_time [meals]\n");
 		return (0);
 	}
 	data->nb_philos = ft_get_param(av[1]);

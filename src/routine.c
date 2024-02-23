@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 07:48:52 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/23 07:51:54 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/23 07:59:19 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,20 +47,13 @@ static void	ft_eat(t_philo *philo)
 	philo->meal_count++;
 }
 
-static void	ft_sleep(t_philo *philo)
+static void	ft_sleep_and_think(t_philo *philo)
 {
 	t_data	*data;
 
 	data = philo->data;
 	ft_print_msg(philo, "is sleeping");
 	ft_wait(data->time_to_sleep);
-}
-
-static void	ft_think(t_philo *philo)
-{
-	t_data	*data;
-
-	data = philo->data;
 	ft_print_msg(philo, "is thinking");
 }
 
@@ -82,8 +75,7 @@ void	*ft_routine(void *arg)
 		ft_drop_forks(philo);
 		if (ft_philo_is_full(philo))
 			break ;
-		ft_sleep(philo);
-		ft_think(philo);
+		ft_sleep_and_think(philo);
 	}
 	return (NULL);
 }

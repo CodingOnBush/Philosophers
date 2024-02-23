@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 07:49:12 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/22 18:07:52 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/23 07:54:31 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,30 @@ int	ft_unlock_and_destroy_forks(t_data *data)
 		i++;
 	}
 	return (1);
+}
+
+void	ft_check_philos_dead(t_philo *philos)
+{
+	t_data	*data;
+	int		nb_philos;
+	int		i;
+
+	data = philos->data;
+	nb_philos = data->nb_philos;
+	i = 0;
+	while (data->someone_died == -1 && !ft_all_philos_are_full(philos))
+	{
+		if (!ft_is_philo_alive(&philos[i]))
+		{
+			ft_print_msg(&philos[i], "died");
+			data->someone_died = i;
+			break ;
+		}
+		if (i == nb_philos - 1)
+			i = 0;
+		else
+			i++;
+	}
+	pthread_mutex_unlock(&data->pencil);
+	ft_unlock_and_destroy_forks(data);
 }
