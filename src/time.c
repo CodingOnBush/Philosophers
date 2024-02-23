@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 07:49:03 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/23 07:55:21 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/23 10:55:55 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	ft_wait(long ms)
 {
 	long int	start_time;
 
-	start_time = 0;
 	start_time = ft_what_time_is_it();
 	while ((ft_what_time_is_it() - start_time) < ms)
 		usleep(ms / 100);

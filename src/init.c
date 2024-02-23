@@ -6,13 +6,13 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 07:48:41 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/22 17:57:44 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/23 10:47:28 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-static int	ft_init_data(t_data *data, int ac, char **av)
+int	ft_init_data(t_data *data, int ac, char **av)
 {
 	int	i;
 
@@ -21,6 +21,9 @@ static int	ft_init_data(t_data *data, int ac, char **av)
 	if (!ft_init_vars(data))
 		return (0);
 	if (pthread_mutex_init(&data->pencil, NULL))
+		return (0);
+	data->forks = malloc(sizeof(pthread_mutex_t) * data->nb_philos);
+	if (!data->forks)
 		return (0);
 	i = 0;
 	while (i < data->nb_philos)
@@ -32,10 +35,14 @@ static int	ft_init_data(t_data *data, int ac, char **av)
 	return (1);
 }
 
-static void	ft_init_philos(t_philo *philos, t_data *data)
+t_philo	*ft_create_philos(t_data *data)
 {
+	t_philo	*philos;
 	int	i;
 
+	philos = (t_philo *)malloc(sizeof(t_philo) * data->nb_philos);
+	if (!philos)
+		return (NULL);
 	i = 0;
 	while (i < data->nb_philos)
 	{
@@ -46,12 +53,5 @@ static void	ft_init_philos(t_philo *philos, t_data *data)
 		philos[i].data = data;
 		i++;
 	}
-}
-
-int	ft_init_data_and_philos(t_data *data, t_philo *philos, int ac, char **av)
-{
-	if (!ft_init_data(data, ac, av))
-		return (0);
-	ft_init_philos(philos, data);
-	return (1);
+	return (philos);
 }

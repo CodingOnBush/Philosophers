@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 21:07:39 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/23 07:54:49 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/23 10:47:41 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ typedef struct s_data
 	int				meal_goal;
 	long long int	start_time;
 	int				someone_died;
-	pthread_mutex_t	forks[200];
+	pthread_mutex_t	*forks;
 	pthread_mutex_t	pencil;
 }					t_data;
 
@@ -52,8 +52,8 @@ int					ft_init_vars_with_args(t_data *data, int ac, char **av);
 int					ft_init_vars(t_data *data);
 
 // init.c
-int					ft_init_data_and_philos(t_data *data, t_philo *philos,
-						int ac, char **av);
+int					ft_init_data(t_data *data, int ac, char **av);
+t_philo				*ft_create_philos(t_data *data);
 
 // msg.c
 void				ft_print_msg(t_philo *philo, char *msg);

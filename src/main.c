@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 21:07:45 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/23 10:15:43 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/23 10:57:46 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,13 @@
 
 int	main(int ac, char **av)
 {
-	t_philo	philos[200];
+	t_philo	*philos;
 	t_data	data;
 
-	if (!ft_init_data_and_philos(&data, philos, ac, av))
+	if (!ft_init_data(&data, ac, av))
+		return (-1);
+	philos = ft_create_philos(&data);
+	if (!philos)
 		return (-1);
 	if (!ft_start_routines(philos, &data))
 		return (-1);
@@ -25,6 +28,8 @@ int	main(int ac, char **av)
 	if (!ft_join_threads(philos, &data))
 		return (-1);
 	ft_destroy_all_mutex(&data);
+	free(philos);
+	free(data.forks);
 	return (0);
 }
 

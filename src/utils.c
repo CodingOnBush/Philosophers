@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 07:49:12 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/23 10:15:57 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/23 10:58:19 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void	ft_check_philos_dead(t_philo *philos)
 			i = 0;
 		else
 			i++;
+		usleep(1);
 	}
 	pthread_mutex_unlock(&data->pencil);
 	ft_unlock_and_destroy_forks(data);
