@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 07:49:12 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/23 07:54:31 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/23 10:15:57 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,20 +46,6 @@ int	ft_all_philos_are_full(t_philo *philos)
 		philo = &philos[i];
 		if (ft_philo_is_full(philo) == 0)
 			return (0);
-		i++;
-	}
-	return (1);
-}
-
-int	ft_unlock_and_destroy_forks(t_data *data)
-{
-	int	i;
-
-	i = 0;
-	while (i < data->nb_philos)
-	{
-		pthread_mutex_unlock(&data->forks[i]);
-		pthread_mutex_destroy(&data->forks[i]);
 		i++;
 	}
 	return (1);

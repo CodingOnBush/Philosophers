@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 21:07:45 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/23 07:55:35 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/23 10:15:43 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,3 +27,10 @@ int	main(int ac, char **av)
 	ft_destroy_all_mutex(&data);
 	return (0);
 }
+
+/*
+./philo 2 100 5000 200
+./philo 198 210 100 100
+./philo 200 210 100 100
+./philo 2 210 100 100
+*/
