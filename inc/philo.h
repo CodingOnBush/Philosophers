@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 21:07:39 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/23 10:47:41 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/23 11:00:30 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_philo
 
 // destroy.c
 void				ft_destroy_all_mutex(t_data *data);
+int					ft_unlock_and_destroy_forks(t_data *data);
 
 // threads.c
 int					ft_start_routines(t_philo *philos, t_data *data);
@@ -70,7 +71,6 @@ long				ft_get_current_time(long start_time);
 int					ft_is_philo_alive(t_philo *philo);
 int					ft_philo_is_full(t_philo *philo);
 int					ft_all_philos_are_full(t_philo *philos);
-int					ft_unlock_and_destroy_forks(t_data *data);
 void				ft_check_philos_dead(t_philo *philos);
 
 #endif
