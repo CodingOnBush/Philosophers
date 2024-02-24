@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 07:49:03 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/23 16:44:17 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/24 09:09:44 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ long	ft_what_time_is_it(void)
 	return (out);
 }
 
-long	ft_get_ms(long start_time)
+long	ft_get_current_time(long start_time)
 {
 	long			now;
 

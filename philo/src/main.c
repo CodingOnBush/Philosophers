@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 21:07:45 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/23 17:08:30 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/24 11:51:36 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,36 +14,15 @@
 
 int	main(int ac, char **av)
 {
-	t_philo	*philos;
 	t_data	*data;
-	int		i;
 
-	data = malloc(sizeof(t_data));
+	data = ft_create_data(ac, av);
 	if (!data)
-		return (-1);
-	if (!ft_init_data(data, ac, av))
-		return (-1);
-	philos = ft_create_philos(data);
-	if (!philos)
-		return (-1);
-	i = 0;
-	while (i < data->nb_philos)
-	{
-		philos[i].thread = i;
-		philos[i].id = i;
-		philos[i].meal_count = 0;
-		philos[i].last_meal = data->start_time;
-		philos[i].data = data;
-		i++;
-	}
-	if (!ft_start_routines(philos, data))
-		return (-1);
-	ft_check_philos_dead(philos);
-	if (!ft_join_threads(philos, data))
-		return (-1);
-	// ft_destroy_all_mutex(&data);
-	// free(philos);
-	// free(data.forks);
+		return (1);
+	
+	
+
+	ft_free_data(data);
 	return (0);
 }
 
@@ -52,8 +31,6 @@ int	main(int ac, char **av)
 ./philo 198 210 100 100
 ./philo 200 210 100 100
 ./philo 2 210 100 100
-
-
 Ensure the code of philo complies with the following requirements and ask for explanations.
 Check there is one thread per philosopher.
 Check there is only one fork per philosopher.

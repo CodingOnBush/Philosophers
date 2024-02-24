@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 07:49:12 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/23 17:01:54 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/24 11:06:34 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	ft_all_philos_are_full(t_philo *philos)
 
 	i = 0;
 	data = philos->data;
-	while (i < data->nb_philos)
+	while (i < data->philo_nb)
 	{
 		philo = &philos[i];
 		if (ft_philo_is_full(philo[philo->id]) == 0)
@@ -56,27 +56,28 @@ int	ft_all_philos_are_full(t_philo *philos)
 void	ft_check_philos_dead(t_philo *philos)
 {
 	t_data	*data;
-	int		nb_philos;
+	int		philo_nb;
 	int		i;
 
 	data = philos->data;
-	nb_philos = data->nb_philos;
+	philo_nb = data->philo_nb;
 	i = 0;
 	while (!ft_all_philos_are_full(philos))
 	{
 		if (!ft_is_philo_alive(philos[i]))
 		{
 			ft_print_msg(philos[i], "died");
-			data->someone_died = 1;
+			data->shared.someone_died = 1;
 			// pthread_mutex_unlock(&data->pencil);
 			// ft_unlock_and_destroy_forks(data);
 			break ;
 		}
-		if (i == nb_philos - 1)
+		if (i == philo_nb - 1)
 			i = 0;
 		else
 			i++;
+		usleep(10);// 100
 	}
-	if (data->someone_died == 1)
+	if (data->shared.someone_died == 1)
 		printf("Someone died\n");
 }

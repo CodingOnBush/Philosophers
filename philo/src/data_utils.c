@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_utils.c                                       :+:      :+:    :+:   */
+/*   data_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/21 20:04:09 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/23 12:46:34 by momrane          ###   ########.fr       */
+/*   Created: 2024/02/24 11:41:52 by momrane           #+#    #+#             */
+/*   Updated: 2024/02/24 11:44:10 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,12 @@ static int	ft_get_param(char *s)
 	return (res);
 }
 
-int	ft_init_vars_with_args(t_data *data, int ac, char **av)
+int	ft_get_arguments(t_data *data, int ac, char **av)
 {
 	if (ac < 5 || ac > 6)
-	{
-		printf("❌: ./philo nb_philos die eat sleep [meal]\n");
-		return (0);
-	}
-	data->nb_philos = ft_get_param(av[1]);
-	if (data->nb_philos < 0 || data->nb_philos > 200)
+		return (printf("Syntax error : ./philo philo_nb die eat sleep [meal]\n"));
+	data->philo_nb = ft_get_param(av[1]);
+	if (data->philo_nb < 0)
 		return (0);
 	data->time_to_die = ft_get_param(av[2]);
 	if (data->time_to_die < 0)
@@ -72,14 +69,5 @@ int	ft_init_vars_with_args(t_data *data, int ac, char **av)
 		if (data->meal_goal < 0)
 			return (0);
 	}
-	return (1);
-}
-
-int	ft_init_vars(t_data *data)
-{
-	data->someone_died = 0;
-	data->start_time = ft_what_time_is_it();
-	if (data->start_time < 0)
-		return (0);
 	return (1);
 }

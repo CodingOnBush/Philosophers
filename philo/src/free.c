@@ -1,26 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msg.c                                              :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/07 07:48:24 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/24 10:44:15 by momrane          ###   ########.fr       */
+/*   Created: 2024/02/24 11:07:39 by momrane           #+#    #+#             */
+/*   Updated: 2024/02/24 11:50:21 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-void	ft_print_msg(t_philo philo, char *msg)
+void	ft_free_data(t_data *data)
 {
-	long	time;
+	int	i;
 
-	time = ft_get_current_time(philo.data->beginning);
-	if (time < 0)
-		return ;
-	pthread_mutex_lock(&philo.data->shared.pencil);
-	if (!philo.data->shared.someone_died)
-		printf("%ld\t%d\t%s\n", time, (philo.id + 1), msg);
-	pthread_mutex_unlock(&philo.data->shared.pencil);
+	if (data->shared.forks)
+	{
+		i = 0;
+		while (i < data->philo_nb)
+		{
+			pthread_mutex_destroy(&data->shared.forks[i]);
+			i++;
+		}
+		free(data->shared.forks);
+	}
+	pthread_mutex_destroy(&data->shared.pencil);
+	pthread_mutex_destroy(&data->shared.update_flags);
+	if (data->philos)
+		free(data->philos);
+	if (data)
+		free(data);
 }

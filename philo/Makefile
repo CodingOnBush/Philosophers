@@ -6,7 +6,7 @@
 #    By: momrane <momrane@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/01 21:07:48 by momrane           #+#    #+#              #
-#    Updated: 2024/02/23 17:02:09 by momrane          ###   ########.fr        #
+#    Updated: 2024/02/24 11:48:49 by momrane          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,8 +27,9 @@ GREEN 		= 	\033[0;92m
 CYAN 		= 	\033[0;96m
 
 #Sources
-SRC			=	$(SRC_DIR)/destroy.c $(SRC_DIR)/init_utils.c $(SRC_DIR)/init.c \
-				$(SRC_DIR)/main.c $(SRC_DIR)/msg.c $(SRC_DIR)/routine.c \
+SRC			=	$(SRC_DIR)/data_utils.c $(SRC_DIR)/data.c $(SRC_DIR)/destroy.c \
+				$(SRC_DIR)/forks.c $(SRC_DIR)/free.c $(SRC_DIR)/main.c \
+				$(SRC_DIR)/msg.c $(SRC_DIR)/mutex.c $(SRC_DIR)/philos.c $(SRC_DIR)/routine.c \
 				$(SRC_DIR)/threads.c $(SRC_DIR)/time.c $(SRC_DIR)/utils.c
 
 #Binaries
