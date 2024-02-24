@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 13:29:37 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/24 14:38:34 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/24 17:25:27 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ t_philo	*ft_create_philos(t_data *data)
 	philos = (t_philo *)malloc(sizeof(t_philo) * data->philo_nb);
 	if (!philos)
 		return (NULL);
+	memset(philos, 0, sizeof(t_philo) * data->philo_nb);
 	i = 0;
 	while (i < data->philo_nb)
 	{
@@ -27,7 +28,6 @@ t_philo	*ft_create_philos(t_data *data)
 		philos[i].id = i;
 		philos[i].meal_count = 0;
 		philos[i].last_meal = data->beginning;
-		philos[i].alive = 1;
 		philos[i].data = data;
 		i++;
 	}

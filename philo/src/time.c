@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 07:49:03 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/24 13:55:56 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/24 17:44:33 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,22 @@
 
 void	ft_wait(long ms)
 {
-	long	start;
-	long	now;
+	// long	start;
+	// long	now;
 
-	start = ft_what_time_is_it();
-	if (start < 0)
-		return ;
-	while (1)
-	{
-		now = ft_what_time_is_it();
-		if (now < 0)
-			return ;
-		if (now - start >= ms)
-			break ;
-		usleep(ms / 10);
-	}
-	// usleep(ms * 1000);
+	// start = ft_what_time_is_it();
+	// if (start < 0)
+	// 	return ;
+	// while (1)
+	// {
+	// 	now = ft_what_time_is_it();
+	// 	if (now < 0)
+	// 		return ;
+	// 	if (now - start >= ms)
+	// 		break ;
+	// 	usleep(ms / 10);
+	// }
+	usleep(ms * 1000);
 }
 
 long	ft_what_time_is_it(void)

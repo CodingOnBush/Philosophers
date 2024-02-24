@@ -6,37 +6,28 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 21:07:45 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/24 14:49:20 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/24 17:35:21 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-void	*func(void *arg)
-{
-	t_philo	*philo;
-
-	philo = (t_philo *)arg;
-	printf("Hello from thrd %d and wait...\n", philo->id);
-	ft_wait(3000);
-	printf("thrd %d finished\n", philo->id);
-	return (NULL);
-}
-
-static void	ft_watching_philosophers(t_data *data)
+void	*ft_watching_philosophers(void *arg)
 {
 	int		philos_full;
 	t_philo	*philos;
+	t_data	*data;
 	int		i;
 
 	philos_full = 0;
+	data = (t_data *)arg;
 	philos = data->philos;
 	i = 0;
 	while (i < data->philo_nb)
 	{
 		if (!ft_is_philo_alive(philos[i]))
 		{
-			printf("Philosopher %d died\n", philos[i].id);
+			ft_print_msg(data, philos[i].id, "died");
 			break;
 		}
 		if (ft_philo_is_full(philos[i]))
@@ -50,14 +41,16 @@ static void	ft_watching_philosophers(t_data *data)
 		}
 		else
 			i++;
+		// usleep(10);
 	}
-	pthread_mutex_lock(&data->shared.update_flags);
+	pthread_mutex_lock(&data->shared.update_looping);
 	data->shared.looping = 0;
-	if (philos_full == data->philo_nb)
-		data->shared.philo_full = 1;
-	else
-		data->shared.someone_died = 1;
-	pthread_mutex_unlock(&data->shared.update_flags);
+	pthread_mutex_unlock(&data->shared.update_looping);
+	// if (philos_full == data->philo_nb)
+	// 	printf("All philosophers ate enough\n");
+	// else
+	// 	printf("A philosopher died\n");
+	return (NULL);
 }
 
 
@@ -69,11 +62,10 @@ int	main(int ac, char **av)
 	if (!data)
 		return (1);
 	ft_launch_philosophers_threads(data);
-	ft_watching_philosophers(data);
+	pthread_create(&data->watcher, NULL, ft_watching_philosophers, data);
+	pthread_detach(data->watcher);
 	ft_wait_for_threads(data);
 	printf("data->shared.looping : %d\n", data->shared.looping);
-	printf("data->shared.someone_died : %d\n", data->shared.someone_died);
-	printf("data->shared.philo_full : %d\n", data->shared.philo_full);
 	printf("Simulation finished\n");
 	ft_free_data(data);
 	return (0);

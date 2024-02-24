@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 11:20:10 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/24 11:26:14 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/24 17:00:35 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,10 @@ pthread_mutex_t	*ft_create_forks(int size)
 	if (!forks)
 		return (NULL);
 	i = 0;
+	memset(forks, 0, size * sizeof(pthread_mutex_t));
 	while (i < size)
 	{
+		memset(&forks[i], 0, sizeof(pthread_mutex_t));
 		if (pthread_mutex_init(&forks[i], NULL))
 		{
 			free(forks);

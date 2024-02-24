@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 21:07:39 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/24 14:42:10 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/24 17:44:40 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,16 @@
 # include <pthread.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <string.h>
 # include <sys/time.h>
 # include <unistd.h>
 
 typedef struct s_shared
 {
-	int				someone_died;
-	int				philo_full;
 	int				looping;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	pencil;
-	pthread_mutex_t	update_meal_count;
-	pthread_mutex_t	update_flags;
+	pthread_mutex_t	update_looping;
 }					t_shared;
 
 typedef struct s_philo
@@ -35,12 +33,12 @@ typedef struct s_philo
 	int				id;
 	int				meal_count;
 	long			last_meal;
-	int				alive;
 	struct s_data	*data;
 }					t_philo;
 
 typedef struct s_data
 {
+	pthread_t		watcher;
 	int				philo_nb;
 	int				time_to_die;
 	int				time_to_eat;
@@ -61,7 +59,7 @@ pthread_mutex_t		*ft_create_forks(int size);
 void				ft_free_data(t_data *data);
 
 /*		MSG			*/
-void				ft_print_msg(t_philo philo, char *msg);
+void				ft_print_msg(t_data *data, int philo_id, char *msg);
 
 /*		PARSING		*/
 int					ft_get_arguments(t_data *data, int ac, char **av);
@@ -87,7 +85,5 @@ long				ft_get_ms_since(long start_time);
 /*		UTILS		*/
 int					ft_is_philo_alive(t_philo philo);
 int					ft_philo_is_full(t_philo philo);
-int					ft_all_philos_are_full(t_philo *philos);
-void				ft_check_philos_dead(t_philo *philos);
 
 #endif
