@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 11:07:39 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/24 11:50:21 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/24 13:21:05 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,16 @@ void	ft_free_data(t_data *data)
 		i = 0;
 		while (i < data->philo_nb)
 		{
-			pthread_mutex_destroy(&data->shared.forks[i]);
+			if (pthread_mutex_destroy(&data->shared.forks[i]))
+				printf("Error: pthread_mutex_destroy\n");
 			i++;
 		}
 		free(data->shared.forks);
 	}
-	pthread_mutex_destroy(&data->shared.pencil);
-	pthread_mutex_destroy(&data->shared.update_flags);
+	if (pthread_mutex_destroy(&data->shared.pencil))
+		printf("Error: pthread_mutex_destroy\n");
+	if (pthread_mutex_destroy(&data->shared.update_flags))
+		printf("Error: pthread_mutex_destroy\n");
 	if (data->philos)
 		free(data->philos);
 	if (data)

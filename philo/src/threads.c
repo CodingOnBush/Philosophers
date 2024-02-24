@@ -6,40 +6,44 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 21:07:53 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/24 11:06:34 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/24 13:20:00 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-int	ft_start_routines(t_philo *philos, t_data *data)
+void	ft_launch_philosophers_threads(t_data *data)
 {
+	t_philo	*philos;
 	int		i;
 
 	i = 0;
+	philos = data->philos;
 	while (i < data->philo_nb)
 	{
-		if (pthread_create(&philos[i].thread, NULL, ft_routine, (void *)&philos[i]) != 0)
+		if (pthread_create(&philos[i].thrd, NULL, ft_routine, &philos[i]))
 		{
-			printf("Error: can't create thread\n");
-			return (0);
+			printf("Error: pthread_create\n");
+			return ;
 		}
-		usleep(10);// 100
 		i++;
 	}
-	return (1);
 }
 
-int	ft_join_threads(t_philo *philos, t_data *data)
+void	ft_wait_for_threads(t_data *data)
 {
-	int	i;
+	t_philo	*philos;
+	int		i;
 
 	i = 0;
+	philos = data->philos;
 	while (i < data->philo_nb)
 	{
-		if (pthread_join(philos[i].thread, NULL) != 0)
-			return (0);
+		if (pthread_join(philos[i].thrd, NULL))
+		{
+			printf("Error: pthread_join\n");
+			return ;
+		}
 		i++;
 	}
-	return (1);
 }

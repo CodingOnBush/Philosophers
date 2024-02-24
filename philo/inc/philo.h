@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 21:07:39 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/24 11:50:36 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/24 14:42:10 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,16 @@ typedef struct s_shared
 {
 	int				someone_died;
 	int				philo_full;
+	int				looping;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	pencil;
+	pthread_mutex_t	update_meal_count;
 	pthread_mutex_t	update_flags;
 }					t_shared;
 
 typedef struct s_philo
 {
-	pthread_t		thread;
+	pthread_t		thrd;
 	int				id;
 	int				meal_count;
 	long			last_meal;
@@ -51,36 +53,38 @@ typedef struct s_data
 
 /*		DATA		*/
 t_data				*ft_create_data(int ac, char **av);
-int					ft_get_arguments(t_data *data, int ac, char **av);
+
+/*		FORKS		*/
+pthread_mutex_t		*ft_create_forks(int size);
 
 /*		FREE		*/
 void				ft_free_data(t_data *data);
 
-int					ft_init_mutex(t_data *data);
-pthread_mutex_t		*ft_create_forks(int size);
-
-// destroy.c
-
-// threads.c
-int					ft_start_routines(t_philo *philos, t_data *data);
-int					ft_join_threads(t_philo *philos, t_data *data);
-
-// init_utils.c
-
-// init.c
-
-// msg.c
+/*		MSG			*/
 void				ft_print_msg(t_philo philo, char *msg);
 
-// routine.c
+/*		PARSING		*/
+int					ft_get_arguments(t_data *data, int ac, char **av);
+
+/*		PHILOS		*/
+t_philo				*ft_create_philos(t_data *data);
+
+/*		ROUTINE		*/
 void				*ft_routine(void *arg);
 
-// time.c
-long				ft_what_time_is_it(void);
-void				ft_wait(long ms);
-long				ft_get_current_time(long start_time);
+/*		SHARED		*/
+int					ft_init_shared(t_data *data);
 
-// utils.c
+/*		THREADS		*/
+void				ft_launch_philosophers_threads(t_data *data);
+void				ft_wait_for_threads(t_data *data);
+
+/*		TIME		*/
+void				ft_wait(long ms);
+long				ft_what_time_is_it(void);
+long				ft_get_ms_since(long start_time);
+
+/*		UTILS		*/
 int					ft_is_philo_alive(t_philo philo);
 int					ft_philo_is_full(t_philo philo);
 int					ft_all_philos_are_full(t_philo *philos);

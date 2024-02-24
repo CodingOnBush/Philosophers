@@ -1,36 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mutex.c                                            :+:      :+:    :+:   */
+/*   shared.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/24 11:03:54 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/24 11:07:08 by momrane          ###   ########.fr       */
+/*   Created: 2024/02/24 13:29:40 by momrane           #+#    #+#             */
+/*   Updated: 2024/02/24 14:43:27 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-int	ft_init_mutex(t_data *data)
+int	ft_init_shared(t_data *data)
 {
-	int	i;
-	int	size;
-
-	size = data->philo_nb * sizeof(pthread_mutex_t);
-	data->shared.forks = (pthread_mutex_t *)malloc(size);
+	data->shared.someone_died = 0;
+	data->shared.philo_full = 0;
+	data->shared.looping = 1;
+	data->shared.forks = ft_create_forks(data->philo_nb);
 	if (!data->shared.forks)
 		return (0);
-	i = 0;
-	while (i < data->philo_nb)
-	{
-		if (pthread_mutex_init(&data->shared.forks[i], NULL))
-			return (0);
-		i++;
-	}
 	if (pthread_mutex_init(&data->shared.pencil, NULL))
-		return (0);
+		return (free(data->shared.forks), 0);
 	if (pthread_mutex_init(&data->shared.update_flags, NULL))
-		return (0);
+		return (free(data->shared.forks), 0);
+	if (pthread_mutex_init(&data->shared.update_meal_count, NULL))
+		return (free(data->shared.forks), 0);
 	return (1);
 }
