@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 21:07:45 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/24 17:35:21 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/25 17:49:21 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	*ft_watching_philosophers(void *arg)
 	i = 0;
 	while (i < data->philo_nb)
 	{
-		if (!ft_is_philo_alive(philos[i]))
+		if (!ft_philo_is_dead(philos[i].last_meal, data))
 		{
 			ft_print_msg(data, philos[i].id, "died");
 			break;
@@ -41,35 +41,127 @@ void	*ft_watching_philosophers(void *arg)
 		}
 		else
 			i++;
-		// usleep(10);
+		ft_wait(1);
 	}
-	pthread_mutex_lock(&data->shared.update_looping);
-	data->shared.looping = 0;
-	pthread_mutex_unlock(&data->shared.update_looping);
-	// if (philos_full == data->philo_nb)
-	// 	printf("All philosophers ate enough\n");
-	// else
-	// 	printf("A philosopher died\n");
+	// pthread_mutex_unlock(&data->shared.finish);
+	// pthread_mutex_lock(&data->shared.update_looping);
+	// data->shared.looping = 0;
+	// pthread_mutex_unlock(&data->shared.update_looping);
+	if (data->philo_nb == 1)
+		pthread_mutex_unlock(&data->shared.forks[0]);
 	return (NULL);
 }
 
+int	ft_is_looping_finished(t_data *data)
+{
+	int	looping_status;
+
+	pthread_mutex_lock(&data->shared.finish);
+	looping_status = data->shared.looping;
+	pthread_mutex_unlock(&data->shared.finish);
+	return (looping_status);
+}
+
+void	*func(void *arg)
+{
+	t_philo	*philo;
+
+	philo = (t_philo *)arg;
+	pthread_mutex_lock(&philo->data->shared.pencil);
+	printf("%ld\t| HI from func %d\n", ft_get_ms_since(philo->data->beginning), philo->id);
+	pthread_mutex_unlock(&philo->data->shared.pencil);
+	philo->last_meal = philo->data->beginning;
+	while (1)
+	{
+		if (!ft_is_looping_finished(philo->data))
+			break ;
+		pthread_mutex_lock(&philo->data->shared.philo_mutex);
+		if (ft_philo_is_dead(philo->last_meal, philo->data))
+		{
+			philo->alive = 0;
+			pthread_mutex_unlock(&philo->data->shared.philo_mutex);
+			break;
+		}
+		pthread_mutex_unlock(&philo->data->shared.philo_mutex);
+		ft_wait(10);
+	}
+	pthread_mutex_lock(&philo->data->shared.pencil);
+	printf("%ld\t| BYE from func %d\n", ft_get_ms_since(philo->data->beginning), philo->id);
+	pthread_mutex_unlock(&philo->data->shared.pencil);
+	return (NULL);
+}
+
+void	*watch(void *arg)
+{
+	t_data	*data;
+	int		i;
+
+	data = (t_data *)arg;
+	pthread_mutex_lock(&data->shared.pencil);
+	printf("%ld\t| msg from the watcher\n", ft_get_ms_since(data->beginning));
+	pthread_mutex_unlock(&data->shared.pencil);
+	ft_wait(2000);
+	
+	i = 0;
+	while (1)
+	{	
+		if (!data->philos[i].alive)
+		{
+			pthread_mutex_lock(&data->shared.pencil);
+			printf("%ld\t| %d died\n", ft_get_ms_since(data->beginning), i);
+			pthread_mutex_unlock(&data->shared.pencil);
+			break;
+		}
+		i++;
+		if (i == data->philo_nb)
+			i = 0;
+		ft_wait(8);
+	}
+
+	pthread_mutex_lock(&data->shared.finish);
+	data->shared.looping = 0;
+	pthread_mutex_unlock(&data->shared.finish);
+	return (NULL);
+}
 
 int	main(int ac, char **av)
 {
-	t_data	*data;
+	pthread_t	watcher;
+	t_data		*data;
 
 	data = ft_create_data(ac, av);
 	if (!data)
 		return (1);
-	ft_launch_philosophers_threads(data);
-	pthread_create(&data->watcher, NULL, ft_watching_philosophers, data);
-	pthread_detach(data->watcher);
-	ft_wait_for_threads(data);
-	printf("data->shared.looping : %d\n", data->shared.looping);
-	printf("Simulation finished\n");
+	
+	pthread_create(&watcher, NULL, watch, data);
+	pthread_detach(watcher);
+
+	pthread_create(&data->philos[0].thrd, NULL, func, &data->philos[0]);
+	pthread_create(&data->philos[1].thrd, NULL, func, &data->philos[1]);
+	pthread_create(&data->philos[2].thrd, NULL, func, &data->philos[2]);
+	
+	pthread_join(data->philos[0].thrd, NULL);
+	pthread_join(data->philos[1].thrd, NULL);
+	pthread_join(data->philos[2].thrd, NULL);
 	ft_free_data(data);
 	return (0);
 }
+
+// int	main(int ac, char **av)
+// {
+// 	pthread_t	watcher;
+// 	t_data		*data;
+
+// 	data = ft_create_data(ac, av);
+// 	if (!data)
+// 		return (1);
+// 	pthread_create(&watcher, NULL, ft_watching_philosophers, data);
+// 	pthread_detach(watcher);
+// 	ft_launch_philosophers_threads(data);
+// 	ft_wait_for_threads(data);
+// 	ft_free_data(data);
+// 	return (0);
+// }
 
 /*
 ./philo 2 100 5000 200
@@ -95,3 +187,30 @@ Test with any values of your choice to verify all the requirements. Ensure philo
 	that they don't steal forks, and so forth.
 
 */
+
+// int	main(void)
+// {
+// 	pthread_mutex_t t1;
+// 	pthread_mutex_t t2;
+	
+// 	pthread_mutex_init(&t1, NULL);
+// 	pthread_mutex_init(&t2, NULL);
+// 	printf("t1.__align after pthread_mutex_init = %ld\n", t1.__align);
+// 	printf("t2.__align after pthread_mutex_init = %ld\n", t2.__align);
+	
+// 	pthread_mutex_lock(&t1);
+// 	pthread_mutex_lock(&t2);
+// 	printf("t1.__align after pthread_mutex_lock = %ld\n", t1.__align);
+// 	printf("t2.__align after pthread_mutex_lock = %ld\n", t2.__align);
+	
+// 	pthread_mutex_unlock(&t1);
+// 	pthread_mutex_unlock(&t2);
+// 	printf("t1.__align after pthread_mutex_unlock = %ld\n", t1.__align);
+// 	printf("t2.__align after pthread_mutex_unlock = %ld\n", t2.__align);
+
+// 	pthread_mutex_destroy(&t1);
+// 	pthread_mutex_destroy(&t2);
+// 	printf("t1.__align after pthread_mutex_destroy = %ld\n", t1.__align);
+// 	printf("t2.__align after pthread_mutex_destroy = %ld\n", t2.__align);
+// 	return (0);
+// }

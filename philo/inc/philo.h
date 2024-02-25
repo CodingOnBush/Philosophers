@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 21:07:39 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/24 17:44:40 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/25 17:48:13 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,10 @@ typedef struct s_shared
 {
 	int				looping;
 	pthread_mutex_t	*forks;
+	pthread_mutex_t	finish;
 	pthread_mutex_t	pencil;
 	pthread_mutex_t	update_looping;
+	pthread_mutex_t	philo_mutex;
 }					t_shared;
 
 typedef struct s_philo
@@ -33,12 +35,12 @@ typedef struct s_philo
 	int				id;
 	int				meal_count;
 	long			last_meal;
+	int				alive;
 	struct s_data	*data;
 }					t_philo;
 
 typedef struct s_data
 {
-	pthread_t		watcher;
 	int				philo_nb;
 	int				time_to_die;
 	int				time_to_eat;
@@ -85,5 +87,7 @@ long				ft_get_ms_since(long start_time);
 /*		UTILS		*/
 int					ft_is_philo_alive(t_philo philo);
 int					ft_philo_is_full(t_philo philo);
+int					ft_check_looping(t_data *data);
+int					ft_philo_is_dead(long last_meal, t_data *data);
 
 #endif

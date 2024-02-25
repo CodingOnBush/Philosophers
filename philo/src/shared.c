@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 13:29:40 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/24 15:39:12 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/25 17:24:59 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@ int	ft_init_shared(t_data *data)
 	if (!data->shared.forks)
 		return (0);
 	if (pthread_mutex_init(&data->shared.pencil, NULL))
+		return (free(data->shared.forks), 0);
+	if (pthread_mutex_init(&data->shared.finish, NULL))
+		return (free(data->shared.forks), 0);
+	if (pthread_mutex_init(&data->shared.philo_mutex, NULL))
 		return (free(data->shared.forks), 0);
 	return (1);
 }
