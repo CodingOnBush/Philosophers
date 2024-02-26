@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 13:28:55 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/24 13:29:06 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/26 13:38:05 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,10 @@ static int	ft_get_param(char *s)
 int	ft_get_arguments(t_data *data, int ac, char **av)
 {
 	if (ac < 5 || ac > 6)
-		return (printf("Syntax error : ./philo philo_nb die eat sleep [meal]\n"));
+	{
+		printf("Syntax error : ./philo philo_nb die eat sleep [meal]\n");
+		return (0);
+	}
 	data->philo_nb = ft_get_param(av[1]);
 	if (data->philo_nb < 0)
 		return (0);

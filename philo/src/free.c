@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 11:07:39 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/25 15:32:52 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/26 13:41:01 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	ft_free_data(t_data *data)
 		}
 		free(data->shared.forks);
 	}
+	if (data->shared.forks_status)
+		free(data->shared.forks_status);
 	if (data->shared.pencil.__align)
 	{
 		if (pthread_mutex_destroy(&data->shared.pencil))

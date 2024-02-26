@@ -6,88 +6,107 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 21:07:45 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/25 17:49:21 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/26 13:41:35 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-void	*ft_watching_philosophers(void *arg)
+static int	ft_routine_must_stop(t_data *data, t_philo *philo)
 {
-	int		philos_full;
-	t_philo	*philos;
-	t_data	*data;
-	int		i;
-
-	philos_full = 0;
-	data = (t_data *)arg;
-	philos = data->philos;
-	i = 0;
-	while (i < data->philo_nb)
+	pthread_mutex_lock(&data->shared.update_looping);
+	if (data->shared.looping == 0)
 	{
-		if (!ft_philo_is_dead(philos[i].last_meal, data))
-		{
-			ft_print_msg(data, philos[i].id, "died");
-			break;
-		}
-		if (ft_philo_is_full(philos[i]))
-			philos_full++;
-		if (i == data->philo_nb - 1)
-		{
-			i = 0;
-			if (philos_full == data->philo_nb)
-				break ;
-			philos_full = 0;
-		}
-		else
-			i++;
-		ft_wait(1);
+		pthread_mutex_unlock(&data->shared.update_looping);
+		return (1);
 	}
-	// pthread_mutex_unlock(&data->shared.finish);
-	// pthread_mutex_lock(&data->shared.update_looping);
-	// data->shared.looping = 0;
-	// pthread_mutex_unlock(&data->shared.update_looping);
-	if (data->philo_nb == 1)
-		pthread_mutex_unlock(&data->shared.forks[0]);
-	return (NULL);
-}
 
-int	ft_is_looping_finished(t_data *data)
-{
-	int	looping_status;
-
-	pthread_mutex_lock(&data->shared.finish);
-	looping_status = data->shared.looping;
-	pthread_mutex_unlock(&data->shared.finish);
-	return (looping_status);
+	
+	
+	pthread_mutex_lock(&data->shared.someone_died_mutex);
+	if (data->shared.someone_died == 1)
+	{
+		if (data->shared.looping == 1)
+			data->shared.looping = 0;
+		pthread_mutex_unlock(&data->shared.someone_died_mutex);
+		pthread_mutex_unlock(&data->shared.update_looping);
+		return (1);
+	}
+	if (data->shared.someone_died == 1 || ft_philo_is_dead(philo))
+	{
+		data->shared.someone_died = 1;
+		if (data->shared.looping == 1)
+			data->shared.looping = 0;
+		pthread_mutex_unlock(&data->shared.someone_died_mutex);
+		pthread_mutex_unlock(&data->shared.update_looping);
+		return (1);
+	}
+	pthread_mutex_unlock(&data->shared.someone_died_mutex);
+	
+	
+	
+	pthread_mutex_unlock(&data->shared.update_looping);
+	return (0);
 }
 
 void	*func(void *arg)
 {
 	t_philo	*philo;
+	int		me;
+	int		him;
 
 	philo = (t_philo *)arg;
-	pthread_mutex_lock(&philo->data->shared.pencil);
-	printf("%ld\t| HI from func %d\n", ft_get_ms_since(philo->data->beginning), philo->id);
-	pthread_mutex_unlock(&philo->data->shared.pencil);
-	philo->last_meal = philo->data->beginning;
+	me = philo->id;
+	him = (philo->id + 1) % philo->data->philo_nb;
+	if (me % 2)
+		ft_wait(philo->data->time_to_eat);
+	ft_set_last_meal(philo);
 	while (1)
 	{
-		if (!ft_is_looping_finished(philo->data))
+		if (ft_routine_must_stop(philo->data, philo))
 			break ;
-		pthread_mutex_lock(&philo->data->shared.philo_mutex);
-		if (ft_philo_is_dead(philo->last_meal, philo->data))
+		ft_print_msg(philo->data, me, "is waiting for his fork");
+		pthread_mutex_lock(&philo->data->shared.forks[me]);
+		if (ft_routine_must_stop(philo->data, philo))
 		{
-			philo->alive = 0;
-			pthread_mutex_unlock(&philo->data->shared.philo_mutex);
-			break;
+			pthread_mutex_unlock(&philo->data->shared.forks[me]);
+			break ;
 		}
-		pthread_mutex_unlock(&philo->data->shared.philo_mutex);
-		ft_wait(10);
+		ft_print_msg(philo->data, me, "has taken a fork");
+
+
+		ft_print_msg(philo->data, me, "is waiting for the neighbor's fork");
+		pthread_mutex_lock(&philo->data->shared.forks[him]);
+		if (ft_routine_must_stop(philo->data, philo))
+		{
+			pthread_mutex_unlock(&philo->data->shared.forks[me]);
+			pthread_mutex_unlock(&philo->data->shared.forks[him]);
+			break ;
+		}
+		ft_print_msg(philo->data, me, "has taken a fork");
+
+		ft_print_msg(philo->data, me, "is eating");
+		ft_wait(philo->data->time_to_eat);
+		pthread_mutex_lock(&philo->data->shared.last_meal_mutex);
+		philo->last_meal += philo->data->time_to_eat;
+		pthread_mutex_unlock(&philo->data->shared.last_meal_mutex);
+		
+		pthread_mutex_unlock(&philo->data->shared.forks[me]);
+		pthread_mutex_unlock(&philo->data->shared.forks[him]);
+
+		if (ft_routine_must_stop(philo->data, philo))
+			break ;
+		
+		ft_print_msg(philo->data, me, "is sleeping");
+		ft_wait(philo->data->time_to_sleep);
+
+		if (ft_routine_must_stop(philo->data, philo))
+			break ;
+
+		ft_print_msg(philo->data, me, "is thinking");
+
+		ft_wait(1);
 	}
-	pthread_mutex_lock(&philo->data->shared.pencil);
-	printf("%ld\t| BYE from func %d\n", ft_get_ms_since(philo->data->beginning), philo->id);
-	pthread_mutex_unlock(&philo->data->shared.pencil);
 	return (NULL);
 }
 
@@ -97,30 +116,25 @@ void	*watch(void *arg)
 	int		i;
 
 	data = (t_data *)arg;
-	pthread_mutex_lock(&data->shared.pencil);
-	printf("%ld\t| msg from the watcher\n", ft_get_ms_since(data->beginning));
-	pthread_mutex_unlock(&data->shared.pencil);
-	ft_wait(2000);
-	
 	i = 0;
 	while (1)
-	{	
-		if (!data->philos[i].alive)
+	{
+		if (ft_philo_is_dead(&data->philos[i]))
 		{
-			pthread_mutex_lock(&data->shared.pencil);
-			printf("%ld\t| %d died\n", ft_get_ms_since(data->beginning), i);
-			pthread_mutex_unlock(&data->shared.pencil);
-			break;
+			pthread_mutex_lock(&data->shared.update_looping);
+			data->shared.looping = 0;
+			pthread_mutex_unlock(&data->shared.update_looping);
+			ft_print_msg(data, i, "died");
+			break ;
 		}
 		i++;
 		if (i == data->philo_nb)
 			i = 0;
 		ft_wait(8);
 	}
-
-	pthread_mutex_lock(&data->shared.finish);
-	data->shared.looping = 0;
-	pthread_mutex_unlock(&data->shared.finish);
+	// pthread_mutex_lock(&data->shared.finish);
+	// data->shared.looping = 0;
+	// pthread_mutex_unlock(&data->shared.finish);
 	return (NULL);
 }
 
@@ -132,17 +146,18 @@ int	main(int ac, char **av)
 	data = ft_create_data(ac, av);
 	if (!data)
 		return (1);
-	
 	pthread_create(&watcher, NULL, watch, data);
-	pthread_detach(watcher);
-
+	// pthread_detach(watcher);
+	// printf("bye\n");
+	data->beginning = ft_what_time_is_it();
 	pthread_create(&data->philos[0].thrd, NULL, func, &data->philos[0]);
 	pthread_create(&data->philos[1].thrd, NULL, func, &data->philos[1]);
-	pthread_create(&data->philos[2].thrd, NULL, func, &data->philos[2]);
-	
+	// pthread_create(&data->philos[2].thrd, NULL, func, &data->philos[2]);
 	pthread_join(data->philos[0].thrd, NULL);
 	pthread_join(data->philos[1].thrd, NULL);
-	pthread_join(data->philos[2].thrd, NULL);
+	// pthread_join(data->philos[2].thrd, NULL);
+
+	pthread_join(watcher, NULL);
 	ft_free_data(data);
 	return (0);
 }
@@ -192,17 +207,17 @@ Test with any values of your choice to verify all the requirements. Ensure philo
 // {
 // 	pthread_mutex_t t1;
 // 	pthread_mutex_t t2;
-	
+
 // 	pthread_mutex_init(&t1, NULL);
 // 	pthread_mutex_init(&t2, NULL);
 // 	printf("t1.__align after pthread_mutex_init = %ld\n", t1.__align);
 // 	printf("t2.__align after pthread_mutex_init = %ld\n", t2.__align);
-	
+
 // 	pthread_mutex_lock(&t1);
 // 	pthread_mutex_lock(&t2);
 // 	printf("t1.__align after pthread_mutex_lock = %ld\n", t1.__align);
 // 	printf("t2.__align after pthread_mutex_lock = %ld\n", t2.__align);
-	
+
 // 	pthread_mutex_unlock(&t1);
 // 	pthread_mutex_unlock(&t2);
 // 	printf("t1.__align after pthread_mutex_unlock = %ld\n", t1.__align);
