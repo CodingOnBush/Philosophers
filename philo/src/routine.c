@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 07:48:52 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/25 16:40:51 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/26 17:19:38 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,9 @@ void	*ft_routine(void *arg)
 	data = philo->data;
 	forks = data->shared.forks;
 	philo->last_meal = ft_what_time_is_it();//data->beginning;
-	pthread_mutex_lock(&data->shared.pencil);
-	printf("what time is it in routine %d ? %ld\n", philo->id, ft_what_time_is_it());
-	pthread_mutex_unlock(&data->shared.pencil);
+	// pthread_mutex_lock(&data->shared.pencil);
+	// printf("what time is it in routine %d ? %ld\n", philo->id, ft_what_time_is_it());
+	// pthread_mutex_unlock(&data->shared.pencil);
 	// while (1)
 	// {
 	// 	if (!ft_check_looping(data))
