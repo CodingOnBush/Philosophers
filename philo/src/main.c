@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 21:07:45 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/26 17:47:12 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/26 18:09:03 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,37 +105,14 @@ void	*func(void *arg)
 	return (NULL);
 }
 
-// void	*watch(void *arg)
-// {
-// 	t_data	*data;
-
-// 	data = (t_data *)arg;
-// 	while (1)
-// 	{
-// 		if (data->loop >= 0)
-// 		{
-// 			pthread_mutex_lock(&data->loop_mutex);
-// 			ft_print_msg(data, data->loop, "died");
-// 			pthread_mutex_unlock(&data->loop_mutex);
-// 			break ;
-// 		}
-// 		ft_wait(8);
-// 	}
-// 	return (NULL);
-// }
-
 int	main(int ac, char **av)
 {
-	pthread_t	watcher;
 	t_data		*data;
 	int			i;
 
 	data = ft_create_data(ac, av);
 	if (!data)
 		return (1);
-	// pthread_create(&watcher, NULL, watch, data);
-	// pthread_detach(watcher);
-	// printf("bye\n");
 	
 	data->beginning = ft_what_time_is_it();
 	i = 0;
@@ -152,7 +129,6 @@ int	main(int ac, char **av)
 		i++;
 	}
 
-	// pthread_join(watcher, NULL);
 
 	ft_free_data(data);
 	return (0);
