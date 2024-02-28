@@ -6,79 +6,94 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 07:48:52 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/28 14:36:48 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/28 17:06:04 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-// static int	ft_take_pair_of_forks(t_philo *philo, pthread_mutex_t *forks)
-// {
-// 	int		me;
-// 	int		neighbor;
-
-// 	me = philo->id;
-// 	neighbor = (philo->id + 1) % philo->data->philo_nb;
-// 	while (forks[me].__align != 0)
-// 		ft_wait(1);
-// 	pthread_mutex_lock(&forks[me]);
-// 	ft_print_msg(philo->data, me, "has taken a fork");
-// 	while (forks[neighbor].__align != 0)
-// 		ft_wait(1);
-// 	pthread_mutex_lock(&forks[neighbor]);
-// 	ft_print_msg(philo->data, neighbor, "has taken a fork");
-// 	return (1);
-// }
-
-static int	ft_drop_pair_of_forks(t_philo *philo, pthread_mutex_t *forks)
+static int	ft_check_meal(t_philo *philo)
 {
 	t_data	*data;
-	int		me;
-	int		neighbor;
 
 	data = philo->data;
-	me = philo->id;
-	neighbor = (philo->id + 1) % data->philo_nb;
-	if (pthread_mutex_unlock(&forks[me]))
+	if (data->meal_goal == -1)
 		return (0);
-	if (pthread_mutex_unlock(&forks[neighbor]))
+	pthread_mutex_lock(&philo->meal_count_mutex);
+	if (philo->meal_count == data->meal_goal)
+	{
+		pthread_mutex_unlock(&philo->meal_count_mutex);
+		return (1);
+	}
+	pthread_mutex_unlock(&philo->meal_count_mutex);
+	return (0);
+}
+
+static int	ft_update_meal_vars(t_philo *philo)
+{
+	t_data	*data;
+
+	data = philo->data;
+	if (ft_check_death(philo))
+		return (0);
+	pthread_mutex_lock(&philo->last_meal_mutex);
+	philo->last_meal = ft_what_time_is_it();
+	pthread_mutex_unlock(&philo->last_meal_mutex);
+	if (data->meal_goal != -1)
+	{
+		pthread_mutex_lock(&philo->last_meal_mutex);
+		philo->meal_count++;
+		pthread_mutex_unlock(&philo->last_meal_mutex);
+	}
+	if (ft_check_death(philo))
 		return (0);
 	return (1);
 }
 
-void	*ft_routine(void *arg)
+static void	*ft_routine(void *arg)
 {
-	pthread_mutex_t	*forks;
-	t_philo			*philo;
-	t_data			*data;
+	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	data = philo->data;
-	// forks = data->shared.forks;
-	philo->last_meal = ft_what_time_is_it();//data->beginning;
-	// pthread_mutex_lock(&data->shared.pencil);
-	// printf("what time is it in routine %d ? %ld\n", philo->id, ft_what_time_is_it());
-	// pthread_mutex_unlock(&data->shared.pencil);
-	// while (1)
-	// {
-	// 	if (!ft_check_looping(data))
-	// 		break ;
-	// 	if (!ft_take_pair_of_forks(philo, forks))
-	// 		break ;
-	// 	while (data->shared.update_looping.__align != 0)
-	// 		ft_wait(1);
-	// 	pthread_mutex_lock(&data->shared.update_looping);
-	// 	philo->last_meal = ft_what_time_is_it() + data->time_to_eat;
-	// 	pthread_mutex_unlock(&data->shared.update_looping);
-	// 	ft_print_msg(data, philo->id, "is eating");
-	// 	ft_wait(data->time_to_eat);
-	// 	if (!ft_drop_pair_of_forks(philo, forks))
-	// 		break ;
-	// 	ft_print_msg(data, philo->id, "is sleeping");
-	// 	ft_wait(data->time_to_sleep);
-	// 	ft_print_msg(data, philo->id, "is thinking");
-	// 	philo->meal_count++;
-	// }
-	// philo->meal_count = data->philo_nb;
+	if (philo->id % 2)
+		ft_wait(42);
+	while (1)
+	{
+		if (ft_check_death(philo) || ft_check_meal(philo))
+			break;
+		if (!ft_grab_forks(philo))
+			break;
+		ft_print_msg(philo, "is eating");
+		ft_wait(philo->data->time_to_eat);
+		ft_drop_forks(philo);
+		if (!ft_update_meal_vars(philo))
+			break;
+		ft_print_msg(philo, "is sleeping");
+		ft_wait(philo->data->time_to_sleep);
+		ft_print_msg(philo, "is thinking");
+		ft_wait(10);
+	}
 	return (NULL);
+}
+
+void	ft_start_simulation(t_data *data)
+{
+	int		i;
+
+	i = 0;
+	data->beginning = ft_what_time_is_it();
+	while (i < data->philo_nb)
+	{
+		data->philos[i].last_meal = data->beginning;
+		if (pthread_create(&data->philos[i].thrd, NULL, ft_routine, &data->philos[i]))
+			return ;
+		i++;
+	}
+	i = 0;
+	while (i < data->philo_nb)
+	{
+		if (pthread_join(data->philos[i].thrd, NULL))
+			return ;
+		i++;
+	}
 }

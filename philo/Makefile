@@ -6,14 +6,14 @@
 #    By: momrane <momrane@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/01 21:07:48 by momrane           #+#    #+#              #
-#    Updated: 2024/02/25 15:22:08 by momrane          ###   ########.fr        #
+#    Updated: 2024/02/28 16:31:25 by momrane          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #Variables
 NAME 		=	philo
 CC			=	cc
-CFLAGS		=	-pthread -g#-Wall -Wextra -Werror 
+CFLAGS		=	-Wall -Wextra -Werror -pthread -g
 HEADER		=	-I $(INC_DIR)
 
 #Directories
@@ -29,16 +29,11 @@ CYAN 		= 	\033[0;96m
 #Sources
 SRC			=	$(SRC_DIR)/data.c \
 				$(SRC_DIR)/forks.c \
-				$(SRC_DIR)/free.c \
 				$(SRC_DIR)/main.c \
-				$(SRC_DIR)/msg.c \
-				$(SRC_DIR)/parsing.c \
-				$(SRC_DIR)/philos.c \
 				$(SRC_DIR)/routine.c \
-				$(SRC_DIR)/shared.c \
-				$(SRC_DIR)/threads.c \
 				$(SRC_DIR)/time.c \
-				$(SRC_DIR)/utils.c
+				$(SRC_DIR)/utils.c \
+				$(SRC_DIR)/utils2.c
 
 #Binaries
 OBJ			= 	$(SRC:$(SRC_DIR)/%.c=$(BIN_DIR)/%.o)

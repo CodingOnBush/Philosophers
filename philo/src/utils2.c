@@ -1,16 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/24 13:28:55 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/26 13:38:05 by momrane          ###   ########.fr       */
+/*   Created: 2024/02/28 16:28:51 by momrane           #+#    #+#             */
+/*   Updated: 2024/02/28 16:29:21 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
+
+void	ft_free_data(t_data *data)
+{
+	int	i;
+
+	if (data->forks)
+	{
+		i = 0;
+		while (i < data->philo_nb)
+			pthread_mutex_destroy(&data->forks[i++]);
+		free(data->forks);
+	}
+	pthread_mutex_destroy(&data->pencil);
+	if (data->philos)
+	{
+		i = 0;
+		while (i < data->philo_nb)
+		{
+			pthread_mutex_destroy(&data->philos[i].last_meal_mutex);
+			pthread_mutex_destroy(&data->philos[i].meal_count_mutex);
+			i++;
+		}
+		free(data->philos);
+	}
+	if (data)
+		free(data);
+}
 
 static int	ft_isdigit(char c)
 {
