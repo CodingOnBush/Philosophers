@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 21:07:39 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/28 16:29:47 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/28 17:59:32 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int					ft_grab_forks(t_philo *philo);
 void				ft_drop_forks(t_philo *philo);
 
 /*		ROUTINE		*/
+int					ft_stop_loop(t_data *data);
 void				ft_start_simulation(t_data *data);
 
 /*		TIME		*/

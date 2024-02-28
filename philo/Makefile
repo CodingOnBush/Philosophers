@@ -6,14 +6,14 @@
 #    By: momrane <momrane@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/01 21:07:48 by momrane           #+#    #+#              #
-#    Updated: 2024/02/28 16:31:25 by momrane          ###   ########.fr        #
+#    Updated: 2024/02/28 17:34:42 by momrane          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #Variables
 NAME 		=	philo
 CC			=	cc
-CFLAGS		=	-Wall -Wextra -Werror -pthread -g
+CFLAGS		=	-Wall -Wextra -Werror -pthread -g 
 HEADER		=	-I $(INC_DIR)
 
 #Directories
