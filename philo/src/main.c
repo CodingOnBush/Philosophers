@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 21:07:45 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/28 12:38:17 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/28 12:50:07 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,7 @@ void	*func(void *arg)
 	t_data	*data;
 	int		me;
 	int		him;
+	// int		temp;
 
 	philo = (t_philo *)arg;
 	data = philo->data;
@@ -175,22 +176,22 @@ void	*func(void *arg)
 			break;
 		if (ft_check_meal(data, me))
 			break;
-		
-		// take first fork
-		pthread_mutex_lock(&(data->shared.forks[me]));
-		ft_print_msg(philo->data, ft_get_ms_since(data->beginning), me, "has taken a fork");
-	
+
 		// // take second fork
-		// pthread_mutex_lock(&(data->shared.forks[him]));
+		pthread_mutex_lock(&(data->shared.forks[me]));
+		// ft_print_msg(philo->data, ft_get_ms_since(data->beginning), me, "has taken a fork");
+	
+		// take first fork
+		pthread_mutex_lock(&(data->shared.forks[him]));
 		// ft_print_msg(philo->data, ft_get_ms_since(data->beginning), me, "has taken a fork");
 
 		// start eating
-		ft_print_msg(data, ft_get_ms_since(data->beginning), me, "is eating");
+		// ft_print_msg(data, ft_get_ms_since(data->beginning), me, "is eating");
 		ft_wait(data->time_to_eat);
 
 		// unlock first fork after eating
-		pthread_mutex_unlock(&(data->shared.forks[me]));
 		pthread_mutex_unlock(&(data->shared.forks[him]));
+		pthread_mutex_unlock(&(data->shared.forks[me]));
 
 		// update meal count and last meal
 		if (data->meal_goal != -1)
@@ -223,14 +224,14 @@ int	main(int ac, char **av)
 	data->beginning = ft_what_time_is_it();
 	
 	i = 0;
-	while (i < data->philo_nb)
+	while (i < data->philo_nb - 1)
 	{
 		data->philos[i].last_meal = data->beginning;
 		pthread_create(&data->philos[i].thrd, NULL, func, &data->philos[i]);
 		i++;
 	}
 	i = 0;
-	while (i < data->philo_nb)
+	while (i < data->philo_nb - 1)
 	{
 		pthread_join(data->philos[i].thrd, NULL);
 		i++;
