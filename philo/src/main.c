@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 21:07:45 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/28 14:39:26 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/28 14:52:08 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void	*func(void *arg)
 		// take first fork
 		pthread_mutex_lock(&(data->shared.forks[me]));
 		ft_print_msg(philo, "has taken a fork");
-	
+
 		// take second fork
 		pthread_mutex_lock(&(data->shared.forks[him]));
 		ft_print_msg(philo, "has taken a fork");
@@ -158,9 +158,9 @@ int	main(int ac, char **av)
 	data = ft_create_data(ac, av);
 	if (!data)
 		return (1);
-	data->beginning = ft_what_time_is_it();
 	
 	i = 0;
+	data->beginning = ft_what_time_is_it();
 	while (i < data->philo_nb)
 	{
 		data->philos[i].last_meal = data->beginning;
@@ -173,6 +173,8 @@ int	main(int ac, char **av)
 		pthread_join(data->philos[i].thrd, NULL);
 		i++;
 	}
+	if (data->loop < 0)
+		printf("All philosophers have eaten at least %d times \n", data->meal_goal);
 
 	ft_free_data(data);
 	return (0);
