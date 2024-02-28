@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 10:43:01 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/26 16:49:28 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/28 12:35:54 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_data	*ft_create_data(int ac, char **av)
 	data = (t_data *)malloc(sizeof(t_data));
 	if (!data)
 		return (NULL);
-	memset(data, 0, sizeof(t_data));
+	// memset(data, 0, sizeof(t_data));
 	if (!ft_init_data(data, ac, av))
 		return (free(data), NULL);
 	return (data);

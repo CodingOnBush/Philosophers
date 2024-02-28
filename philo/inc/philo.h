@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 21:07:39 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/26 17:31:35 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/28 12:32:26 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ pthread_mutex_t		*ft_create_forks(int size);
 void				ft_free_data(t_data *data);
 
 /*		MSG			*/
-void				ft_print_msg(t_data *data, int philo_id, char *msg);
+void				ft_print_msg(t_data *data, long time, int philo_id, char *msg);
 
 /*		PARSING		*/
 int					ft_get_arguments(t_data *data, int ac, char **av);

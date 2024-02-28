@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 07:48:24 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/26 18:11:22 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/28 12:02:19 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,12 @@ static int	ft_msg_is_died(char *msg)
 
 }
 
-void	ft_print_msg(t_data *data, int philo_id, char *msg)
+void	ft_print_msg(t_data *data, long time, int philo_id, char *msg)
 {
-	pthread_mutex_lock(&data->shared.pencil);
-	if (data->loop == -42 || ft_msg_is_died(msg))
-		printf("%ld\t%d\t%s\n", ft_get_ms_since(data->beginning), philo_id, msg);
-	pthread_mutex_unlock(&data->shared.pencil);	
+	pthread_mutex_lock(&(data->shared.pencil));
+	// pthread_mutex_lock(&data->loop_mutex);
+	// if (data->loop == -42 || ft_msg_is_died(msg))
+	printf("%ld\t%d\t%s\n", time, philo_id, msg);
+	// pthread_mutex_unlock(&data->loop_mutex);
+	pthread_mutex_unlock(&(data->shared.pencil));
 }

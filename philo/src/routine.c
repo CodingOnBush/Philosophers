@@ -6,29 +6,29 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 07:48:52 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/26 17:19:38 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/28 12:10:04 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-static int	ft_take_pair_of_forks(t_philo *philo, pthread_mutex_t *forks)
-{
-	int		me;
-	int		neighbor;
+// static int	ft_take_pair_of_forks(t_philo *philo, pthread_mutex_t *forks)
+// {
+// 	int		me;
+// 	int		neighbor;
 
-	me = philo->id;
-	neighbor = (philo->id + 1) % philo->data->philo_nb;
-	while (forks[me].__align != 0)
-		ft_wait(1);
-	pthread_mutex_lock(&forks[me]);
-	ft_print_msg(philo->data, me, "has taken a fork");
-	while (forks[neighbor].__align != 0)
-		ft_wait(1);
-	pthread_mutex_lock(&forks[neighbor]);
-	ft_print_msg(philo->data, neighbor, "has taken a fork");
-	return (1);
-}
+// 	me = philo->id;
+// 	neighbor = (philo->id + 1) % philo->data->philo_nb;
+// 	while (forks[me].__align != 0)
+// 		ft_wait(1);
+// 	pthread_mutex_lock(&forks[me]);
+// 	ft_print_msg(philo->data, me, "has taken a fork");
+// 	while (forks[neighbor].__align != 0)
+// 		ft_wait(1);
+// 	pthread_mutex_lock(&forks[neighbor]);
+// 	ft_print_msg(philo->data, neighbor, "has taken a fork");
+// 	return (1);
+// }
 
 static int	ft_drop_pair_of_forks(t_philo *philo, pthread_mutex_t *forks)
 {
@@ -54,7 +54,7 @@ void	*ft_routine(void *arg)
 
 	philo = (t_philo *)arg;
 	data = philo->data;
-	forks = data->shared.forks;
+	// forks = data->shared.forks;
 	philo->last_meal = ft_what_time_is_it();//data->beginning;
 	// pthread_mutex_lock(&data->shared.pencil);
 	// printf("what time is it in routine %d ? %ld\n", philo->id, ft_what_time_is_it());
