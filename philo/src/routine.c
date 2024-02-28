@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 07:48:52 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/28 12:10:04 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/28 14:36:48 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,6 @@ void	*ft_routine(void *arg)
 	// 	ft_print_msg(data, philo->id, "is thinking");
 	// 	philo->meal_count++;
 	// }
-	philo->meal_count = data->philo_nb;
+	// philo->meal_count = data->philo_nb;
 	return (NULL);
 }
