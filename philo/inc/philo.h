@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 21:07:39 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/28 17:59:32 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/29 13:19:38 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ t_data				*ft_create_data(int ac, char **av);
 pthread_mutex_t		*ft_create_forks(int size);
 int					ft_grab_forks(t_philo *philo);
 void				ft_drop_forks(t_philo *philo);
+void				ft_unlock_forks(t_data *data);
 
 /*		ROUTINE		*/
-int					ft_stop_loop(t_data *data);
 void				ft_start_simulation(t_data *data);
 
 /*		TIME		*/

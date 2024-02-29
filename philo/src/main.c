@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 21:07:45 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/28 20:11:56 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/29 15:02:52 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ int	main(int ac, char **av)
 	if (!data)
 		return (1);
 	ft_start_simulation(data);
-	if (data->loop < 0)
-		printf("All philosophers have eaten at least %d times \n", data->meal_goal);
-	ft_free_data(data);
+	// if (data->loop < 0)
+	// 	printf("All philosophers have eaten at least %d times \n", data->meal_goal);
+	// ft_free_data(data);
 	return (0);
 }
 

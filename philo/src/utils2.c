@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 16:28:51 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/28 16:29:21 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/29 16:40:10 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	ft_get_arguments(t_data *data, int ac, char **av)
 	if (data->philo_nb < 0)
 		return (0);
 	data->time_to_die = ft_get_param(av[2]);
-	if (data->time_to_die < 0)
+	if (data->time_to_die <= 0)
 		return (0);
 	data->time_to_eat = ft_get_param(av[3]);
 	if (data->time_to_eat < 0)

@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 11:20:10 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/28 20:10:38 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/29 17:31:56 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ pthread_mutex_t	*ft_create_forks(int size)
 	return (forks);
 }
 
-static int	ft_lock_forks_mutex(t_philo *philo, int me, int him)
+static int	ft_grab_first_fork(t_philo *philo, int me)
 {
 	t_data	*data;
 
@@ -47,6 +47,14 @@ static int	ft_lock_forks_mutex(t_philo *philo, int me, int him)
 		return (0);
 	}
 	ft_print_msg(philo, "has taken a fork");
+	return (1);
+}
+
+static int	ft_grab_second_fork(t_philo *philo, int me, int him)
+{
+	t_data	*data;
+
+	data = philo->data;
 	if (pthread_mutex_lock(&(data->forks[him])))
 	{
 		pthread_mutex_unlock(&(data->forks[me]));
@@ -73,7 +81,16 @@ int	ft_grab_forks(t_philo *philo)
 	him = (philo->id + 1) % data->philo_nb;
 	if (me == data->philo_nb - 1)
 		ft_swap(&me, &him);
-	if (!ft_lock_forks_mutex(philo, me, him))
+	if (!ft_grab_first_fork(philo, me))
+		return (0);
+	if (data->philo_nb == 1)
+	{
+		ft_wait(data->time_to_die);
+		pthread_mutex_unlock(&(data->forks[me]));
+		if (ft_check_death(philo))
+			return (0);
+	}
+	if (!ft_grab_second_fork(philo, me, him))
 		return (0);
 	return (1);
 }
