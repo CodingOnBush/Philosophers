@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 07:48:52 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/29 17:31:58 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/29 19:47:04 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,24 +35,29 @@ static int	ft_philo_is_full(t_philo *philo)
 static void	*ft_routine(void *arg)
 {
 	t_philo	*philo;
+	long	time;
 
 	philo = (t_philo *)arg;
 	if (philo->id % 2)
-		ft_wait(8);
+		ft_wait(1);
 	while (1)
 	{
 		if (ft_check_death(philo) || ft_philo_is_full(philo))
 			break ;
 		if (!ft_grab_forks(philo))
 			break ;
+		time = ft_what_time_is_it();
 		ft_print_msg(philo, "is eating");
 		ft_wait(philo->data->time_to_eat);
 		if (philo->data->philo_nb != 1)
 			ft_drop_forks(philo);
 		if (ft_check_death(philo))
+		{
+			// printf("COUCOU\n");
 			break;
+		}
 		pthread_mutex_lock(&philo->last_meal_mutex);
-		philo->last_meal = ft_what_time_is_it();
+		philo->last_meal = time + philo->data->time_to_eat;
 		pthread_mutex_unlock(&philo->last_meal_mutex);
 		if (philo->data->meal_goal != -1)
 		{
@@ -63,7 +68,6 @@ static void	*ft_routine(void *arg)
 		ft_print_msg(philo, "is sleeping");
 		ft_wait(philo->data->time_to_sleep);
 		ft_print_msg(philo, "is thinking");
-		ft_wait(1);
 	}
 	return (NULL);
 }
@@ -76,7 +80,7 @@ void	ft_start_simulation(t_data *data)
 	data->beginning = ft_what_time_is_it();
 	while (i < data->philo_nb)
 	{
-		data->philos[i].last_meal = data->beginning;
+		data->philos[i].last_meal = ft_what_time_is_it();
 		if (pthread_create(&data->philos[i].thrd, NULL, ft_routine,
 				&data->philos[i]))
 			return ;

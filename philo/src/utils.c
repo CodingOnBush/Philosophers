@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 07:49:12 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/29 16:53:06 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/29 19:22:49 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,11 @@ int	ft_should_i_die(t_data *data, int philo_id)
 	return (0);
 }
 
-int	ft_check_death(t_philo *philo)
+static void	ft_maybe_philo_die(t_philo *philo)
 {
 	t_data	*data;
-	int		philo_id;
 	long	death_time;
+	int		philo_id;
 
 	data = philo->data;
 	philo_id = philo->id;
@@ -47,30 +47,37 @@ int	ft_check_death(t_philo *philo)
 	if (data->loop >= 0 || data->loop == -1)
 	{
 		pthread_mutex_unlock(&data->loop_mutex);
+		return ;
+	}
+	death_time = philo->last_meal - data->beginning + data->time_to_die;
+	if (data->time_to_die < data->time_to_eat)
+		death_time = philo->last_meal - data->beginning + data->time_to_die;
+	else
+		death_time = ft_get_ms_since(data->beginning);
+	printf("%ld\t%d\t%s\n", death_time, philo_id + 1, "died");
+	data->loop = philo_id;
+	pthread_mutex_unlock(&data->loop_mutex);
+}
+
+int	ft_check_death(t_philo *philo)
+{
+	t_data	*data;
+	int		philo_id;
+
+	data = philo->data;
+	philo_id = philo->id;
+	pthread_mutex_lock(&data->loop_mutex);
+	if (data->loop >= 0 || data->loop == -1)
+	{
+		// printf("YOLO\n");
+		pthread_mutex_unlock(&data->loop_mutex);
 		return (1);
 	}
 	pthread_mutex_unlock(&data->loop_mutex);
 	if (ft_should_i_die(data, philo_id))
 	{
-		pthread_mutex_lock(&data->loop_mutex);
-		if (data->loop >= 0 || data->loop == -1)
-		{
-			pthread_mutex_unlock(&data->loop_mutex);
-			return (1);
-		}
-		death_time = philo->last_meal - data->beginning + data->time_to_die;
-		if (data->time_to_die < data->time_to_eat)
-			death_time = philo->last_meal - data->beginning + data->time_to_die;
-		else
-			death_time = ft_get_ms_since(data->beginning);
-		printf("%ld\t%d\t%s\n", death_time, philo_id + 1, "died");
-		if (data->loop >= 0 || data->loop == -1)
-		{
-			pthread_mutex_unlock(&data->loop_mutex);
-			return (1);
-		}
-		data->loop = philo_id;
-		pthread_mutex_unlock(&data->loop_mutex);
+		// printf("philo %d should die\n", philo_id + 1);
+		ft_maybe_philo_die(philo);
 		return (1);
 	}
 	return (0);

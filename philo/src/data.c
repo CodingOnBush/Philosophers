@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 10:43:01 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/28 16:23:09 by momrane          ###   ########.fr       */
+/*   Updated: 2024/02/29 19:33:56 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,10 @@ static t_philo	*ft_create_philos(t_data *data)
 static int	ft_init_data(t_data *data, int ac, char **av)
 {
 	if (!ft_get_arguments(data, ac, av))
+	{
+		printf("err_ philo_nb die eat sleep [meal]\n");
 		return (0);
+	}
 	data->beginning = 0;
 	data->loop = -42;
 	data->philos = ft_create_philos(data);
