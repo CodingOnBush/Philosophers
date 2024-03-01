@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 21:07:39 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/29 13:19:38 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/01 10:43:46 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,10 @@ typedef struct s_philo
 	int				id;
 	int				meal_count;
 	long			last_meal;
+	int				dead;
+	long			time_death;
 	pthread_mutex_t	meal_count_mutex;
+	pthread_mutex_t	death_mutex;
 	pthread_mutex_t	last_meal_mutex;
 	struct s_data	*data;
 }					t_philo;
@@ -39,9 +42,11 @@ typedef struct s_data
 	int				meal_goal;
 	long			beginning;
 	int				loop;
+	int				all_ate;
 	struct s_philo	*philos;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	loop_mutex;
+	pthread_mutex_t	all_ate_mutex;
 	pthread_mutex_t	pencil;
 }					t_data;
 

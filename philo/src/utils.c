@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 07:49:12 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/29 19:22:49 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/01 09:55:56 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ static void	ft_maybe_philo_die(t_philo *philo)
 		death_time = philo->last_meal - data->beginning + data->time_to_die;
 	else
 		death_time = ft_get_ms_since(data->beginning);
-	printf("%ld\t%d\t%s\n", death_time, philo_id + 1, "died");
+	// printf("%ld\t%d\t%s\n", death_time, philo_id + 1, "died");
+	printf("%ld %d %s\n", death_time, philo_id + 1, "died");
 	data->loop = philo_id;
 	pthread_mutex_unlock(&data->loop_mutex);
 }
@@ -95,7 +96,8 @@ void	ft_print_msg(t_philo *philo, char *msg)
 	pthread_mutex_lock(&(data->loop_mutex));
 	current_time = ft_get_ms_since(data->beginning);
 	if (data->loop < 0)
-		printf("%ld\t%d\t%s\n", current_time, philo_id, msg);
+		printf("%ld %d %s\n", current_time, philo_id, msg);
+	// printf("%ld\t%d\t%s\n", current_time, philo_id, msg);
 	pthread_mutex_unlock(&(data->loop_mutex));
 	pthread_mutex_unlock(&(data->pencil));
 }

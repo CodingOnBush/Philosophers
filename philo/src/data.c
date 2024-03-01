@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 10:43:01 by momrane           #+#    #+#             */
-/*   Updated: 2024/02/29 19:33:56 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/01 10:44:20 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,10 @@ static t_philo	*ft_create_philos(t_data *data)
 			return (NULL);
 		if (pthread_mutex_init(&(philos[i].meal_count_mutex), NULL))
 			return (NULL);
+		if (pthread_mutex_init(&(philos[i].death_mutex), NULL))
+			return (NULL);
+		philos[i].dead = 0;
+		philos[i].time_death = -1;
 		philos[i].last_meal = 0;
 		philos[i].data = data;
 		i++;
@@ -45,8 +49,9 @@ static int	ft_init_data(t_data *data, int ac, char **av)
 		printf("err_ philo_nb die eat sleep [meal]\n");
 		return (0);
 	}
-	data->beginning = 0;
+	data->beginning = ft_what_time_is_it();
 	data->loop = -42;
+	data->all_ate = 0;
 	data->philos = ft_create_philos(data);
 	if (!data->philos)
 		return (0);
@@ -56,6 +61,8 @@ static int	ft_init_data(t_data *data, int ac, char **av)
 	if (pthread_mutex_init(&data->loop_mutex, NULL))
 		return (free(data->philos), free(data->forks), 0);
 	if (pthread_mutex_init(&data->pencil, NULL))
+		return (free(data->philos), free(data->forks), 0);
+	if (pthread_mutex_init(&data->all_ate_mutex, NULL))
 		return (free(data->philos), free(data->forks), 0);
 	return (1);
 }
