@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 10:43:01 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/01 10:44:20 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/01 14:53:07 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,15 @@ static t_philo	*ft_create_philos(t_data *data)
 	{
 		philos[i].thrd = 0;
 		philos[i].id = i;
-		philos[i].meal_count = 0;
+		philos[i].status = 'a';
 		if (pthread_mutex_init(&(philos[i].last_meal_mutex), NULL))
 			return (NULL);
 		if (pthread_mutex_init(&(philos[i].meal_count_mutex), NULL))
 			return (NULL);
 		if (pthread_mutex_init(&(philos[i].death_mutex), NULL))
 			return (NULL);
-		philos[i].dead = 0;
-		philos[i].time_death = -1;
+		if (pthread_mutex_init(&(philos[i].status_mutex), NULL))
+			return (NULL);
 		philos[i].last_meal = 0;
 		philos[i].data = data;
 		i++;
@@ -52,6 +52,7 @@ static int	ft_init_data(t_data *data, int ac, char **av)
 	data->beginning = ft_what_time_is_it();
 	data->loop = -42;
 	data->all_ate = 0;
+	data->flag = "stop";
 	data->philos = ft_create_philos(data);
 	if (!data->philos)
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 21:07:39 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/01 10:43:46 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/01 15:18:26 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,16 @@ typedef struct s_philo
 {
 	pthread_t		thrd;
 	int				id;
-	int				meal_count;
 	long			last_meal;
-	int				dead;
-	long			time_death;
+	char			status;
 	pthread_mutex_t	meal_count_mutex;
 	pthread_mutex_t	death_mutex;
 	pthread_mutex_t	last_meal_mutex;
+	pthread_mutex_t	status_mutex;
 	struct s_data	*data;
 }					t_philo;
+
+/* status : 'a' 'd' 'f' */
 
 typedef struct s_data
 {
@@ -41,6 +42,8 @@ typedef struct s_data
 	int				time_to_sleep;
 	int				meal_goal;
 	long			beginning;
+	char			*flag;
+	pthread_mutex_t	mutex_flag;
 	int				loop;
 	int				all_ate;
 	struct s_philo	*philos;
@@ -50,6 +53,8 @@ typedef struct s_data
 	pthread_mutex_t	pencil;
 }					t_data;
 
+/* flag : "someone_died" "all_ate" "continue" */
+
 /*		DATA		*/
 t_data				*ft_create_data(int ac, char **av);
 
@@ -57,7 +62,7 @@ t_data				*ft_create_data(int ac, char **av);
 pthread_mutex_t		*ft_create_forks(int size);
 int					ft_grab_forks(t_philo *philo);
 void				ft_drop_forks(t_philo *philo);
-void				ft_unlock_forks(t_data *data);
+// void				ft_unlock_forks(t_data *data);
 
 /*		ROUTINE		*/
 void				ft_start_simulation(t_data *data);

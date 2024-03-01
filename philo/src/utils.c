@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 07:49:12 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/01 09:55:56 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/01 15:18:08 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,17 +86,17 @@ int	ft_check_death(t_philo *philo)
 
 void	ft_print_msg(t_philo *philo, char *msg)
 {
-	long	current_time;
 	t_data	*data;
 	int		philo_id;
+	long	time;
 
 	data = philo->data;
 	philo_id = philo->id + 1;
+	time = ft_get_ms_since(data->beginning);
 	pthread_mutex_lock(&(data->pencil));
 	pthread_mutex_lock(&(data->loop_mutex));
-	current_time = ft_get_ms_since(data->beginning);
-	if (data->loop < 0)
-		printf("%ld %d %s\n", current_time, philo_id, msg);
+	if (data->loop == -42)
+		printf("%ld %d %s\n", time, philo_id, msg);
 	// printf("%ld\t%d\t%s\n", current_time, philo_id, msg);
 	pthread_mutex_unlock(&(data->loop_mutex));
 	pthread_mutex_unlock(&(data->pencil));
