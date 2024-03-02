@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 21:07:39 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/01 15:18:26 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/02 15:57:23 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,15 @@ typedef struct s_philo
 	pthread_mutex_t	status_mutex;
 	struct s_data	*data;
 }					t_philo;
+
+typedef struct s_env
+{
+	int				meal_count;
+	int				last_meal;
+	int				my_fork;
+	int				other_fork;
+	char			status;
+}					t_env;
 
 /* status : 'a' 'd' 'f' */
 
@@ -77,6 +86,7 @@ void				ft_swap(int *a, int *b);
 int					ft_should_i_die(t_data *data, int philo_id);
 int					ft_check_death(t_philo *philo);
 void				ft_print_msg(t_philo *philo, char *msg);
+int					ft_strcmp(const char *s1, const char *s2);
 
 /*		UTILS2		*/
 void				ft_free_data(t_data *data);

@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 07:48:52 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/01 15:40:18 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/02 15:57:45 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,21 +41,21 @@
 // 	return (0);
 // }
 
-static int	ft_philo_is_alive(t_philo *philo)
-{
-	long	last_meal;
-	long	current_time;
-	t_data	*data;
+// static int	ft_philo_is_alive(t_philo *philo)
+// {
+// 	long	last_meal;
+// 	long	current_time;
+// 	t_data	*data;
 
-	data = philo->data;
-	pthread_mutex_lock(&philo->last_meal_mutex);
-	last_meal = philo->last_meal;
-	pthread_mutex_unlock(&philo->last_meal_mutex);
-	current_time = ft_what_time_is_it();
-	if (current_time - last_meal >= data->time_to_die)
-		return (0);
-	return (1);
-}
+// 	data = philo->data;
+// 	pthread_mutex_lock(&philo->last_meal_mutex);
+// 	last_meal = philo->last_meal;
+// 	pthread_mutex_unlock(&philo->last_meal_mutex);
+// 	current_time = ft_what_time_is_it();
+// 	if (current_time - last_meal >= data->time_to_die)
+// 		return (0);
+// 	return (1);
+// }
 
 static void	ft_change_status(t_philo *philo, char new_status)
 {
@@ -95,76 +95,77 @@ static int	ft_philo_should_die(t_philo *philo, long last_meal)
 // 	pthread_mutex_unlock(&philo->last_meal_mutex);
 // }
 
-static int	ft_grab_the_two_forks(t_philo *philo)
-{
-	t_data	*data;
-	int		me;
-	int		him;
+// static int	ft_grab_the_two_forks(t_philo *philo)
+// {
+// 	t_data	*data;
+// 	int		me;
+// 	int		him;
 
-	data = philo->data;
-	me = philo->id;
-	him = (philo->id + 1) % data->philo_nb;
-	if (me == data->philo_nb - 1)
-		ft_swap(&me, &him);
-	if (pthread_mutex_lock(&(data->forks[me])))
+// 	data = philo->data;
+// 	me = philo->id;
+// 	him = (philo->id + 1) % data->philo_nb;
+// 	if (me == data->philo_nb - 1)
+// 		ft_swap(&me, &him);
+// 	if (pthread_mutex_lock(&(data->forks[me])))
+// 		return (0);
+// 	return (1);
+// }
+
+// static int	ft_grab_first_fork(t_philo *philo)
+// {
+// 	t_data	*data;
+// 	int		me;
+// 	int		him;
+
+// 	data = philo->data;
+// 	me = philo->id;
+// 	him = (philo->id + 1) % data->philo_nb;
+// 	if (me == data->philo_nb - 1)
+// 		ft_swap(&me, &him);
+// 	if (pthread_mutex_lock(&(data->forks[me])))
+// 		return (0);
+// 	if (ft_philo_should_die(philo, philo->last_meal))
+// 	{
+// 		pthread_mutex_unlock(&(data->forks[me]));
+// 		return (0);
+// 	}
+// 	ft_print_msg(philo, "has taken a fork");
+// 	return (1);
+// }
+
+// static int	ft_grab_second_fork(t_philo *philo, int my_fork, int r_fork)
+// {
+// 	t_data	*data;
+
+// 	data = philo->data;
+// 	if (pthread_mutex_lock(&(data->forks[r_fork])))
+// 	{
+// 		pthread_mutex_unlock(&(data->forks[my_fork]));
+// 		return (0);
+// 	}
+// 	if (ft_philo_should_die(philo, philo->last_meal))
+// 	{
+// 		pthread_mutex_unlock(&(data->forks[r_fork]));
+// 		pthread_mutex_unlock(&(data->forks[my_fork]));
+// 		return (0);
+// 	}
+// 	ft_print_msg(philo, "has taken a fork");
+// 	return (1);
+// }
+
+static int	ft_philo_is_full(t_data *data, int meal_count)
+{
+	if (data->meal_goal == -1)
 		return (0);
+	if (meal_count == data->meal_goal)
+		return (1);
+	return (0);
 }
 
-static int	ft_grab_first_fork(t_philo *philo)
+static int	ft_grab_fork(t_data *data, int fork)
 {
-	t_data	*data;
-	int		me;
-	int		him;
-
-	data = philo->data;
-	me = philo->id;
-	him = (philo->id + 1) % data->philo_nb;
-	if (me == data->philo_nb - 1)
-		ft_swap(&me, &him);
-	if (pthread_mutex_lock(&(data->forks[me])))
-		return (0);
-	if (ft_philo_should_die(philo, philo->last_meal))
-	{
-		pthread_mutex_unlock(&(data->forks[me]));
-		return (0);
-	}
-	ft_print_msg(philo, "has taken a fork");
-	return (1);
-}
-
-static int	ft_grab_second_fork(t_philo *philo, int my_fork, int r_fork)
-{
-	t_data	*data;
-
-	data = philo->data;
-	if (pthread_mutex_lock(&(data->forks[r_fork])))
-	{
-		pthread_mutex_unlock(&(data->forks[my_fork]));
-		return (0);
-	}
-	if (ft_philo_should_die(philo, philo->last_meal))
-	{
-		pthread_mutex_unlock(&(data->forks[r_fork]));
-		pthread_mutex_unlock(&(data->forks[my_fork]));
-		return (0);
-	}
-	ft_print_msg(philo, "has taken a fork");
-	return (1);
-}
-
-static int	ft_grab_fork(t_philo *philo, int fork)
-{
-	t_data	*data;
-
-	data = philo->data;
 	if (pthread_mutex_lock(&(data->forks[fork])))
 		return (0);
-	if (ft_philo_should_die(philo, philo->last_meal))
-	{
-		pthread_mutex_unlock(&(data->forks[fork]));
-		return (0);
-	}
-	ft_print_msg(philo, "has taken a fork");
 	return (1);
 }
 
@@ -177,64 +178,68 @@ static void	ft_drop_the_forks(t_philo *philo, int my_fork, int r_fork)
 	pthread_mutex_unlock(&(data->forks[r_fork]));
 }
 
-static char	*ft_get_flag(t_philo *philo)
-{
-	t_data	*data;
-	char	*flag;
+// static char	*ft_get_flag(t_philo *philo)
+// {
+// 	t_data	*data;
+// 	char	*flag;
 
-	data = philo->data;
-	pthread_mutex_lock(&data->mutex_flag);
-	flag = data->flag;
-	pthread_mutex_unlock(&data->mutex_flag);
-	return (flag);
-}
+// 	data = philo->data;
+// 	pthread_mutex_lock(&data->mutex_flag);
+// 	flag = data->flag;
+// 	pthread_mutex_unlock(&data->mutex_flag);
+// 	return (flag);
+// }
 
-static int	ft_stop_routine(t_philo *philo)
-{
-	t_data	*data;
-	char	*flag;
+// static int	ft_stop_routine(t_philo *philo)
+// {
+// 	t_data	*data;
+// 	char	*flag;
 
-	data = philo->data;
-	flag = ft_get_flag(philo);
-	if (flag == "stop" || flag == "all_ate")
-		return (1);
-	return (0);
-}
+// 	data = philo->data;
+// 	flag = ft_get_flag(philo);
+// 	if (ft_strcmp(flag, "stop") || ft_strcmp(flag, "all_ate"))
+// 		return (1);
+// 	return (0);
+// }
 
 static void	*ft_routine(void *arg)
 {
 	t_philo	*philo;
-	int		meal_count;
-	long	last_meal;
-	int		my_fork;
-	int		r_fork;
-	char	status;
+	t_env	env;
 
 	philo = (t_philo *)arg;
-	my_fork = philo->id;
-	r_fork = (philo->id + 1) % philo->data->philo_nb;
-	if (my_fork == philo->data->philo_nb - 1)
-		ft_swap(&my_fork, &r_fork);
+	env.my_fork = philo->id;
+	env.other_fork = (philo->id + 1) % philo->data->philo_nb;
+	if (env.my_fork == philo->data->philo_nb - 1)
+		ft_swap(&env.my_fork, &env.other_fork);
 	
 	if (philo->id % 2)
 		ft_wait(1);
 	
-	last_meal = ft_what_time_is_it();
-	meal_count = 0;
-	status = 'a';
-	while (1)
+	env.last_meal = ft_what_time_is_it();
+	env.meal_count = 0;
+	env.status = 'a';
+	while (env.status != 'f' && env.status != 'd')
 	{
 		// check if I am full of meals
-		if (philo->data->meal_goal != -1 && meal_count == philo->data->meal_goal)
+		if (ft_philo_is_full(philo->data, env.meal_count))
 		{
-			status = 'f';
+			env.status = 'f';
 			break;
 		}
 
 		// grab my fork
-		if (!ft_grab_fork(philo, my_fork))
+		if (!ft_grab_fork(philo, env.my_fork))
 			break;
-		
+		if (ft_philo_should_die(philo, env.last_meal))
+		{
+			env.status = 'd';
+			pthread_mutex_unlock(&(philo->data->forks[env.my_fork]));
+			break;
+		}
+		ft_print_msg(philo, "has taken a fork");
+
+
 		// check if I am the only philo
 		if (philo->data->philo_nb == 1)
 		{

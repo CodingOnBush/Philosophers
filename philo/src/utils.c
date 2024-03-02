@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 07:49:12 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/01 15:18:08 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/02 14:47:55 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,4 +100,23 @@ void	ft_print_msg(t_philo *philo, char *msg)
 	// printf("%ld\t%d\t%s\n", current_time, philo_id, msg);
 	pthread_mutex_unlock(&(data->loop_mutex));
 	pthread_mutex_unlock(&(data->pencil));
+}
+
+int	ft_strcmp(const char *s1, const char *s2)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (s1[i] && s2[j])
+	{
+		if (s1[i] != s2[j])
+			return (0);
+		i++;
+		j++;
+	}
+	if (s1[i] != s2[j])
+		return (0);
+	return (1);
 }
