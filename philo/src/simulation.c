@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   simulation.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 09:05:07 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/03 20:25:46 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/03 22:38:21 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ static void	*ft_routine(void *arg)
 			break ;
 		}
 
-		ft_usleep(1);
+		usleep(100);
 	}
 	// printf("BYE FROM PHILO %d\n", philo->id + 1);
 	// printf("[%d]simul state : %d\n", philo->id, philo->simul->state);
