@@ -6,7 +6,7 @@
 #    By: momrane <momrane@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/01 21:07:48 by momrane           #+#    #+#              #
-#    Updated: 2024/02/29 15:58:04 by momrane          ###   ########.fr        #
+#    Updated: 2024/03/03 19:59:18 by momrane          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,14 +27,12 @@ GREEN 		= 	\033[0;92m
 CYAN 		= 	\033[0;96m
 
 #Sources
-SRC			=	$(SRC_DIR)/data.c \
-				$(SRC_DIR)/forks.c \
-				$(SRC_DIR)/main.c \
-				$(SRC_DIR)/routine.c \
+SRC			=	$(SRC_DIR)/main.c \
+				$(SRC_DIR)/free.c \
+				$(SRC_DIR)/init.c \
 				$(SRC_DIR)/time.c \
-				$(SRC_DIR)/utils.c \
-				$(SRC_DIR)/utils2.c
-
+				$(SRC_DIR)/simulation.c \
+				$(SRC_DIR)/utils.c
 #Binaries
 OBJ			= 	$(SRC:$(SRC_DIR)/%.c=$(BIN_DIR)/%.o)
 
