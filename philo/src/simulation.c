@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   simulation.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 09:05:07 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/03 22:38:21 by allblue          ###   ########.fr       */
+/*   Updated: 2024/03/04 10:53:04 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,14 +141,8 @@ static void	*ft_routine(void *arg)
 		meal_count++;
 
 
-		if (ft_inspector(philo, meal_count) == STOP)
-		{
-			// printf("YYOYOOYY\n");
-			// printf("YOOOW\n");
-			// if (philo->id == 4)
-			// 	printf("------------------------------------COUCOU------------------------------------\n");
-			break ;
-		}
+		// if (ft_inspector(philo, meal_count) == STOP)
+		// 	break ;
 
 		ft_print_status(philo, "is sleeping");
 		ft_usleep(philo->simul->infos.time_to_sleep);
