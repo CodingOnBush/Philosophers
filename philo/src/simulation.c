@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 09:05:07 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/04 10:53:04 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/04 11:00:32 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,14 +89,11 @@ static int	ft_inspector(t_philo *philo, int meal_count)
 	if (simul->infos.meal_goal != NO_MEAL_GOAL && meal_count >= simul->infos.meal_goal)
 	{
 		// printf("philo %d is full\n", philo->id + 1);
-		pthread_mutex_lock(&simul->philo_mutex);
 		pthread_mutex_lock(&simul->simul_mutex);
-		philo->full = YES;
 		simul->philo_full++;
 		if (simul->philo_full == simul->infos.nb_of_philo)
 			simul->state = ALL_ATE;
 		pthread_mutex_unlock(&simul->simul_mutex);
-		pthread_mutex_unlock(&simul->philo_mutex);
 		return (STOP);
 	}
 	return (CONTINUE);

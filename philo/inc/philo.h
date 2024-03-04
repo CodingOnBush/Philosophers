@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 21:07:39 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/03 20:01:25 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/04 11:00:50 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@ typedef struct s_philo
 	int				my_fork;
 	int				other_fork;
 	long			last_meal;
-	int				full;
-	int				alive;
 	struct s_simul	*simul;
 }					t_philo;
 

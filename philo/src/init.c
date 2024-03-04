@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 07:56:04 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/03 20:16:39 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/04 11:00:44 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,6 @@ static t_philo	*ft_create_philos(t_simul *simul)
 		if (i == simul->infos.nb_of_philo - 1 && simul->infos.nb_of_philo != 1)
 			ft_swap(&philos[i].my_fork, &philos[i].other_fork);
 		philos[i].last_meal = simul->begin;
-		philos[i].full = NO;
-		philos[i].alive = YES;
 		i++;
 	}
 	return (philos);
