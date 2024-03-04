@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 21:07:39 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/04 16:14:19 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/04 23:39:18 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ typedef struct s_infos
 
 typedef struct s_simul
 {
+	pthread_t		supervisor;
+	
 	int				state;
 	long			begin;
 	int				philo_full;
@@ -82,17 +84,20 @@ typedef struct s_routine
 	long			current_time;
 }					t_routine;
 
-void	*ft_supervisor(void *arg);
+void				*ft_supervisor(void *arg);
 
 void				ft_print_status(t_philo *philo, char *status);
+void	ft_update_last_meal(t_philo *philo, long new_last_meal);
 
 void				*ft_free_simul(t_simul *simul);
 t_simul				*ft_create_simul(int ac, char **av);
 
 void				ft_start_simulation(t_simul *simul);
+void				ft_wait_threads(t_simul *simul);
 
 long				ft_get_time(void);
 void				ft_usleep(int time);
 int					ft_get_simul_time(t_simul *simul);
+
 
 #endif

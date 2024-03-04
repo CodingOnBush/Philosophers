@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   simulation.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 09:05:07 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/04 16:39:56 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/04 23:38:53 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,17 +91,7 @@ static int	ft_grab_forks(t_philo *philo)
 	return (SUCCESS);
 }
 
-static void	ft_update_last_meal(t_philo *philo, long new_last_meal)
-{
-	t_simul	*simul;
 
-	simul = philo->simul;
-	pthread_mutex_lock(&simul->philo_mutex);
-	// printf("[%d]Previous last_meal at : %ld\n", philo->id, philo->last_meal - simul->begin);
-	philo->last_meal = new_last_meal;
-	// printf("[%d]New last_meal at : %ld\n", philo->id, philo->last_meal - simul->begin);
-	pthread_mutex_unlock(&simul->philo_mutex);
-}
 
 static int	ft_inspector(t_philo *philo)
 {
@@ -125,8 +115,12 @@ static int	ft_inspector(t_philo *philo)
 static void	*ft_routine(void *arg)
 {
 	t_philo		*philo;
+	t_infos		infos;
+	int			think_time;
 
 	philo = (t_philo *)arg;
+	infos = philo->simul->infos;
+	think_time = (infos.time_to_die - (infos.time_to_eat + infos.time_to_sleep)) / 2;
 	if (philo->id % 2 == 0)
 		ft_usleep(philo->simul->infos.time_to_eat / 10);
 	ft_update_last_meal(philo, ft_get_time());
@@ -156,8 +150,6 @@ static void	*ft_routine(void *arg)
 		pthread_mutex_unlock(&philo->simul->forks[philo->my_fork]);
 		pthread_mutex_unlock(&philo->simul->forks[philo->other_fork]);
 		
-		// ft_update_last_meal(philo, ft_get_time());
-		// meal_count++;
 		pthread_mutex_lock(&philo->simul->philo_mutex);
 		philo->meal_count = philo->meal_count + 1;
 		pthread_mutex_unlock(&philo->simul->philo_mutex);
@@ -179,7 +171,7 @@ static void	*ft_routine(void *arg)
 		}
 
 		// usleep(10);
-		usleep(((philo->simul->infos.time_to_die - (philo->simul->infos.time_to_eat + philo->simul->infos.time_to_sleep)) / 2) * 1000);
+		ft_usleep(think_time);
 	}
 	return (NULL);
 }
@@ -187,21 +179,30 @@ static void	*ft_routine(void *arg)
 void	ft_start_simulation(t_simul *simul)
 {
 	t_philo		*philos;
+	pthread_t	supervisor;
 	int		i;
 
 	philos = simul->philos;
-	simul->begin = ft_get_time();
+	pthread_create(&supervisor, NULL, ft_supervisor, simul);
 	i = 0;
+	simul->begin = ft_get_time();
 	while (i < simul->infos.nb_of_philo)
 	{
 		if (pthread_create(&philos[i].thr, NULL, ft_routine, &philos[i]))
 			return ((void)ft_free_simul(simul));
 		i++;
 	}
+}
+
+void	ft_wait_threads(t_simul *simul)
+{
+	int	i;
+
 	i = 0;
 	while (i < simul->infos.nb_of_philo)
 	{
-		pthread_join(philos[i].thr, NULL);
+		pthread_join(simul->philos[i].thr, NULL);
 		i++;
 	}
+	pthread_join(simul->supervisor, NULL);
 }

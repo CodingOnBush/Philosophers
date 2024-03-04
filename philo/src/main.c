@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 16:11:02 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/04 14:53:41 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/04 23:09:47 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,12 @@
 int	main(int ac, char **av)
 {
 	t_simul		*simul;
-	pthread_t	supervisor;
 
 	simul = ft_create_simul(ac, av);
 	if (!simul)
 		return (1);
-	pthread_create(&supervisor, NULL, ft_supervisor, simul);
 	ft_start_simulation(simul);
-	pthread_join(supervisor, NULL);
+	ft_wait_threads(simul);
 	ft_free_simul(simul);
 	return (0);
 }
