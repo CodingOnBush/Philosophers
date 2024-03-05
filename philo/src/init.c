@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 07:56:04 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/05 13:15:32 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/05 19:48:30 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ t_simul	*ft_create_simul(int ac, char **av)
 	if (ft_parse_args(ac, av, &(simul->infos)) == FAIL)
 	{
 		printf("Error : ./philo philo_nb die eat sleep [meal]\n");
-		return (ft_free_simul(simul));
+		return (free(simul), NULL);
 	}
 	simul->philos = ft_create_philos(simul);
 	if (!simul->philos)
