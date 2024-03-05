@@ -6,14 +6,14 @@
 #    By: momrane <momrane@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/01 21:07:48 by momrane           #+#    #+#              #
-#    Updated: 2024/03/05 09:02:47 by momrane          ###   ########.fr        #
+#    Updated: 2024/03/05 12:45:55 by momrane          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #Variables
 NAME 		=	philo
 CC			=	cc
-CFLAGS		=	-Wall -Wextra -Werror -pthread -g3
+CFLAGS		=	-Wall -Wextra -Werror -pthread
 HEADER		=	-I $(INC_DIR)
 
 #Directories
@@ -30,6 +30,7 @@ CYAN 		= 	\033[0;96m
 SRC			=	$(SRC_DIR)/forks.c \
 				$(SRC_DIR)/free.c \
 				$(SRC_DIR)/init.c \
+				$(SRC_DIR)/init_utils.c \
 				$(SRC_DIR)/main.c \
 				$(SRC_DIR)/routine.c \
 				$(SRC_DIR)/simulation.c \

@@ -6,32 +6,19 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 07:56:04 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/05 09:32:34 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/05 13:15:32 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
-
-static int	ft_parse_args(int ac, char **av, t_infos *infos)
-{
-	if (ac < 5 || ac > 6)
-		return (FAIL);
-	infos->nb_of_philo = atoi(av[1]);
-	infos->time_to_die = atoi(av[2]);
-	infos->time_to_eat = atoi(av[3]);
-	infos->time_to_sleep = atoi(av[4]);
-	if (ac == 6)
-		infos->meal_goal = atoi(av[5]);
-	else
-		infos->meal_goal = NO_MEAL_GOAL;
-	return (SUCCESS);
-}
 
 static t_philo	*ft_create_philos(t_simul *simul)
 {
 	t_philo	*philos;
 	int		i;
 
+	if (simul->infos.nb_of_philo == 0)
+		return (NULL);
 	philos = (t_philo *)malloc(sizeof(t_philo) * simul->infos.nb_of_philo);
 	if (!philos)
 		return (NULL);
@@ -90,7 +77,6 @@ static pthread_mutex_t	*ft_create_forks(t_simul *simul)
 static void	ft_init_simul_vars(t_simul *simul)
 {
 	simul->begin = ft_get_time();
-	simul->philo_full = 0;
 	simul->state = RUNNING;
 	simul->philos = NULL;
 	simul->forks = NULL;
@@ -107,7 +93,10 @@ t_simul	*ft_create_simul(int ac, char **av)
 		return (NULL);
 	ft_init_simul_vars(simul);
 	if (ft_parse_args(ac, av, &(simul->infos)) == FAIL)
+	{
+		printf("Error : ./philo philo_nb die eat sleep [meal]\n");
 		return (ft_free_simul(simul));
+	}
 	simul->philos = ft_create_philos(simul);
 	if (!simul->philos)
 		return (ft_free_simul(simul));
