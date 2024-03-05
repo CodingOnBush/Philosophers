@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 07:56:04 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/04 16:16:34 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/05 09:32:34 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,6 @@ static int	ft_parse_args(int ac, char **av, t_infos *infos)
 	return (SUCCESS);
 }
 
-static void	ft_swap(int *a, int *b)
-{
-	int	tmp;
-
-	tmp = *a;
-	*a = *b;
-	*b = tmp;
-}
-
 static t_philo	*ft_create_philos(t_simul *simul)
 {
 	t_philo	*philos;
@@ -52,8 +43,8 @@ static t_philo	*ft_create_philos(t_simul *simul)
 		philos[i].meal_count = 0;
 		philos[i].my_fork = i;
 		philos[i].other_fork = (i + 1) % simul->infos.nb_of_philo;
-		// if (i == simul->infos.nb_of_philo - 1 && simul->infos.nb_of_philo != 1)
-		// 	ft_swap(&philos[i].my_fork, &philos[i].other_fork);
+		if (i == simul->infos.nb_of_philo - 1 && simul->infos.nb_of_philo != 1)
+			ft_swap(&philos[i].my_fork, &philos[i].other_fork);
 		philos[i].last_meal = simul->begin;
 		i++;
 	}
@@ -62,7 +53,7 @@ static t_philo	*ft_create_philos(t_simul *simul)
 
 static int	ft_init_all_mutex(t_simul *simul)
 {
-	if (pthread_mutex_init(&simul->print_mutex, NULL))
+	if (pthread_mutex_init(&simul->pencil, NULL))
 		return (1);
 	if (pthread_mutex_init(&simul->simul_mutex, NULL))
 		return (1);
@@ -103,7 +94,7 @@ static void	ft_init_simul_vars(t_simul *simul)
 	simul->state = RUNNING;
 	simul->philos = NULL;
 	simul->forks = NULL;
-	memset(&simul->print_mutex, 0, sizeof(pthread_mutex_t));
+	memset(&simul->pencil, 0, sizeof(pthread_mutex_t));
 	memset(&simul->simul_mutex, 0, sizeof(pthread_mutex_t));
 }
 

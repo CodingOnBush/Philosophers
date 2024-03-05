@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 14:53:30 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/04 16:35:02 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/05 09:51:37 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	*ft_supervisor(void *arg)
 	t_simul	*simul;
 	long	diff;
 	int		i;
-	int		meal_count;
 	int		all_ate;
 
 	simul = (t_simul *)arg;
@@ -30,34 +29,35 @@ void	*ft_supervisor(void *arg)
 		pthread_mutex_lock(&simul->simul_mutex);
 		if (simul->state == ALL_ATE)
 		{
-			// printf("ooooohhh ALL PHILOS ATE ENOUGH\n");
+			pthread_mutex_lock(&simul->pencil);
+			printf("All philosophers ate enough (at least %d times)\n", simul->infos.meal_goal);
+			pthread_mutex_unlock(&simul->pencil);
 			pthread_mutex_unlock(&simul->simul_mutex);
 			break;
 		}
 		if (simul->state >= 0)
 		{
-			ft_print_status(&philos[i], DEAD);
+			pthread_mutex_lock(&simul->pencil);
+			printf("%ld %d %s\n", ft_get_time() - simul->begin, philos[i].id, DEAD);
+			pthread_mutex_unlock(&simul->pencil);
+			// ft_print_status(&philos[i], DEAD);
 			pthread_mutex_unlock(&simul->simul_mutex);
 			break;
 		}
-		
 		diff = ft_get_time();
 		pthread_mutex_lock(&simul->philo_mutex);
-		diff = diff - philos[i].last_meal;
-		meal_count = philos[i].meal_count;
-		pthread_mutex_unlock(&simul->philo_mutex);
-		
-		if (simul->infos.meal_goal == NO_MEAL_GOAL || meal_count < simul->infos.meal_goal)
+		if (simul->infos.meal_goal == NO_MEAL_GOAL || philos[i].meal_count < simul->infos.meal_goal)
 			all_ate = 0;
-
+		diff = diff - philos[i].last_meal;
+		pthread_mutex_unlock(&simul->philo_mutex);
 		if (diff >= simul->infos.time_to_die)
 		{
-			ft_print_status(&philos[i], DEAD);
-			// printf("[%d]last meal %ld\n", i + 1, diff);
-			
+			// pthread_mutex_lock(&simul->pencil);
+			// printf("%ld %d %s\n", ft_get_time() - simul->begin, philos[i].id, DEAD);
+			// pthread_mutex_unlock(&simul->pencil);
 			simul->state = i;
-			pthread_mutex_unlock(&simul->simul_mutex);
-			break;
+			// pthread_mutex_unlock(&simul->simul_mutex);
+			// break;
 		}
 		pthread_mutex_unlock(&simul->simul_mutex);
 		i++;
@@ -66,16 +66,13 @@ void	*ft_supervisor(void *arg)
 			i = 0;
 			if (all_ate == 1)
 			{
-				printf("HEY ALL PHILOS ATE ENOUGH\n");
 				pthread_mutex_lock(&simul->simul_mutex);
 				simul->state = ALL_ATE;
 				pthread_mutex_unlock(&simul->simul_mutex);
-				break;
 			}
 			all_ate = 1;
 			usleep(100);
 		}
 	}
-	// printf("bye bye from supervisor\n");
 	return (NULL);
 }

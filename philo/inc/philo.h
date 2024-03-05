@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 21:07:39 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/04 23:39:18 by allblue          ###   ########.fr       */
+/*   Updated: 2024/03/05 09:45:16 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@
 
 typedef struct s_philo
 {
-	pthread_t		thr;
+	pthread_t		thrd;
 	int				id;
 	int				my_fork;
 	int				other_fork;
@@ -65,14 +65,14 @@ typedef struct s_infos
 typedef struct s_simul
 {
 	pthread_t		supervisor;
-	
+
 	int				state;
 	long			begin;
 	int				philo_full;
 	struct s_infos	infos;
 	struct s_philo	*philos;
 	pthread_mutex_t	*forks;
-	pthread_mutex_t	print_mutex;
+	pthread_mutex_t	pencil;
 	pthread_mutex_t	simul_mutex;
 	pthread_mutex_t	philo_mutex;
 }					t_simul;
@@ -84,20 +84,29 @@ typedef struct s_routine
 	long			current_time;
 }					t_routine;
 
+/*		ROUTINE		*/
+void				*ft_routine(void *arg);
+
+/*		FORKS		*/
+void				ft_drop_forks(t_philo *philo, int my_fork, int other_fork);
+int					ft_grab_forks(t_philo *philo);
+
 void				*ft_supervisor(void *arg);
 
+/*		UTILS		*/
 void				ft_print_status(t_philo *philo, char *status);
-void	ft_update_last_meal(t_philo *philo, long new_last_meal);
+void				ft_update_last_meal(t_philo *philo, long new_last_meal);
+int					ft_get_simul_state(t_simul *simul);
+void				ft_swap(int *a, int *b);
 
 void				*ft_free_simul(t_simul *simul);
 t_simul				*ft_create_simul(int ac, char **av);
 
-void				ft_start_simulation(t_simul *simul);
+int					ft_start_simulation(t_simul *simul);
 void				ft_wait_threads(t_simul *simul);
 
 long				ft_get_time(void);
 void				ft_usleep(int time);
 int					ft_get_simul_time(t_simul *simul);
-
 
 #endif
